@@ -204,7 +204,7 @@ class applicationManagerApp extends DefaultApplication
 
          if($thisUser->modifyUser($photoID, $uid))
          {
-            $msg = $this->getMessage(USER_UPDATE_SUCCESS_MSG);
+            $msg = '<div class="success">' . $this->getMessage(USER_UPDATE_SUCCESS_MSG) . '</div>';
             saveGuardianDetails($uid);
             saveApplicationDetails($uid);
             saveAcademicQualificationsDetails($uid);
@@ -212,7 +212,7 @@ class applicationManagerApp extends DefaultApplication
          }
          else
          {
-            $msg = $this->getMessage(USER_UPDATE_ERROR_MSG);
+            $msg = '<div class="error">' . $this->getMessage(USER_UPDATE_ERROR_MSG) . '</div>';
          }
       }
       else
@@ -221,12 +221,12 @@ class applicationManagerApp extends DefaultApplication
 
          if($thisUser->addUser($photoID))
          {
-            $msg = $this->getMessage(USER_SAVE_SUCCESS_MSG);
+            $msg = '<div class="success">' . $this->getMessage(USER_SAVE_SUCCESS_MSG) . '</div>';
             
          }
          else
          {
-            $msg = $this->getMessage(USER_SAVE_ERROR_MSG);
+            $msg = '<div class="error">' . $this->getMessage(USER_SAVE_ERROR_MSG) . '</div>';
          }
       }
       

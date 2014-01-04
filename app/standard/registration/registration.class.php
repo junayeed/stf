@@ -82,22 +82,20 @@ class RegistrationApp extends DefaultApplication
      $data['password']    = getUserFiled('password');
      
      //Instantiate the phpMailer class
-     $mail                  = new phpmailer();
-
-     $mail->Host            = LOCALHOST;
+     $mail                 = new phpmailer();
+     $mail->Host           = LOCALHOST;
      $mail->Mailer         = "smtp";
-     $mail->SMTPAuth        = false;
+     $mail->SMTPAuth       = false;
 
 
-     $mail->FromName        = 'STF Team';
-     $mail->From            = 'sa@erd.gov.bd';
-     $mail->Subject         = 'STF Registration';
+     $mail->FromName       = 'STF Team';
+     $mail->From           = 'sa@erd.gov.bd';
+     $mail->Subject        = 'STF Registration';
      
-     $body = $data['body'];
+     $body = createPage(EMAIL_TEMPLATE, $data);
 
-     $mail->Body            = nl2br(html_entity_decode($body));
+     $mail->Body           = nl2br(html_entity_decode($body));
      $mail->IsHTML(true);
-
 
      $mail->AddAddress($email,$firstName);
 

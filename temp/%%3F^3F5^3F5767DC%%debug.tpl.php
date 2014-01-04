@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.6, created on 2013-12-17 08:05:40
+<?php /* Smarty version 2.6.6, created on 2014-01-04 11:33:30
          compiled from file:E:/xampp/htdocs/stf/ext/smarty/libs/debug.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'assign_debug_info', 'file:E:/xampp/htdocs/stf/ext/smarty/libs/debug.tpl', 5, false),array('modifier', 'escape', 'file:E:/xampp/htdocs/stf/ext/smarty/libs/debug.tpl', 12, false),array('modifier', 'string_format', 'file:E:/xampp/htdocs/stf/ext/smarty/libs/debug.tpl', 12, false),array('modifier', 'debug_print_var', 'file:E:/xampp/htdocs/stf/ext/smarty/libs/debug.tpl', 18, false),)), $this); ?>

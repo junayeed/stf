@@ -50,6 +50,23 @@
 
       return 1;
    }
+   
+   function getSessionInfo($sid)
+   {
+       $info['table'] =  SESSIONS_TBL;
+      $info['where'] = 'id ='.$sid;
+      $info['debug'] = false;
+
+      $result = select($info);
+      
+      //If result is not empty
+      if(empty($result))
+      {
+         return null;
+      }
+      
+      return $result[0];
+   }
 
    /**
    * Checks Email

@@ -38,6 +38,11 @@
             // Get user home template
             $template = getHomeTemplate($userType); 
             
+            if ($userType == 'Applicant')
+            {
+                header ('Location: /app/user_manager/user_manager.php');    
+            }
+            
             // Prepare smarty key=var
             $data = array();
 

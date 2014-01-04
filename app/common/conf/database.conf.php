@@ -23,9 +23,9 @@
   // may vary.
   if (PRODUCTION_MODE)
   {
-     define('DB_USER', 'softbiz_oms');
-     define('DB_PASS', 'FdcKVKc?Gu%y');
-     define('DB_NAME', 'softbiz_oms');
+     define('DB_USER', 'softbiz_stf');
+     define('DB_PASS', '1TIBOHZES#+A');
+     define('DB_NAME', 'softbiz_stf');
      define('DB_HOST', 'localhost');
   }
   else

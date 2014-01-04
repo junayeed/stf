@@ -56,6 +56,7 @@
     
     function saveApplicationDetails($uid)
     {
+        
         $data                       = getUserDataSet(APPLICATIONS_TBL);
         $data['uid']                = $uid;
         $data['sid']                = 1;     
@@ -64,6 +65,9 @@
         $data['enroll_doc_id']      = saveAttachment($_FILES['enroll_certification']);
         $data['i20_doc_id ']        = saveAttachment($_FILES['i20']);
         $data['create_date']        = date('Y-m-d');
+        $data['application_status'] = getUserField('submitted') ? 'Pending': 'Not Submitted';
+        $data['submit_date']        = getUserField('submitted') ? date('Y-m-d'): null;
+        
         
         $info['table']  = APPLICATIONS_TBL;
         $info['debug']  = false;

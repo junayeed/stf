@@ -40,13 +40,7 @@ function validateFields(frm)
 {
     with(frm)
     {
-        if (!RE_USERNAME.exec(username.value))
-        {
-            highlightTableColumn('username');
-            alert(ERROR_USERNAME);
-            return false;
-        }
-        else if (RE_NAME.exec(first_name.value))
+        if (RE_NAME.exec(first_name.value))
         {
             highlightTableColumn('first_name');
             alert(ERROR_NAME);
@@ -69,8 +63,32 @@ function validateFields(frm)
     }
 }
 
+function doApplicationSubmit()
+{
+    var ok;
+    var frm = document.userManagerForm;
+    
+    if ( doConfirm("Are you sure to submit this applicaiton?" ) )
+    {
+        //user is sure to submit the application
+        ok = doFormSubmit();
+        //alert(ok);
+        if (ok)
+        {
+            frm.submitted.value = 1;
+            
+            frm.submit();
+        }
+    }
+    else
+    {
+        
+    }
+}
+
 function doFormSubmit()
 {
+    
     requiredFields.length = 0;
 
     var errCnt = 0;
@@ -85,12 +103,6 @@ function doFormSubmit()
     if (errCnt)
     {
         alert(MISSING_REQUIRED_FIELDS);
-        return false;
-    }
-    else if (duplicate_user)  // for duplicate username
-    {
-        highlightTableColumn('username');
-        alert(DUPLICATE_USERNAME);
         return false;
     }
     else if (duplicate_email)  // for duplicate email ID

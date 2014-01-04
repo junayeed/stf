@@ -105,7 +105,7 @@ class userManagerApp extends DefaultApplication
       $data['user_status_list']      = getEnumFieldValues(USER_TBL, 'user_status');
       $data['gender_list']           = getEnumFieldValues(USER_TBL, 'gender');
       $data['maritial_status_list']  = getEnumFieldValues(USER_TBL, 'maritial_status');
-      $data['city_list']             = getUKCityList();
+      //$data['city_list']             = getUKCityList();
       
       //dumpVar($data);
       
@@ -119,7 +119,7 @@ class userManagerApp extends DefaultApplication
    */
    function showEditor($msg)
    {
-      $uid = getUserField('id');
+      $uid = getFromSession('uid');
       
       if (!empty($uid))
       {
@@ -138,25 +138,12 @@ class userManagerApp extends DefaultApplication
          $data = array_merge(array(), $userData);
       }
       
-      if($data['photo_id'])
-      {
-         $photoID  = $data['photo_id'];
-         $thisDoc  = new DocumentEntity($photoID);
-         $fileName = $thisDoc->getRemoteFileName();
-
-         $arr = explode('.', $fileName);
-
-         $fileLocation = REL_DOCUMENT_DIR.'/'.$fileName[0].'/'.$fileName[1].'/'.$photoID.'.'.$arr[1];
-      }
-      
+     
+      $data['sessionInfo']            = getSessionInfo($data['sid']);
       $data['message']                 = $msg;
-      $data['file']                    = $fileLocation;
-      $data['user_type_list']          = getEnumFieldValues(USER_TBL, 'user_type');
-      $data['user_status_list']        = getEnumFieldValues(USER_TBL, 'user_status');
-      $data['gender_list']             = getEnumFieldValues(USER_TBL, 'gender');
-      $data['maritial_status_list']    = getEnumFieldValues(USER_TBL, 'maritial_status');
-      $data['city_list']               = getUKCityList();
-      //dumpVar($data);
+      
+      //dumpvar($data);
+     
       
       return createPage(USER_EDITOR_TEMPLATE, $data);
    }

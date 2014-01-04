@@ -223,7 +223,7 @@ table, table th, table td, cellpadding, cellspacing, border{
     float: left;
     height: 55px;
     margin-top: -9px;
-    padding: 0 25px 0 0;
+    padding: 8px 25px 0 0;
     position: relative;
     width: 61px;
 }
@@ -243,7 +243,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 }
 	
 .top-search{
-			width:416px;
+			width:345px;
 			padding:6px 12px 4px 18px;
 			#background:url(../images/search-bg.png) no-repeat;
 			height:16px;
@@ -253,7 +253,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 			}
 			
 .logout{
-		width:196px;
+		width:250px;
 		padding:3px 9px 0px 0px;
 		float:left;
 		position:relative;
@@ -284,7 +284,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 		
 /* -------------------- Start Left --------------------- */
 
-.left{ width:880px; float:left; position:relative; border: 0px solid red;}
+.left{ float:left; position:relative; border: 0px solid red;}
 	
 .left h3{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#000; background:url(../images/line.gif) left 5px repeat-x; margin-bottom:8px; }
 
@@ -964,3 +964,49 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     position: relative;
 }
 
+.info, .success, .warning, .error, .validation 
+{
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+.info 
+{
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('../images/info.png');
+}
+
+.success 
+{
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image:url('../images/success.png');
+}
+
+.warning 
+{
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('../images/warning.png');
+}
+
+.error 
+{
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('../images/error.png');
+}
+
+.button-div{
+    width: 660px;
+    position: block  ;
+    bottom: 50px;
+    right: 294px; 
+    background-color: #F2F2F2;
+    padding: 10px;
+    text-align: right;
+}

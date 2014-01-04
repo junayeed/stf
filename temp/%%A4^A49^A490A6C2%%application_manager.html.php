@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.6, created on 2013-12-26 11:03:01
+<?php /* Smarty version 2.6.6, created on 2014-01-04 12:51:41
          compiled from E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashes', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 64, false),array('modifier', 'date_format', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 332, false),array('function', 'html_options', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 74, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashes', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 68, false),array('modifier', 'date_format', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 336, false),array('function', 'html_options', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 78, false),)), $this); ?>
 <!-- Add fancyBox main JS and CSS files -->
 <script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
 <link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
@@ -24,6 +24,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashe
 <body>
     <form name="userManagerForm" action="<?php echo $this->_tpl_vars['SCRIPT_NAME']; ?>
 " method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
+        
         <input type="hidden" name="id" value="<?php echo $this->_tpl_vars['uid']; ?>
 ">
         <input type="hidden" id="psw" name="psw" value="<?php echo $this->_tpl_vars['password']; ?>
@@ -33,9 +34,13 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashe
             <div class="wrap">   <!-- wrap class starts here-->
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left">    <!-- left class starts here-->
+                        <?php if ($this->_tpl_vars['application_status'] == 'Not Submitted'): ?>
+                        
                         <?php if ($this->_tpl_vars['cmd'] == 'new' || $this->_tpl_vars['cmd'] == 'edit'): ?>
                         <input type="hidden" id="cmd" name="cmd" value="add">
                         <div class="left">   <!-- left class starts here-->
+                            <?php echo $this->_tpl_vars['message']; ?>
+
                             <table width="850" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td width="470" class="prepand2" colspan="2">
@@ -322,23 +327,28 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashe
                                                     <tr>
                                                         <td>
                                                             <span class="span-text">TOFEL</span><br class="br"/>
-                                                            <input type="text" name="tofel" id="tofel" class="inputbox3 W60">
+                                                            <input type="text" name="tofel" id="tofel" value="<?php echo $this->_tpl_vars['tofel']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">IELTS</span><br class="br"/>
-                                                            <input type="text" name="ielts" id="ielts" class="inputbox3 W60">
+                                                            <input type="text" name="ielts" id="ielts" value="<?php echo $this->_tpl_vars['ielts']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">SAT</span><br class="br"/>
-                                                            <input type="text" name="sat" id="sat" class="inputbox3 W60">
+                                                            <input type="text" name="sat" id="sat" value="<?php echo $this->_tpl_vars['sat']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">GRE</span><br class="br"/>
-                                                            <input type="text" name="gre" id="gre" class="inputbox3 W60">
+                                                            <input type="text" name="gre" id="gre" value="<?php echo $this->_tpl_vars['gre']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">GMAT</span><br class="br"/>
-                                                            <input type="text" name="gmat" id="gmat" class="inputbox3 W60">
+                                                            <input type="text" name="gmat" id="gmat" value="<?php echo $this->_tpl_vars['gmat']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -422,13 +432,18 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashe
                                                 </table>
                                             </div>
                                         </div>
-                                        
+                                        <div id="buttons-div" class="button-div">
+                                                       <input type="button" value="SUBMIT" name="save" id="save" class="inputbox-blue" onClick="doApplicationSubmit();">  
+                                                       <input type="submit" value="SAVE"   name="save" id="save" class="inputbox-blue">
+                                                       <input type="button" value="CANCEL" name="cancel" id="cancel" class="inputbox-blue W57" onClick="doClearForm();">
+                                                      
+                                                       <input type="hidden" name="submitted" value="0">
+                                        </div>
                                         <table width="100%">
                                             <tr><td><div style=" height: 20px;"></div></td></tr>
                                             <tr>
                                                 <td align="right">
-                                                    <input type="submit" value="SAVE" name="save" id="save" class="inputbox-blue">
-                                                    <input type="button" value="CANCEL" name="cancel" id="cancel" class="inputbox-blue W57" onClick="doClearForm();">
+                                                    
                                                 </td>
                                             </tr>
                                         </table>
@@ -437,10 +452,22 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashe
                             </table>
                         </div>
                         <?php endif; ?>
+                        
+                        <?php else: ?>
+                            <?php if ($this->_tpl_vars['application_status'] == 'Accepted'): ?>
+                                <div class="success">Congratulations!!! Your application has accepted.</div>
+                            <?php elseif ($this->_tpl_vars['application_status'] == 'Rejected'): ?>
+                                <div class="error">Sorry. Your application has been rejected.</div>
+                            <?php else: ?>
+                                <div class="info">You have already submitted your application. Please wait for the scholarship result. You will be notified the result via email. </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>  <!-- left class ends here-->
+                    
                 </div>           <!-- body-block ends here-->
             </div>               <!-- wrap class ends here-->
         </div>                   <!-- body-full ends here-->
+        
     </form>
     <script language="JavaScript">
     <?php if (count($_from = (array)$this->_tpl_vars['academic_qualifications'])):
