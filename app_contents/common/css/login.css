@@ -148,7 +148,7 @@ input[type=text]:focus, input[type=password]:focus {
   outline-offset: 0;
 }
 
-input[type=submit], input[type=reset] {
+input[type=submit], input[type=reset], input[type=button] {
   padding: 0 18px;
   height: 29px;
   font-size: 12px;
@@ -235,4 +235,12 @@ input[type=submit]:active {
 ::-webkit-input-placeholder {
   color: #ccc;
   font-size: 13px;
+}
+
+.success{
+  color: green;
+}
+
+.falure{
+    color: red;
 }

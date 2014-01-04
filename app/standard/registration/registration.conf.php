@@ -21,6 +21,7 @@
    define('TEMPLATE_DIR',             STANDARD_CONTENTS_DIR . '/' . CURRENT_APP_PREFIX); 
    define('REL_TEMPLATE_DIR',         REL_STANDARD_CONTENTS_DIR . '/' . CURRENT_APP_PREFIX); 
    define('REGISTRATION_TEMPLATE',    TEMPLATE_DIR . '/registration.html');
+   define('LANDING_TEMPLATE',    TEMPLATE_DIR . '/landingpage.html');
    
 
 ?>

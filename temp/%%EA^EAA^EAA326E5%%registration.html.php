@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.6, created on 2014-01-04 07:47:52
+<?php /* Smarty version 2.6.6, created on 2014-01-04 08:48:52
          compiled from E:/xampp/htdocs/stf/app_contents/standard/registration/registration.html */ ?>
 <html>
     <head>
@@ -62,6 +62,8 @@
                     <p class="submit">
                         <input type="submit" name="commit" value="Save">
                         <input type="reset" name="reset" value="Clear">
+                        <input type="hidden" name="cmd" value="save">
+                        <input type="hidden" name="user_type" value="Applicant">
                     </p>
                 </div>
             </form>

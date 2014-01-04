@@ -58,7 +58,7 @@ function dologinFormSubmit()
     {
         if(validateFields(frm))
         {
-            return false;
+            return true;
         }
         else
             return false;
@@ -102,18 +102,21 @@ function validateFields(frm)
 
 function isPSWMatched()
 {
-    if ($('#password').val() !== $('#confirm_password').val())
+    if ($('#confirm_password').val())
     {
-        alert(ERROR_PASS_MATCH);
-        psw_match = false;
-        highlightTableColumn('password');
-        highlightTableColumn('confirm_password');
-    }
-    else
-    {
-        psw_match = true;
-        resetTableColumn('password');
-        resetTableColumn('confirm_password');
+        if ($('#password').val() !== $('#confirm_password').val())
+        {
+            alert(ERROR_PASS_MATCH);
+            psw_match = false;
+            highlightTableColumn('password');
+            highlightTableColumn('confirm_password');
+        }
+        else
+        {
+            psw_match = true;
+            resetTableColumn('password');
+            resetTableColumn('confirm_password');
+        }
     }
 }
 

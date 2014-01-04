@@ -25,6 +25,9 @@ class RegistrationApp extends DefaultApplication
       {
            case 'checkuser'  : $screen = $this->isUsernameExists(); break;
            case 'checkemail' : $screen = $this->isEmailExists(); break;
+           case 'save'       : $screen = $this->save(); break;
+           default           : $screen = $this->showEditor(); break;
+           
       }
 
       // Set the current navigation item
@@ -34,36 +37,75 @@ class RegistrationApp extends DefaultApplication
       {
           return;
       }
+      
+      echo $screen;
 
-      $credentials = array();
-
-      // Get the user supplied credentials
-      $credentials[LOGIN_ID_FIELD]  = getUserField('loginid');
-      $credentials['password']      = getUserField('password');
-
-      // Create a new user object with the credentials
-      $thisUser = new User($credentials);
-
-      // Authenticate the user
-      $ok = $thisUser->authenticate();
-
-      // If successful (i.e. user supplied valid credentials)
-      // show user home
-      if ($ok)
-      {
-          $thisUser->goHome();
-      }
-      // User supplied invalid credentials so show login form
-      // again
-      else
-      {
-          $data = array();
-          $data = array_merge($_REQUEST, $data);
-          echo createPage(REGISTRATION_TEMPLATE, $data);
-      }
-
-      return true;
    }
+   
+   function showEditor()
+   {
+       return createPage(REGISTRATION_TEMPLATE, $data);
+   }
+
+
+   function save()
+   {
+       
+         $thisUser = new User();
+
+         if($thisUser->addUser())
+         {
+            $msg = $this->getMessage(USER_SAVE_SUCCESS_MSG);
+            $data['msg'] = 'Success'; 
+            
+            $this->sendMail();
+            
+         }
+         else
+         {
+            $msg = $this->getMessage(USER_SAVE_ERROR_MSG);
+             $data['msg'] = 'Error';
+         }
+         
+         echo createPage(LANDING_TEMPLATE, $data);
+     
+       
+   }
+   
+  function sendMail()
+  {
+
+     $data['firstname']   = getUserFiled('first_name');
+     $data['lastname']    = getUserFiled('last_name');
+     $data['username']    = getUserFiled('username');
+     $data['email']       = getUserFiled('email');
+     $data['password']    = getUserFiled('password');
+     
+     //Instantiate the phpMailer class
+     $mail                  = new phpmailer();
+
+     $mail->Host            = LOCALHOST;
+     $mail->Mailer         = "smtp";
+     $mail->SMTPAuth        = false;
+
+
+     $mail->FromName        = 'STF Team';
+     $mail->From            = 'sa@erd.gov.bd';
+     $mail->Subject         = 'STF Registration';
+     
+     $body = $data['body'];
+
+     $mail->Body            = nl2br(html_entity_decode($body));
+     $mail->IsHTML(true);
+
+
+     $mail->AddAddress($email,$firstName);
+
+     $mailSent = $mail->Send();
+
+     return $mailSent;
+
+  }
    
    function isUsernameExists()
    {
