@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>User Registration</title>{if $SYSTEM_PRODUCTION_MODE ne "Yes"}<!-- ** THIS NOTE ONLY SHOWS IN DEVELOPMENT MODE *** Purpose: This template is used to show the login form Javascript requirements: In addition to standard javascripts such as evoknow.js, messages.js you will need to create {$SYSTEM_COMMON_JAVASCRIPT_DIR}/{$SYSTEM_APP_PREFIX}/{$SYSTEM_APP_PREFIX}.js to store any custom javascript functions needed for this form.-->{/if}
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <!-- load javascript error/success messages for javascripts -->
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
+        <!-- load standard javascript library -->
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
+        <!-- load current application specific javascript -->
+        <script language="JavaScript" src="{$REL_TEMPLATE_DIR}/{$SYSTEM_APP_PREFIX}.js"></script>
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/jquery.js"></script>
+        <!-- setup default info -->
+        <link rel="stylesheet" href="/app_contents/common/css/login.css" type="text/css">
+    </head>
+    <body>
+        <div class="registration">
+            <h1>Sweden Bangladesh Trust Fund Registration Form</h1>
+            <form name="registrationForm"  action="{$SCRIPT_NAME}" method="POST">
+                <div id="rigistrationContent">
+                    {if $msg eq 'Success'}
+                      <div class="success">
+                        <h3> Congratulations! </h3>
+                        <p>
+                            You have successfully registered for Sweden Bangladesh Trust Fund. Please login and submit your application.
+                        </p>
+                      </div>  
+                        <p class="submit">
+                            <input type="button" name="commit" value="Go to Login" onclick="location.href='/app/standard/login/login.php'" >
+                        </p>
+                        
+                    {else}
+                       <div class="falure">
+                        <h3> Sorry! </h3>
+                        <p>
+                            Registration not Completed. Please Try again...
+                        </p>
+                        
+                       </div> 
+                       <p class="submit">
+                        <input type="button" name="commit" value="Go to Registration" onclick="location.href='/app/standard/registration/registration.php'" >
+                       </p>
+                    {/if}
+                    
+                </div>
+              </form>
+        </div>
+    </body>
+</html>
