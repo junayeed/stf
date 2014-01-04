@@ -1,0 +1,97 @@
+/* 
+ * vim: noexpandtab
+ */
+img.ui-combobox-arrow {
+	position: relative;
+	vertical-align: text-bottom;
+	top:5px;
+}
+
+* html img.ui-combobox-arrow {
+	top:-3px;
+}
+
+.ui-combobox-list {
+	border:1px solid #959595; z-index:1000; margin-top:-1px; *margin-top:2px; margin-left:-5px;
+}
+
+.ui-combobox-list, .ui-combobox-item {
+	display: block;
+	font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:normal;
+	color:#000 !important;
+	background-color:#FFF !important;
+	cursor:pointer;
+	
+}
+.ui-combobox-item
+{
+padding-left:13px;
+}
+
+.ui-combobox-list .selected {
+	font-weight: normal;
+	color:#000 !important;
+	background-color:#FFF;
+}
+
+
+.combo1,#combo2,#combo3
+{
+    width:159px;
+    background:none; 
+    border:none; 
+    color:#000; 
+    font-family:Arial, Helvetica, sans-serif; 
+    font-size:12px; 
+    font-weight:normal; 
+    cursor:pointer; 
+    text-align:left;
+}
+
+#combo4,#combo5,#combo6{
+width:19px; *width:23px;/*background:url(images/bs_streaking_nhl_bg.gif) no-repeat;*/ 
+background:none; border:none; color:#000; font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:normal; cursor:pointer;
+}
+
+#combo7,#combo8{
+width:127px; *width:131px;/*background:url(images/bs_streaking_nhl_bg.gif) no-repeat;*/ 
+background:none; border:none; color:#7f7f7f; font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:normal; cursor:pointer;
+}
+
+
+.select-body3 .ui-combobox-list {
+	border:1px solid #959595; z-index:1000; margin-top:-4px; *margin-top:-3px; margin-left:-5px;
+}
+
+/*.select-body3 .ui-combobox-list, .ui-combobox-item {
+	display: block;
+	font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:normal;
+	color:#7f7f7f !important;
+	background-color:#FFF !important;
+	cursor:pointer;
+	
+}*/
+
+
+#combo9{
+width:40px; *width:44px;/*background:url(images/bs_streaking_nhl_bg.gif) no-repeat;*/ 
+background:none; border:none; color:#7f7f7f; font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:normal; cursor:pointer;
+}
+
+
+.select-body4 .ui-combobox-list {
+	border:1px solid #959595; z-index:1000; margin-top:-4px; *margin-top:-3px; margin-left:-5px;
+}
+
+/*.select-body4 .ui-combobox-list, .ui-combobox-item {
+	display: block;
+	font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:normal;
+	color:#7f7f7f !important;
+	background-color:#FFF !important;
+	cursor:pointer;
+	
+}*/
+
+.ui-combobox-arrow{
+display:none;
+}

@@ -1,0 +1,193 @@
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+</script>
+
+<body onLoad="changeOptions('{$product_option}');">
+    <form name="productForm" id="productForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
+        <!-- HIDDEN FIELDS -->
+        <input type="hidden" name="id" value="{$id}">
+        <input type="hidden" name="cmd" value="add">
+        <!-- HIDDEN FIELDS --> 
+        
+        <div id="body-full">   <!-- body-full class starts here -->
+            <div class="wrap">  <!-- wrap class starts here -->
+            <div class="body-block" style="padding-bottom:30px;">  <!-- body-block class starts here -->
+                <div class="left">    <!-- left class starts here-->
+                    <h3><span>Available Product(s)</span></h3>
+                    <iframe id="productsFrame" src="{$SCRIPT_NAME}?cmd=list" scrolling="no" width="100%" frameborder="0" onload='resizeIframe(this);'></iframe>
+                </div>  <!-- left class ends here-->
+                <div class="right">  <!-- right class starts here-->
+                    <h3><span>Settings</span></h3>  <!-- Settings starts here -->
+                        <div class="setting-list">   <!--  setting-list div starts here -->
+                            <ul>
+                                <li>
+                                    <a href="/app/user_manager/user_manager.php">Manage Users</a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Icon" style="float:right; margin-top:2px;" onClick="hideDiv('magazine-block');hideDiv('product-block');showDiv('user-block');" />
+                                    <div class="bubble-block" style="display: none;" id="user-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('user-block');"/>
+                                            <p>Create new users and amend/delete details of existing users or delete a user. Only users who are given administration rights will be able to add more users, and configure other elements of the system.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="/app/magazine_manager/magazine_manager.php">Manage Magazines</a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Help" style="float:right; margin-top:2px; cursor: pointer;" onClick="hideDiv('user-block');hideDiv('product-block');showDiv('magazine-block');" />
+                                    <div class="bubble-block" style="display: none;" id="magazine-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('magazine-block');"/>
+                                            <p>Create new magazines and amend/delete details of existing magazines. Only users who are given administration rights will be able to add more magazines, and configure other elements of the system.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="/app/product_manager/product_manager.php"><span>Manage Products</span></a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Help" style="float:right; margin-top:2px; cursor: pointer;" onClick="hideDiv('user-block');hideDiv('magazine-block');showDiv('product-block');" />
+                                    <div class="bubble-block" style="display: none;" id="product-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('product-block');"/>
+                                            <p>Create new products, both adverts and other services, amend/delete details of existing products. Only users who are given administration rights will be able to add more products, and configure other elements of the system.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="/app/capsule_token_manager/capsule_token_manager.php">Manage Integration</a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Help" style="float:right; margin-top:2px; cursor: pointer;" onClick="hideDiv('user-block');hideDiv('magazine-block');hideDiv('product-block');showDiv('integration-block');" />
+                                    <div class="bubble-block" style="display: none; top:64px;" id="integration-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('integration-block');"/>
+                                            <p>Your authentication token is like a password for your account that can be used by other applications to access your Capsule data. Only share this token with applications or 3rd parties that you trust. Anyone who has your authentication token can access and update your data.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>    <!--  setting-list div ends here -->
+                    <div class="right-body prepand4">
+                        <h3><span>Search Products</span></h3>
+                    </div>
+                    <div class="customers-body prepand4">  <!--customer body starts here-->
+                        <div class="prepand font2">Magazine Code</div>
+                        <div class="prepand">
+                            <select name="magazine_code" id="magazine_code" class="combo1 W127">
+                                <option value="">All</option>
+                                {html_options options=$magazine_code_list selected=$magazine_code}
+                            </select>
+                        </div>
+                        <div class="prepand font2">Size</div>
+                        <div class="prepand">
+                            <select name="product_size" id="product_size" class="combo1 W127">
+                                <option value="">All</option>
+                                {html_options options=$product_size_list selected=$product_size}
+                            </select>
+                        </div>
+                        <div class="prepand font2">Option</div>
+                        <div class="prepand">
+                            <select name="options" id="options" class="combo1 W127">
+                                <option value="">All</option>
+                                {html_options values=$product_option_list output=$product_option_list selected=$options}
+                            </select>
+                        </div>
+                        
+                        <div class="prepand2">
+                            <!--<input name="" type="image" src="/app_contents/common/images/search2.gif" />-->
+                            <input type="button" class="inputbox-submit W57" id="search" name="search" value="SEARCH" onclick="doProductSearch();">
+                        </div>
+                    </div>     <!--customer body ends here-->
+                    
+                    <div class="right-body prepand4">  <!-- right-body class starts here-->
+                        <h3><span>Product Details</span></h3>
+                    </div> 
+                    
+                    <div class="customers-body">   <!--customer body starts here-->
+                            <div class="font2"><label id="product_code_lbl_lbl">Product Code</label></div>
+                            <div class="prepand">
+                                <input type="text" name="product_code" id="product_code" value="{$product_code|stripslashes}" class="inputbox2" onchange="checkProductCode();">
+                            </div>
+                            <div class="font2 prepand"><label id="description_lbl">Description</label></div>
+                            <div class="prepand">
+                                <textarea name="description" id="description" class="inputbox2 H50">{$description|stripslashes}</textarea>
+                            </div>
+                            <div class="font2 prepand"><label id="magazine_code_lbl">Magazine Code</label></div>
+                            <div class="prepand">
+                                <select class="combo2 W127" name="magazine_code" id="magazine_code">
+                                    <option value="">-- Select --</option>
+                                    {html_options options=$magazine_code_list selected=$magazine_code}
+                                </select>
+                            </div>
+                            
+                            <div class="font2 prepand"><label id="magazine_code_lbl">Options</label></div>
+                            <div class="prepand">
+                                <input name="product_option" id="product_option_schedule" type="radio" value="Schedule" onChange="changeOptions(this.value);" {if $product_option eq 'Schedule'}checked{/if} />
+                                <label style="font-size: 10px; ">Add to Schedule</label>
+                            </div>
+                            <div>
+                                <input name="product_option" id="product_option_artwork" type="radio" value="Artwork" onChange="changeOptions(this.value);" {if $product_option eq 'Artwork'}checked{/if} />
+                                <label style="font-size: 10px; ">Add to Artwork</label>
+                            </div>
+                            <div>
+                                <input name="product_option" id="product_option_none" type="radio" value="None" onChange="changeOptions(this.value);" {if $product_option eq 'None'}checked{/if} />
+                                <label style="font-size: 10px; ">None</label>
+                            </div>
+                            <div class="font2 prepand" id="qty_per_unit_lbl">Space Allocated</div>
+                            <div class="font2 prepand" id="size_shape_lbl" style="display: none;">Size</div>
+                            <div class="prepand" id="qty_per_unit_div">
+                                <input type="text" name="qty_per_unit" id="qty_per_unit" value="{$qty_per_unit|default:'0.00'}" 
+                                       class="inputbox2" onkeypress="return isNumberKey(event)">
+                            </div>
+                            <div class="font2 prepand" id="size_shape_lbl" style="display: none;">Size</div>
+                            <div class="font2 prepand" id="unit_price_lbl">Unit Price</div>
+                            <div class="prepand">
+                                <input type="text" name="unit_price" id="unit_price" value="{$unit_price|default:'0.00'}" 
+                                       class="inputbox2" onkeypress="return isNumberKey(event)">
+                            </div>
+                            <!-- Comment out by Junayeed by 29/09/2013-->
+                            <!--<div class="font2 prepand" id="discount_lbl">Discount</div>
+                            <div class="prepand">
+                                <input type="text" name="discount" id="discount" value="{$discount|default:'0.00'}" 
+                                       class="inputbox2" onkeypress="return isNumberKey(event)">
+                            </div>-->
+                            <div class="font2 prepand" id="include_lbl">Include</div>
+                            <div class="prepand">
+                                <!--<input type="checkbox" name="include" id="include" value="Yes" {if $include eq 'Yes'} checked{/if}><label class="font2"> Yes</labell>-->
+                                <input name="include" id="include" type="checkbox" value="Yes" class="css-checkbox" {if $include neq 'No'}checked{/if}/>
+                                <label for="include" name="include_lbl_1" class="css-label">Yes</label>
+                            </div>   
+                            <!--comment out by Junayeed on 29/09/2013-->
+                            <!--<div class="font2 prepand" id="artwork_lbl">Add to Artwork Monitor</div>
+                            <div class="prepand">
+                                <input type="checkbox" name="artwork" id="artwork" value="Yes" class="css-checkbox" {if $artwork eq 'Yes'} checked{/if}>
+                               <label for="artwork" name="artwork_lbl_2" class="css-label">Yes</label>
+                            </div>-->                            
+                            <table width="140" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td width="" class="prepand2">
+                                        <input type="submit" class="inputbox-submit" id="send" name="send" value="SAVE">
+                                    </td>
+                                    <td width="" class="prepand2" align="center">
+                                        <a href="javascript:void(0)" onClick="doResetForm();"><img src="/app_contents/common/images/reset.gif" alt="Reset" /></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>  <!--customer body ends here-->
+                    </div>      <!-- right class ends here-->
+                </div>          <!-- body-block class ends here -->
+            </div>              <!-- wrap class ends here -->
+        </div>                  <!-- body-full class ends here -->
+    </form>

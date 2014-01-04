@@ -1,0 +1,26 @@
+<meetings>
+   <meeting>
+      <meeting_name>Monthly Coordination Meeting</meeting_name>   
+      <meeting_date>20/10/2011</meeting_date>      
+      <meeting_venue>NEC Conference Room - 1</meeting_venue>      
+      <meeting_time>10:00 am</meeting_time>   
+   </meeting>   
+   <meeting>      
+      <meeting_name>PSC Meeting</meeting_name>      
+      <meeting_date>27/10/2011</meeting_date>      
+      <meeting_venue>ASICT Project Conference Room</meeting_venue>      
+      <meeting_time>12:00 am</meeting_time>      
+   </meeting>   
+   <meeting>      
+      <meeting_name>Sector Division Meeting</meeting_name>      
+      <meeting_date>2/11/2011</meeting_date>      
+      <meeting_venue>NEC Conference Room - 1</meeting_venue>      
+      <meeting_time>11:15 am</meeting_time>      
+   </meeting>
+   <meeting>      
+      <meeting_name>Meeting on Padma Bridge Contruction and the prevention measures</meeting_name>      
+      <meeting_date>12/12/2011</meeting_date>      
+      <meeting_venue>NEC Auditorium</meeting_venue>      
+      <meeting_time>11:15 am</meeting_time>      
+   </meeting>
+</meetings>

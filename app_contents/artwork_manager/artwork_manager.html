@@ -1,0 +1,122 @@
+<!-- Add fancyBox main JS and CSS files -->
+<script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
+
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
+<link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
+
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+    
+</script>
+<body>
+
+<form name="orderManagerForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">    
+    
+    <input type="hidden" name="customer_id" id="customer_id" value="{$customer_id}">
+    <input type="hidden" name="cmd" value="add">
+    
+    <div id="body-full">   <!-- body-full class starts here-->
+        <div class="wrap">  <!-- wrap class starts here-->
+            <div class="body-block">   <!-- body-block class starts here-->
+                <div class="left">     <!-- left class starts here-->
+                    <h3><span>Artwork Details</span></h3>
+                    <div class="left-body padding2">
+                        <table width="760" cellpadding="0" cellspacing="0" border="0" id="order_tbl">
+                            <thead>
+                                <tr>
+                                    <td width="4">&nbsp;</td>
+                                    <td width="85"><span>Order No.</span></td>
+                                    <!--<td width="72"><span>Size</span></td>-->
+                                    <td width="68"><span>Magazine</span></td>
+                                    <td width="85"><span>Start Month</span></td>
+                                    <td width="82"><span>End Month</span></td>
+                                    <td width="60"><span>Shape</span></td>
+                                    <td width="190"><span>Size</span></td>
+                                    <td width="170"><span>Status</span></td>
+                                </tr>
+                            </thead>
+                            <tbody> </tbody>
+                        </table>
+                    </div>
+                    <div class="order-left" align="right">
+                        <!--<a href="#"><img src="images/save2.gif" alt="Save" /></a>-->
+                        <input type="submit" value="SAVE" name="save" id="save" class="inputbox-white">&nbsp;&nbsp;&nbsp;
+                        <!--<a href="#"><img src="images/cancel.gif" alt="Cancel" /></a>-->
+                        <input type="submit" value="CANCEL" name="cancel" id="cancel" class="inputbox-white W57">
+                    </div>
+                    <div class="order-left margin">
+                        <h3><span>Artwork History</span></h3>
+                    </div>
+                    <div class="atwork-history prepand">
+                        {foreach from=$artwork_history item=item}
+                            <p>{$item->update_date|date_format:'%d-%m-%Y'}: Order {$item->order_details_id} {$item->artwork_status} by {$item->uptdaed_by}</p>
+                        {/foreach}
+                    </div>
+                </div>
+                <div class="right">   <!-- right class starts here-->
+                    <h3><span>Customers</span></h3>
+                    <div class="customers-body">    <!-- customer-body starts here-->
+                        <ul>
+                            {assign var="flag" value=0}
+                            {foreach from=$customer_list key=key item=item}
+                            <li>
+                                <a {if $flag eq 0}class="fixed"{/if} href="/app/artwork_manager/artwork_manager.php?customer_id={$key}&cmd=edit">{$item|truncate:45}</a>
+                                {if $flag eq 0}
+                                <ul>
+                                    <li><a href="javascript:void(0);" onClick="gotoURL('order_manager');">orders</a></li>
+                                    <li><a href="#" class="fixed">artwork</a></li>
+                                    <li><a href="javascript:void(0);" onClick="gotoURL('schedule_manager');">schedule</a></li>                                    
+                                </ul>
+                                {/if}
+                                {assign var=flag value=1}
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>   <!-- customer-body starts here-->
+                </div>      <!-- right class ends here-->
+            </div>   <!-- body-block class ends here-->
+        </div>    <!-- wrap class ends here-->   
+    </div>  <!-- body-full class starts here-->
+                                         <!--    -->
+                <div id="artwork_notes" style="width:300px;display: none;">
+                    <h3>Add Artwork Notes</h3>
+                    <input type="button" class="button blue" name="submit" value="SAVE" onClick="saveArtworkNote();">
+                </div>
+
+
+{foreach from=$product_list item=item}
+   <div id="instruction_text_{$item->order_details_id}" style="display: none;">{$item->instruction}</div>
+{/foreach}
+
+</form>
+<script language="JavaScript">
+    var magazineOptns     = '<option value="0"></option>';
+    var placed_by         = '{$USER_FIRST} {$USER_LAST}';
+    var placed_by_id      = '{$USER_ID}';
+    var product_str       = '{$full_product_str}';
+    
+    {foreach from=$magazine_list key=key item=item} 
+        magazineOptns += '<option value="{$key}">{$item}</option>';
+    {/foreach}
+        
+    {foreach from=$product_list item=item}
+        
+        addNewRow(0); // add a new row then populate the data in that row.
+        
+        populateOrderDetails("{$item->order_details_id}", "{$item->product_id}", "{$item->magazine_code}", "{$item->start_month}",
+                             "{$item->end_month}", "{$item->status}", "{$item->product_code}", "{$item->qty_per_unit}", "{$item->artwork_id}",
+                             "{$item->shape}", "{$item->product_status}");
+        
+        {foreach from=$item->notes item=note key=key}
+            showArtworkNotes("{$note}");
+        {/foreach}
+    {/foreach}
+        
+</script>   
+</body>

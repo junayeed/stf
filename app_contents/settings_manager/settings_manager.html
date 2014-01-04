@@ -1,0 +1,73 @@
+<script language="JavaScript">
+   function thisSelect(inputobj, linkname, format) 
+   {ldelim}
+      var thisDate = new CalendarPopup();
+      thisDate.showNavigationDropdowns();
+      thisDate.select(inputobj,linkname, format);
+   {rdelim}
+</script>
+
+
+<body>
+    <!--start main contents table-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="right" width="10" height="10"><img src="/app_contents/common/image/table/top_lft.gif"></td>
+            <td background="/app_contents/common/image/table/top_mid.gif"></td>
+            <td align="left" width="10" height="10"><img src="/app_contents/common/image/table/top_rht.gif"></td>
+        </tr>
+        <tr>
+            <td align="right" width="10" background="/app_contents/common/image/table/lft_border.gif"></td>
+            <td bgcolor="#FFFFFF" align="left" class="contentArea">
+                <!---------------------------------------->
+                <!--the application template starts here-->
+                <!---------------------------------------->
+                <table  class="contentHeader" border="0" width="100%">
+                    <tr>
+                        <td class="contentHeaderText">Settings</td>
+                    </tr>
+                </table>
+                <table border="0" width="100%">
+                    <tr>
+                        <td>
+                            <div id="settings-content">
+                                <div id="settings-left">
+                                    <div id="settings">
+                                        <h3><a href="/app/user_manager/user_manager.php">Manage Users</a></h3>
+                                        Create new users and amend/delete details of existing users or delete a user. Only users who are given administration rights will 
+                                        be able to add more users, and configure other elements of the system.
+                                    </div>
+                                </div>
+                                <div id="settings-right">
+                                    <div id="settings">
+                                        <h3><a href="/app/magazine_manager/magazine_manager.php">Manage Magazine</a></h3>
+                                        Create new magazines and amend/delete details of existing magazines. Only users who are given administration rights will be able to 
+                                        add more magazines, and configure other elements of the system.
+                                    </div>
+                                    <div id="settings">
+                                        <h3><a href="/app/product_manager/product_manager.php">Manage Products</a></h3>
+                                        Create new products, both adverts and other services, amend/delete details of existing products. Only users who are given 
+                                        administration rights will be able to add more magazines, and configure other elements of the system.
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!-------------------------------------->
+                <!--the application template ends here-->
+                <!-------------------------------------->
+            </td>
+            <td align="left" width="10" background="/app_contents/common/image/table/rht_border.gif"></td>
+        </tr>
+        <tr>
+            <td background="/app_contents/common/image/table/bttm_mid.gif"></td>
+        </tr>
+        <tr>
+            <td align="right" width="10" height="10"><img src="/app_contents/common/image/table/bttm_lft.gif"></td>
+            <td background="/app_contents/common/image/table/bttm_mid.gif"></td>
+            <td align="left" width="10" height="10"><img src="/app_contents/common/image/table/bttm_rht.gif"></td>
+        </tr>
+    </table>
+    <!--end main contents table-->
+</body>

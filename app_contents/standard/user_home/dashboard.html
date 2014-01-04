@@ -1,0 +1,139 @@
+<!-- HIGHCHARTS FILES-->
+<script src="/ext/Highcharts-3.0.7/js/highcharts.js" type="text/javascript"></script>
+<script src="/ext/Highcharts-3.0.7/js/modules/exporting.js"></script>
+<script language="JavaScript" src="/app_contents/common/js/charts.js"></script>
+
+<script>
+    var companyArray         = [];
+    var companyTotalArray    = [];
+    var monthArray           = [];
+    var monthlyTotalArray    = [];
+    
+    {foreach from=$top_customers item=item} 
+        companyArray.push('{$item->company_name}');
+        companyTotalArray.push({$item->total_sum});
+    {/foreach}
+    
+    {foreach from=$yearly_income key=key item=item}
+        monthArray.push('{$item.month}');
+        monthlyTotalArray.push({$item.total});
+    {/foreach}
+    //alert(companyTotalArray);
+</script>
+<!-- body-full start here-->
+<div id="body-full"> 
+    <div class="wrap">  <!--wrap class start here -->
+        <div class="body-block">  <!-- body-block class starts here-->
+            <div class="left">   <!-- left class starts here-->
+                <form name="userHomeForm" action="{$SCRIPT_NAME}" method="POST">
+                <div class="row padding2 prepand"> <!-- statistics row start here-->
+                    <div class="col-sm-3">
+                        <div class="box_stat box_pos">
+                            <h4>{$total_customer}</h4>
+                            <small>Active Customer(s)</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="box_stat box_pos">
+                            <h4>₤ {$total_sale|number_format:2:".":","}</h4>
+                            <small>Total Sale</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="box_stat box_pos">
+                            <h4>{$total_order}</h4>
+                            <small>Total Order(s)</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="box_stat box_pos">
+                            <h4>{$total_space}</h4>
+                            <small>Booked {$issue_month}</small>
+                        </div>
+                    </div>
+                </div> <!-- summary row start here-->
+                                
+                <h3><span>Yearly Sale</span></h3>
+        	<div class="left-body">  <!-- left-body class starts here -->
+                    <div id="container" style="width:100%"></div>
+                </div>
+                </form>
+                
+                <h3 class="prepand2"><span>Top 10 Customers</span></h3>
+        	<div class="left-body">  <!-- left-body class starts here -->
+                    <div id="top_customers" style="width:100%"></div>
+                </div>
+               
+            </div>    <!-- left class ends here-->
+            <div class="right">  <!-- right class starts here-->
+                <h3><span>Customers</span></h3>
+                <div class="customers-body">
+                    <ul>
+                        {foreach from=$customer_list key=key item=item}
+                            <li>
+                                <a href="/app/order_manager/order_manager.php?customer_id={$key}&cmd=edit">{$item|truncate:45}</a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>  <!-- right class ends here-->
+        </div><!-- body-block class starts here-->
+    </div>
+</div>
+<script> showTop10customers(); showYearWiseCharts(); </script>
+
+<!--
+<table width="760" cellpadding="0" cellspacing="0" border="1">
+                	<thead>
+                            <tr>
+                                <td width="8">&nbsp;</td>
+                                <td width="50"><span>Order</span></td>
+                                <td width="127"><span>Customer</span></td>
+                                <td width="45"><span>Code</span></td>
+                                <td width="74"><span>Magazine</span></td>
+                                <td width="57"><span>Start</span></td>
+                                <td width="67"><span>End</span></td>
+                                <td width="42"><span>A</span></td>
+                                <td width="50" class="TEXTRIGHT"><span>Page</span></td>
+                                <td width="43" class="TEXTRIGHT"><span>Qty</span></td>
+                                <td width="51" class="TEXTRIGHT"><span>Price</span></td>
+                                <td width="46" class="TEXTRIGHT"><span>Disc</span></td>
+                                <td width="54" class="TEXTRIGHT"><span>Total</span></td>
+                                <td width="46" class="TEXTCENTER"><span>Status</span></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$order_list item=item}
+                            {if $item->product_code neq ''}
+                                <tr>
+                                    <td width="8" class="prepand3">&nbsp;</td>
+                                    <td width="50" class="prepand3">{$item->id}</td>
+                                    <td width="127" class="prepand3"><a href="/app/order_manager/order_manager.php?customer_id={$item->customer_id}&cmd=edit">{$item->company_name}</td>
+                                    <td width="45" class="prepand3">{$item->product_code}</td>
+                                    <td width="74" class="prepand3">{$item->magazine_abvr}</td>
+                                    <td width="57" class="prepand3">{$item->start_month}</td>
+                                    <td width="67" class="prepand3">{$item->end_month}</td>
+                                    <td width="42" class="prepand3">{$item->alternative}</td>
+                                    <td width="50" class="prepand3 TEXTRIGHT">{$item->page}</td>
+                                    <td width="43" class="prepand3 TEXTRIGHT">{$item->qty}</td>
+                                    <td width="51" class="prepand3 TEXTRIGHT">{$item->unit_price|number_format:2:".":","}</td>
+                                    <td width="46" class="prepand3 TEXTRIGHT">{$item->discount}%</td>
+                                    <td width="54" class="prepand3 TEXTRIGHT">{$item->total|number_format:2:".":","}</td>
+                                    <td width="46" class="prepand3 TEXTCENTER"><span>{$item->status}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border" colspan="5"><div class="font">{$item->description}</div></td>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border">&nbsp;</td>
+                                    <td class="border">&nbsp;</td>
+                                </tr>
+                            {/if}
+                            {/foreach}
+                        </tbody>                    
+                    </table> -->

@@ -1,0 +1,189 @@
+<script language="JavaScript">
+    var targetID;
+    
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        targetID = inputobj.id;
+        var thisDate = new CalendarPopup();
+        //thisDate.showNavigationDropdowns();
+        thisDate.setDisplayType("month");
+        thisDate.showYearNavigation();
+        thisDate.setReturnMonthFunction("monthReturn");
+        thisDate.showCalendar(linkname);
+    {rdelim}
+</script>
+<!--<script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>-->
+
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
+<form method="post" action="{$SCRIPT_NAME}" name="reportForm" id="reportForm">
+<div id="body-full"> <!-- body-full class starts here -->
+    <div class="wrap">   <!-- wrap class starts here -->
+	<div class="body-block">  <!-- body-block class starts here-->
+            <div class="chose-report">  <!-- choose-report class starts here-->
+                <ul>
+                    <li>Choose reports:</li>
+                    <li><a href="#" class="fixed">orders</a></li>
+                    <li><a href="/app/artwork_report_manager/artwork_report_manager.php">artwork</a></li>
+                    <li><a href="/app/schedule_report_manager/schedule_report_manager.php">schedule</a></li>
+                </ul>
+            </div>  <!-- choose-report class ends here-->
+            <div class="main-body margin prepand">  <!--main-body class starts here-->
+                <div class="left">   <!-- left class starts here-->       	
+                    <div class="order-left">    <!-- order-left class starts here-->                
+                        <table width="760" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td width="650"><h3><span>Search Result(s)</span></h3></td>
+                                <td width="46" class="font2" align="right">export to</td>
+                                <!--<td width="21" align="right"><a href="#"><img src="/app_contents/common/images/pdf.png" alt="PDF" /></a></td>-->
+                                <td width="8">&nbsp;</td>
+                                <td width="35" valign="bottom">
+                                    <a href="?cmd=excel&customer_name={$customer_name}&magazine={$magazine}&start_month={$start_month}&end_month={$end_month}&status={$status}&issue_month={$issue_month}" target="_new">
+                                    <img src="/app_contents/common/images/cross3.png" alt="Excel" />
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>    <!-- order-left class ends here-->
+                    <div class="left-body prepand">   <!-- left-body class starts here-->
+                        <table width="760" cellpadding="0" cellspacing="0" border="0">
+                            <thead>
+                                <tr>
+                                    <td width="8">&nbsp;</td>
+                                    <td width="40"><span>Order</span></td>
+                                    <td width="170"><span>Customer</span></td>
+                                    <td width="64"><span>Magazine</span></td>
+                                    <td width="57"><span>Start</span></td>
+                                    <td width="66"><span>End</span></td>
+                                    <td width="33"><span>A</span></td>
+                                    <td width="43" class="TEXTRIGHT"><span>Page</span></td>
+                                    <td width="33" class="TEXTRIGHT"><span>Qty</span></td>
+                                    <td width="60" class="TEXTRIGHT"><span>Space</span></td>
+                                    <td width="84" class="TEXTRIGHT"><span>Total</span></td>
+                                    <td width="72" class="TEXTCENTER"><span>Status</span></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {assign var="total_space_allocated" value="0"}
+                                {assign var="grand_total" value="0"}
+                                {foreach from=$order_list key=key item=item}
+                                    {if $item->product_code neq ''}
+                                    <tr class="reportEvenRow" onmouseover="this.className='reportRowSelected';" onmouseout="this.className='reportEvenRow';">
+                                        <td width="8" class="prepand3">&nbsp;</td>
+                                        <td width="40" class="prepand3">{$item->id}</td>
+                                        <td width="170" class="prepand3"><a href='../order_manager/order_manager.php?customer_id={$item->customer_id}&cmd=edit'>{$item->company_name}</a></td>
+                                        <td width="64" class="prepand3">{$item->magazine_abvr}</td>
+                                        <td width="57" class="prepand3">{$item->start_month}</td>
+                                        <td width="66" class="prepand3">{$item->end_month}</td>
+                                        <td width="33" class="prepand3">{$item->alternative}</td>
+                                        <td width="43" class="prepand3 TEXTRIGHT">{$item->page}</td>
+                                        <td width="33" class="prepand3 TEXTRIGHT">{$item->qty}</td>
+                                        <td width="60" class="prepand3 TEXTRIGHT">{$item->qty_per_unit*$item->qty|number_format:3:".":","}{assign var="total_space_allocated" value=$total_space_allocated+$item->qty_per_unit*$item->qty}</td>
+                                        <td width="84" class="prepand3 TEXTRIGHT">{$item->total|number_format:2:".":","}{assign var="grand_total" value=$grand_total+$item->total}</td>
+                                        <td width="72" class="prepand3 TEXTCENTER"><span>{$item->status}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border">&nbsp;</td>
+                                        <td class="border">&nbsp;</td>
+                                        <td colspan="5" class="border"><div class="font {if $item->product_status eq 'Archive'}archive-strike-out{/if}">{$item->description}</div></td>
+                                        <td class="border">&nbsp;</td>
+                                        <td class="border">&nbsp;</td>
+                                        <td class="border">&nbsp;</td>
+                                        <td class="border">&nbsp;</td>
+                                        <td class="border">&nbsp;</td>
+                                    </tr>
+                                    {/if}
+                                {/foreach}
+                            </tbody>          
+                        </table>
+                    </div> <!-- left-body class starts here-->
+                    <div class="grand-total">
+                        <table width="240" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td width="87" class="TEXTRIGHT"><span>Grand Total</span></td>
+                                <td width="66" class="TEXTRIGHT"><span>{$total_space_allocated|number_format:3:".":","}</span></td>
+                                <td width="90" class="TEXTRIGHT"><span>£ {$grand_total|number_format:2:".":","}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>  <!-- left class ends here-->
+                <div class="right">   <!--right class starts here-->
+                    <h3><span>Search Criteria</span></h3>
+                    <div class="customers-body" style="margin-top:13px;">  <!-- customer-body class starts here-->
+                        <div class="font2">Customer Name</div>
+                        <div class="prepand">
+                            <input type="text" name="customer_name" id="autocomplete-report" value="{$customer_name}" class="inputbox3 W127">
+                            <div id="selction-report"></div>
+                        </div>
+                        <div class="font2 prepand">Product</div>
+                        <input type="text" name="product_id" id="product_id" value="{$product_id}" class="inputbox3 W127">
+                        <div class="font2 prepand">Magazine</div>
+                        <div class="prepand">
+                            <select name="magazine" id="magazine" class="combo1 W127">
+                                <option value=""></option>
+                                <option value="All" {if $magazine eq 'All'}selected{/if}>All Magazines</option>
+                                <option value="No" {if $magazine eq 'No'}selected{/if}>No Magazines</option>
+                                {html_options options=$magazine_list selected=$magazine}
+                            </select>
+                        </div>
+                        <div class="font2 prepand">Start Month</div>
+                        <div class="prepand">
+                            <select name="start_month" id="start_month" class="combo1 W127"></select>
+                        </div>
+                        <div class="font2 prepand">End Month</div>
+                        <div class="prepand">
+                            <select name="end_month" id="end_month" class="combo1 W127"></select>
+                        </div>
+                        <div class="font2 prepand">Status</div>
+                        <div class="prepand">
+                            <select id="status" name="status" class="combo1 W127"></select>
+                        </div>
+                        <div class="font2 prepand">Issue Month</div>
+                        <table width="127" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td width="93" class="prepand" colspan="2">
+                                    <select name="issue_month" id="issue_month" class="combo1 W127"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="prepand2">
+                                    <a href="#" onclick="doFormSubmit()"><img src="/app_contents/common/images/show.gif" alt="Show" /></a>
+                                </td>
+                                <td class="prepand2">
+                                    <a href="#" onClick="doClearForm();">
+                                    <img src="/app_contents/common/images/clear.gif" alt="Clear" />
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>    <!-- customer-body class ends here-->
+                    <div class="right-body prepand4">  <!-- right-body class starts here-->
+                        <h3><span>Customers</span></h3>
+                    </div> 
+                    <div class="customers-body"  style="margin-top:13px;">
+                        <ul>
+                            {foreach from=$customer_list key=key item=item}
+                            <li>
+                                <a href="/app/order_manager/order_manager.php?customer_id={$key}&cmd=edit">{$item|truncate:45}</a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </div>      <!-- right class ends here-->
+            </div>  <!--main-body class ends here-->
+        </div><!-- body-block class ends here-->
+    </div>  <!-- wrap class starts here -->
+</div> <!-- body-full class starts here -->
+</form>
+<script>
+    getStatusList('{$status}');
+    
+    getMonthList('{$start_month}', 'start_month');
+    getMonthList('{$end_month}', 'end_month');
+    getMonthList('{$issue_month}', 'issue_month');
+    //getYearList();
+    
+    // create the customer list for auto complete 
+    getCustomerList();
+    
+    getFullProductList(1);
+</script>

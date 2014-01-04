@@ -1,0 +1,49 @@
+<html>
+    
+<head>
+<!-- CSS FILEs-->
+<link rel="stylesheet" type="text/css" href="/app_contents/common/css/default.project.css" />
+<link rel="stylesheet" type="text/css" href="/app_contents/common/css/Segoe-UI-Light-Bold/stylesheet.css"  />
+
+<!-- JS FILES-->
+<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
+<script language="JavaScript" src="/app_contents/customer_manager/customer_manager.js"></script>
+<script language="JavaScript" src="/app_contents/common/js/jquery.js"></script>
+
+</head>
+
+<body>
+    <form method="post" action="{$SCRIPT_NAME}?cmd=list" name="magazineListForm">
+        <div class="customer-left-body">   <!--customer-left-body starts here-->
+            <table width="760" cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <td width="8">&nbsp;</td>
+                        <td width="300">Magazine Name</td>
+                        <td width="300">Abbreviation</td>
+                        <td width="72">Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {foreach from=$list item=item}
+                    <tr>
+                        <td width="8" class="border">&nbsp;</td>
+                        <td width="300" class="border">{$item->magazine_name}</td>
+                        <td width="300" class="border">{$item->magazine_abvr}</td> 
+                        <td width="72" class="border"><a href='{$SCRIPT_NAME}?id={$item->id}&cmd=edit' target='_top' title="Edit"><img src="/app_contents/common/images/edit.png" alt="Edit"></a>&nbsp;&nbsp;<a onClick='return doConfirm(PROMPT_DELETE_CONFIRM);' href='{$SCRIPT_NAME}?id={$item->id}&cmd=delete' target='_top'><img src="/app_contents/common/images//cross.png" alt="Delete"><a/></td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+        <div class="viewmore">
+            <table width="760">
+                <tr>
+                    <td class="font3 padding-left10">Total {$row_count} magazine(s) found</td>
+                    <td class="font3">Showing page {$page_no+1} out of {$page_count}</td>
+                    <td class="font3 padding-right10" align="right">{if $page_no neq ''}<a href='{$SCRIPT_NAME}?page_no={$page_no-1}&cmd=list&magazine_code={$magazine_code}'>Previous</a>{else}Previous{/if} | {if $page_no eq $page_count-1}Next{else}<a href='{$SCRIPT_NAME}?page_no={$page_no+1}&cmd=list&magazine_code={$magazine_code}'>Next</a>{/if}</td>
+                </tr>    
+            </table>
+        </div>
+    </form>
+</body>

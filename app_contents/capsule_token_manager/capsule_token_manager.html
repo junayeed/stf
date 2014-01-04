@@ -1,0 +1,129 @@
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+</script>
+
+<body>
+    <form name="capsuleTokenForm" id="capsuleTokenForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
+        <!-- HIDDERN FIELDS -->
+        <input type="hidden" name="id" value="{$id}">
+        <input type="hidden" name="cmd" value="add">
+        <!-- HIDDEN FIELDS -->
+
+        <div id="body-full">   <!-- body-full class starts here -->
+            <div class="wrap">  <!-- wrap class starts here -->
+                <div class="body-block" style="padding-bottom:30px;">  <!-- body-block class starts here -->
+                    <div class="left">    <!-- left class starts here-->
+                        <h3><span>Capsule CRM API Details</span></h3>
+                        <div class="customer-left-body">   <!--customer-left-body starts here-->
+                            <table width="760" cellpadding="0" cellspacing="0" border="0">
+                                <thead >
+                                    <tr>
+                                        <td align="center">Token</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <input type="text" id="capsule_token" name="capsule_token" value="{$capsule_token}"class="inputbox3 W300 H30 TEXTCENTER">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">Application Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <input type="text" id="app_name" name="app_name" value="{$app_name}"class="inputbox3 W300 H30 TEXTCENTER">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" style="padding-top: 10px; padding-bottom: 10px;">
+                                            <input type="submit" value="SAVE" name="save" id="save" class="inputbox-blue" style="margin-left: 190px;">
+                                            <input type="button" value="CLEAR" name="cancel" id="cancel" class="inputbox-blue W57" onClick="doClearForm();">
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>  <!-- left class ends here-->                    
+                    
+                    <div class="right">  <!-- right class starts here-->
+                        <h3><span>Settings</span></h3>  <!-- Settings starts here -->
+                        <div class="setting-list">   <!--  setting-list div starts here -->
+                            <ul>
+                                <li>
+                                    <a href="/app/user_manager/user_manager.php">Manage Users</a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Icon" style="float:right; margin-top:2px;" onClick="hideDiv('magazine-block');hideDiv('product-block');showDiv('user-block');" />
+                                    <div class="bubble-block" style="display: none;" id="user-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('user-block');"/>
+                                            <p>Create new users and amend/delete details of existing users or delete a user. Only users who are given administration rights will be able to add more users, and configure other elements of the system.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="/app/magazine_manager/magazine_manager.php">Manage Magazines</a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Help" style="float:right; margin-top:2px; cursor: pointer;" onClick="hideDiv('user-block');hideDiv('product-block');showDiv('magazine-block');" />
+                                    <div class="bubble-block" style="display: none;" id="magazine-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('magazine-block');"/>
+                                            <p>Create new magazines and amend/delete details of existing magazines. Only users who are given administration rights will be able to add more magazines, and configure other elements of the system.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="/app/product_manager/product_manager.php">Manage Products</a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Help" style="float:right; margin-top:2px; cursor: pointer;" onClick="hideDiv('user-block');hideDiv('magazine-block');showDiv('product-block');" />
+                                    <div class="bubble-block" style="display: none;" id="product-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('product-block');"/>
+                                            <p>Create new products, both adverts and other services, amend/delete details of existing products. Only users who are given administration rights will be able to add more products, and configure other elements of the system.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a><span>Manage Integration</span></a>
+                                    <img src="/app_contents/common/images/icon3.gif" alt="Help" style="float:right; margin-top:2px; cursor: pointer;" onClick="hideDiv('user-block');hideDiv('magazine-block');hideDiv('product-block');showDiv('integration-block');" />
+                                    <div class="bubble-block" style="display: none; top:64px;" id="integration-block">                        	
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round.png" alt="Round" /></div>
+                                        <div class="bubble-body">
+                                            <img src="/app_contents/common/images/cross.png"  style="margin-left: 222px;" onClick="hideDiv('integration-block');"/>
+                                            <p>Your authentication token is like a password for your account that can be used by other applications to access your Capsule data. Only share this token with applications or 3rd parties that you trust. Anyone who has your authentication token can access and update your data.</p>
+                                            <div class="bubble-arrow"><img src="/app_contents/common/images/bobble-arrow.png" alt="Arrow" /></div>
+                                        </div>
+                                        <div class="bubble-round"><img src="/app_contents/common/images/round2.png" alt="Round" /></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>    <!--  setting-list div ends here -->
+                    
+                        <div class="right-body prepand4">  <!-- right-body class starts here-->
+                            <h3><span>Customers</span></h3>
+                        </div> 
+                        <div class="customers-body"  style="margin-top:13px;">
+                            <ul>
+                                {foreach from=$customer_list key=key item=item}
+                                    <li>
+                                        <a href="/app/order_manager/order_manager.php?customer_id={$key}&cmd=edit">{$item}</a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </div>
+                    </div>      <!-- right class ends here-->
+                    
+                </div>          <!-- body-block class ends here -->
+            </div>              <!-- wrap class ends here -->
+        </div>                  <!-- body-full class ends here -->
+    </form>
+</body>

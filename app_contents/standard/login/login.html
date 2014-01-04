@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>User Login</title>{if $SYSTEM_PRODUCTION_MODE ne "Yes"}<!-- ** THIS NOTE ONLY SHOWS IN DEVELOPMENT MODE *** Purpose: This template is used to show the login form Javascript requirements: In addition to standard javascripts such as evoknow.js, messages.js you will need to create {$SYSTEM_COMMON_JAVASCRIPT_DIR}/{$SYSTEM_APP_PREFIX}/{$SYSTEM_APP_PREFIX}.js to store any custom javascript functions needed for this form.-->{/if}
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <!-- load javascript error/success messages for javascripts -->
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
+        <!-- load standard javascript library -->
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
+        <!-- load current application specific javascript -->
+        <script language="JavaScript" src="{$REL_TEMPLATE_DIR}/{$SYSTEM_APP_PREFIX}.js"></script>
+        <!-- setup default info -->
+        <link rel="stylesheet" href="/app_contents/common/css/login.css" type="text/css">
+    </head>
+    <body>
+        <div class="login">
+            <h1>Login to Web App</h1>
+            <form name="loginForm" onSubmit="return dologinFormSubmit();" action="{$SCRIPT_NAME}" method="POST">
+                <p><input type="text" name="loginid" id="loginid" value="" placeholder="Username or Email"></p>
+                <p><input type="password" name="password" id="password" value="" placeholder="Password"></p>
+                <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            </form>
+        </div>
+
+        <div class="login-help">
+            <p>Not registered yet? <a href="/app/standard/registration/registration.php">Click here to register.</a>.</p>
+        </div>
+    </body>
+</html>

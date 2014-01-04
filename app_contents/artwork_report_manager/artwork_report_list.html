@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{$SYSTEM_COMMON_CSS_DIR}/default.project.css" type="text/css">
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/sorttable.js"></script>
+        <script language="JavaScript" src="/app_contents/common/js/CalendarPopup.js"></script>
+        <script language="JavaScript" src="/app_contents/report_manager/report_manager.js"></script>
+        <script language="JavaScript" src="/app_contents/common/js/jquery.js"></script>
+
+        <script language="JavaScript">
+            function thisSelect(inputobj, linkname, format)
+            {ldelim}
+                var thisDate = new CalendarPopup();
+                thisDate.showNavigationDropdowns();
+                thisDate.select(inputobj, linkname, format);
+            {rdelim}
+        </script>
+    </head>
+    <body class="whiteBody">
+        <fieldset>
+            <legend>Search Criteria</legend>
+            <br>
+            <form method="post" action="{$SCRIPT_NAME}?cmd=list" name="reportForm" id="reportForm">
+                <table border="0" width="50%" cellpadding="1" cellspacing="0">
+                    <tr>
+                        <td>
+                            <label class="label" id="magazine_lbl">Magazine</label><br class="br"/>
+                            <select name="magazine" id="magazine" class="select W120">
+                                <option value="">All Magazine</option>
+                                <option value="0" {if $magazine eq '0'}selected{/if}></option>
+                                {html_options options=$magazine_list selected=$magazine}
+                            </select>
+                        </td>
+                        <td>
+                            <label class="label" id="start_month_lbl">Start Month</label><br class="br"/>
+                            <select name="start_month" id="start_month" class="select W75"></select>
+                        </td>  
+                        <td>
+                            <label class="label" id="end_month_lbl">End Month</label><br class="br"/>
+                            <select name="end_month" id="end_month" class="select W75"></select>
+                        </td>
+                        <td>
+                            <label class="label" id="status_lbl">Status</label><br class="br"/>
+                            <select name="status" id="status" class="select W50">
+                        </td>
+                        <td>
+                            <br class="br"/> 
+                            <input type="submit" class="button blue" name="submit" value="Show">    
+                            <input type="button" class="button blue" name="clear" value="Clear" onClick="doClearForm();">    
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </fieldset>
+        <fieldset>
+            <legend>Search Result(s)</legend>
+            {if $order_list}
+            <table bgcolor="#FFFFFF" border="0" width="100%">
+                <tr align="center">
+                   <td colspan="5"> </td>
+                   <td colspan="6"> </td>
+                   <td colspan="2"><a href="?cmd=pdf&magazine={$magazine}&start_month={$start_month}&end_month={$end_month}&status={$status}" target="_new">Export to PDF</td>
+                </tr>
+                <tr class="tbl_header" align="center">
+                    <td>Order #</td>
+                    <td>Customer Name</td>
+                    <td>Description</td>
+                    <td>Magazine</td>
+                    <td>Start Month</td>
+                    <td>End Month</td>
+                    <td>A</td>
+                    <td>Page</td>
+                    <td>Qty</td>
+                    <td>Price</td>
+                    <td>Discount</td>
+                    <td>Total</td>
+                    <td>Status</td>
+                </tr>
+                {assign var="total_unit_price" value="0"}
+                {assign var="grand_total" value="0"}
+                {foreach from=$order_list key=key item=item}
+                <tr class="reportEvenRow" onmouseover="this.className='reportRowSelected';" onmouseout="this.className='reportEvenRow';">
+                    <td align="center">{$item->id}</td>
+                    <td align="center"><a href='\order_manager\order_manager.php?customer_id={$item->customer_id}&cmd=edit'>{$item->company_name}</a></td>
+                    <td align="center">{$item->description}</td>
+                    <td align="center">{$item->magazine_abvr}</td>
+                    <td align="center">{$item->start_month}</td>
+                    <td align="center">{$item->end_month}</td>
+                    <td align="center">{$item->alternative}</td>
+                    <td align="right">{$item->page}</td>
+                    <td align="right">{$item->qty}</td>
+                    <td align="right">£ {$item->unit_price|number_format:2:".":","} {assign var="total_unit_price" value=$total_unit_price+$item->unit_price}</td>
+                    <td align="right">{$item->discount|number_format:2:".":","} %</td>
+                    <td align="right">£ {$item->total|number_format:2:".":","}{assign var="grand_total" value=$grand_total+$item->total}</td>
+                    <td align="center">{$item->status}</td>
+                </tr>
+                {/foreach}
+                <tr class="tbl_header" align="center">
+                    <td colspan="9" align="right">Grand Total</td>
+                    <td>£ {$total_unit_price|number_format:2:".":","}</td>
+                    <td> </td>
+                    <td>£ {$grand_total|number_format:2:".":","}</td>
+                    <td> </td>
+                </tr>
+            </table>
+            {else}
+            <table border="0" width="100%">
+                <tr>
+                    <td><br>No data found...</td>
+                </tr>
+            </table>
+            {/if}
+        </fieldset>
+    </body>
+    <script>
+        getMonthList('{$start_month}', 'start_month'); 
+        getMonthList('{$end_month}', 'end_month');
+        getStatusList('{$status}');
+    </script>
+</html>

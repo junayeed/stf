@@ -1,0 +1,52 @@
+<html>
+    
+<head>
+<link rel="stylesheet" href="{$SYSTEM_COMMON_CSS_DIR}/default.project.css" type="text/css">
+<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
+<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
+<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/sorttable.js"></script>
+<script language="JavaScript" src="/app_contents/common/js/CalendarPopup.js"></script>
+
+<script language="JavaScript">
+   function thisSelect(inputobj, linkname, format) 
+   {ldelim}
+      var thisDate = new CalendarPopup();
+      thisDate.showNavigationDropdowns();
+      thisDate.select(inputobj,linkname, format);
+   {rdelim}
+</script>
+
+<script>
+</script>
+</head>
+
+<body class="greyBody">
+    <form method="post" action="{$SCRIPT_NAME}?cmd=list" name="userListForm">
+    </form>
+    {if $list}
+    <table bgcolor="#FFFFFF" border="0" width="100%">
+        <tr class="tbl_header" align="center">
+            <td width="25%">Product Group</td>
+            <td width="10%">Product Group Code</td>
+            <td >Description</td>
+            <td width="10%">Action</td>
+        </tr>
+        {foreach from=$list item=item}
+        <tr class="reportEvenRow" onmouseover="this.className='reportRowSelected'" onmouseout="this.className='reportEvenRow'">
+            <td align="center">{$item->product_group}</td>
+            <td align="center">{$item->pg_code}</td>
+            <td>{$item->description}</td>
+            <td align="center"><a href='{$SCRIPT_NAME}?id={$item->id}&cmd=edit' target='_top' title="Edit"><img src="{$SYSTEM_COMMON_IMAGE_DIR}/note_edit.png" alt="Edit"></a>&nbsp;&nbsp;<a onClick='return doConfirm(PROMPT_DELETE_CONFIRM);' href='{$SCRIPT_NAME}?id={$item->id}&cmd=delete' target='_top' title="Delete"><img src="{$SYSTEM_COMMON_IMAGE_DIR}/note_delete3.png" alt="Delete"><a/></td>
+        </tr>
+        {/foreach}
+    </table>
+    {else}
+    <table border="0" width="100%">
+        <tr>
+           <td>No data available...</td>
+        </tr>
+    </table>
+    {/if}
+
+</body>
+</html>
