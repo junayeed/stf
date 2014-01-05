@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.6, created on 2014-01-04 10:03:21
+<?php /* Smarty version 2.6.6, created on 2014-01-05 06:51:45
          compiled from E:/xampp/htdocs/stf/app_contents/standard/login/login.html */ ?>
 <html>
     <head>
