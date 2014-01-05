@@ -16,63 +16,54 @@
             <div class="wrap">   <!-- wrap class starts here-->
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left">
-                                       <div class="row">
-                                           <div class="col-md-6" style="float: left">
-                                                <div class="box-widget">
-                                                    <div class="widget-head clearfix">
-                                                        
-                                                        <h4>My Information</h4>
-                                                    </div>
-                                                    <div class="widget-container">
-                                                        <div class="widget-block">
-                                                            <div class="widget-content box-padding">
-                                                                <address>
-                                                                    <strong>{$USER_FIRST} {$USER_LAST}</strong><br><br>
-                                                                     <p class="text-info" >Application Status:  <strong>{$application_status} </strong></p>
-                                                                     <p class="text-warning">Submission Date :  <strong>{$submit_date|date_format:'%d/%m/%Y'} </strong></p>
-                                                                    
-                                                                    <abbr title="Phone">P:</abbr> (123) 456-7890 </address>
-                                                                   <br>
-                                                                <address>
-                                                                    <strong>Email</strong><br>
-                                                                    <a href="mailto:#">{$email}</a>
-                                                                </address>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6" style="float: right">
-                                                <div class="box-widget">
-                                                    <div class="widget-head clearfix">
-                                                        
-                                                        <h4>Important Notes</h4>
-                                                    </div>
-                                                    <div class="widget-container">
-                                                        <div class="widget-block">
-                                                            <div class="widget-content box-padding">
-                                                                <p class="muted">
-                                                                    Current Session is :<b>{$sessionInfo->year}</b>
-                                                                </p>
-                                                                <br>
-                                                                <p class="text-warning">
-                                                                    Application Date is <b>{$sessionInfo->session_start_date|date_format:'%d/%m/%Y'}</b> to <b>{$sessionInfo->session_start_date|date_format:'%d/%m/%Y'}</b>
-                                                                </p>
-                                                                <br>
-                                                                
-                                                                <p class="text-info">
-                                                                    You have submit your application in between the above date. If you submit your application after the given date then your application will no longer accepted for review
-                                                                </p>
-                                                                <p class="text-success">
-                                                                    Please provide the correct information.
-                                                                </p>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                        <div class="row">
+                            <div class="col-md-6" style="float: left">
+                                <div class="box-widget">
+                                    <div class="widget-head clearfix">
+                                        <h4>My Information</h4>
+                                    </div>
+                                    <div class="widget-container">
+                                        <div class="widget-block">
+                                            <div class="widget-content box-padding">
+                                                <address>
+                                                    <strong>{$USER_FIRST} {$USER_LAST}</strong><br><br>
+                                                        <p class="text-info" >Application Status:  <strong>{$application_status} </strong></p>
+                                                        <p class="text-warning">Submission Date :  <strong>{$submit_date|date_format:'%d/%m/%Y'} </strong></p>
+                                                </address>                                                                
+                                                <address>
+                                                    <strong>Email</strong><br>
+                                                    <a href="mailto:#">{$email}</a>
+                                                </address>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="float: right">
+                                <div class="box-widget">
+                                    <div class="widget-head clearfix">
+                                        <h4>Important Notes</h4>
+                                    </div>
+                                    <div class="widget-container">
+                                        <div class="widget-block">
+                                            <div class="widget-content box-padding">
+                                                <p class="muted">Current Session is :<b>{$sessionInfo->year}</b></p><br>
+                                                <p class="text-warning">
+                                                    Application Date is: <b>{$sessionInfo->session_start_date|date_format:'%d/%m/%Y'}</b> to <b>{$sessionInfo->session_start_date|date_format:'%d/%m/%Y'}</b>
+                                                </p>
+                                                <br>
+                                                <p class="text-info">
+                                                    You have submit your application in between the above date. If you submit your application after the given date then your application will no longer accepted for review
+                                                </p><br />
+                                                <p class="text-success">
+                                                    Please provide the correct information.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

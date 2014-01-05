@@ -49,8 +49,8 @@
                             <thead>
                                 <tr>
                                     <td width="8">&nbsp;</td>
-                                    <td width="40"><span>Order</span></td>
-                                    <td width="170"><span>Customer</span></td>
+                                    <td width="55"><span>Order</span></td>
+                                    <td width="155"><span>Customer</span></td>
                                     <td width="64"><span>Magazine</span></td>
                                     <td width="57"><span>Start</span></td>
                                     <td width="66"><span>End</span></td>
@@ -69,8 +69,8 @@
                                     {if $item->product_code neq ''}
                                     <tr class="reportEvenRow" onmouseover="this.className='reportRowSelected';" onmouseout="this.className='reportEvenRow';">
                                         <td width="8" class="prepand3">&nbsp;</td>
-                                        <td width="40" class="prepand3">{$item->id}</td>
-                                        <td width="170" class="prepand3"><a href='../order_manager/order_manager.php?customer_id={$item->customer_id}&cmd=edit'>{$item->company_name}</a></td>
+                                        <td width="55" class="prepand3">{$item->id}</td>
+                                        <td width="155" class="prepand3"><a href='../order_manager/order_manager.php?customer_id={$item->customer_id}&cmd=edit'>{$item->company_name}</a></td>
                                         <td width="64" class="prepand3">{$item->magazine_abvr}</td>
                                         <td width="57" class="prepand3">{$item->start_month}</td>
                                         <td width="66" class="prepand3">{$item->end_month}</td>

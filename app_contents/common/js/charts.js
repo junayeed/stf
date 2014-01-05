@@ -1,12 +1,12 @@
-function showTop10customers()
+function showTop10Countries()
 {
     $('#top_customers').highcharts
     (
         {
             chart: { type: 'bar'},
-            title: { text: 'Top 10 Customers' },
-            subtitle: { text: 'By total purchase' },
-            xAxis: { categories: companyArray },
+            title: { text: 'Top 10 Countries' },
+            //subtitle: { text: 'By total purchase' },
+            xAxis: { categories: countryArray },
             yAxis: 
             {
                 min: 0,
@@ -14,8 +14,8 @@ function showTop10customers()
             },
             tooltip: 
             {
-                headerFormat: '<span style="font-size:11px; font-weight: bold">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0; font-size:11px;">Amount: </td>' +
+                headerFormat: '<span style="font-size:12px; font-weight: bold">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0; font-size:13px;">Total: </td>' +
                              '<td style="padding:0">{point.y:.2f}</td></tr>',
                 footerFormat: '</table>',
                 shared: true,
@@ -95,9 +95,8 @@ function showYearWiseCharts()
 }
 
 
-function showPieCharts() 
+function showPieCharts(male, female) 
 {
-    	
     // Radialize the colors
     Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
         return {
@@ -121,11 +120,12 @@ function showPieCharts()
             },
             title: 
             {
-                text: 'Browser market shares at a specific website, 2010'
+                text: 'Male Vs Female'
             },
             tooltip: 
             {
-        	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        	    //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        	    pointFormat: '<b>{point.percentage:.1f}%</b>'
             },
             plotOptions: 
             {
@@ -140,17 +140,20 @@ function showPieCharts()
                         connectorColor: '#000000',
                         formatter: function() 
                         {
-                            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+                            return this.percentage +' %';
                         }
                     }
                 }
+            },
+            credits: {
+                enabled: false
             },
             series: 
             [
                 {
                     type: 'pie',
-                    name: 'Browser share',
-                    data: [ 45, 26.8, 8.5, 6.2, 0.7 ]
+                    //name: 'Browser share',
+                    data: [ ['Male', male], ['Female', female] ]
             }]
         });
 }

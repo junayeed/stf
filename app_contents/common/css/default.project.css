@@ -181,6 +181,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 .padding-left10 {padding-left: 10px;}
 .padding-right10 {padding-right: 10px;}
+.margin-right50 {margin-right: 50px;}
 
 .padding{ padding-top:10px; }
 .padding2{ padding-bottom:20px; }
@@ -212,7 +213,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Top <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
 .top{
-	 width:920px;
+	 width:890px;
 	 padding:10px 6px 7px 14px;
 	 float:left;
 	 position:relative;
@@ -223,7 +224,7 @@ table, table th, table td, cellpadding, cellspacing, border{
     float: left;
     height: 55px;
     margin-top: -9px;
-    padding: 8px 25px 0 0;
+    padding: 8px 10px 0 0;
     position: relative;
     width: 61px;
 }
@@ -252,26 +253,29 @@ table, table th, table td, cellpadding, cellspacing, border{
 			margin:9px 0px 0px 32px;
 			}
 			
-.logout{
-		width:250px;
-		padding:3px 9px 0px 0px;
-		float:left;
-		position:relative;
-		}
+.logout { width:250px; padding:3px 9px 0px 0px; float:left; position:relative; }
 		
-	.logout p{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#FFF; line-height:18px; text-align:right; }
-		.logout p a{ color:#6f6f6f; }
-			.logout p a:hover{ color:#FFF; }
+.logout p{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#FFF; line-height:18px; text-align:right; }
+.logout p a{ color:#6f6f6f; }
+.logout p a:hover{ color:#FFF; }
 			
 .admin-image{ width:40px; border-left:1px solid #4d4d4d; height:31px; float:left; position:relative; padding: 4px 0 15px 9px;}
 
-.setting{
-		width:26px;
-		padding:10px 0px 11px 16px;
-		border-left:1px solid #4d4d4d;
-		float:right;
-		position:relative;
-		}
+.setting
+{
+    width:170px;
+    padding: 6px 0px 0px 8px;
+    border-left:1px solid #4d4d4d;
+    float:right;
+    position:relative;
+    text-align: right;
+    margin-right: 50px;
+    color:#FFF; 
+    line-height:18px;
+}
+
+.setting p a{ color:#6f6f6f; }
+.setting p a:hover{ color:#FFF; }
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> End Top <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -1026,7 +1030,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     position: relative;
 }
 .col-md-6 {
-    width: 440px;
+    width: 415px;
 }
 .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11 {
     float: left;

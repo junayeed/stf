@@ -167,6 +167,7 @@ class applicationManagerApp extends DefaultApplication
       $data['i20_file']                    = getFileLocation($data['i20_doc_id']);
       $data['ticket_file']                 = getFileLocation($data['ticket_doc_id']);
       $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
+      $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
       //dumpVar($data);
       $data['country_list']       = getCountryList();
       

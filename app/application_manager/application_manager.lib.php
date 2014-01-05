@@ -87,7 +87,6 @@
     
     function saveAcademicQualificationsDetails($uid)
     {
-        //dumpVar($_REQUEST);
         $info['table']  = ACADEMIC_QUALIFICATIONS_TBL;
         $info['debug']  = false;
         
@@ -95,19 +94,19 @@
 	{
             if( preg_match('/degree_(\d+)/', $key, $matches))
             {
-                $id = $matches[1];
+                $id      = $matches[1];
+                $aq_id   = $_REQUEST['aqid_' . $id];
 
                 $data['uid']             = $uid;
-                $data['id']              = $_REQUEST['aqid_' . $id];
                 $data['degree']          = $_REQUEST['degree_' . $id];
                 $data['attachmentname']  = $_REQUEST['attachmentname_' . $id];
                 $data['degree']          = $_REQUEST['degree_' . $id];
                 $data['doc_id']          = saveAttachment($_FILES['academicfiles_'.$id]);
                 
                 $info['data']  = $data;
-                if($data['id'])
+                if($aq_id)
                 {
-                    $info['where']  = "id= ".$data['id'];
+                    $info['where']  = "id = " . $aq_id;
                     update($info);
                 }
                 else 

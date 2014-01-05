@@ -1,3 +1,5 @@
+<?php /* Smarty version 2.6.6, created on 2014-01-05 11:52:07
+         compiled from E:/xampp/htdocs/stf/app_contents/standard/user_home/admin_navigation.html */ ?>
 <script type="text/javascript" src="/ext/scripts/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/ext/src/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="/ext/scripts/demo.js"></script>
@@ -23,7 +25,10 @@
             <h5>Settings</h5>
         </div>
         <div class="setting">
-            <p>{$USER_FIRST} {$USER_LAST} ({$USER_TYPE})</p>
+            <p><?php echo $this->_tpl_vars['USER_FIRST']; ?>
+ <?php echo $this->_tpl_vars['USER_LAST']; ?>
+ (<?php echo $this->_tpl_vars['USER_TYPE']; ?>
+)</p>
             <p><a href="/app/standard/logout/logout.php">Logout</a></p>
         </div>
      </div>

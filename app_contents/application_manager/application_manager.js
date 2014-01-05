@@ -221,7 +221,7 @@ function addNewRow()
     
 }
 
-var degreeArray = ["S.S.C","O Levels","H.S.C.", "A Levels", "Bachelor","Masters","Ph.D"];
+var degreeArray = ["", "S.S.C","O Levels","H.S.C.", "A Levels", "Bachelor","Masters","Ph.D"];
 
 function getDegreeList()
 {

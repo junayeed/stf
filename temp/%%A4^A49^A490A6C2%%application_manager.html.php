@@ -1,3 +1,7 @@
+<?php /* Smarty version 2.6.6, created on 2014-01-05 13:57:46
+         compiled from E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html */ ?>
+<?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'stripslashes', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 68, false),array('modifier', 'date_format', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 343, false),array('function', 'html_options', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_manager.html', 78, false),)), $this); ?>
 <!-- Add fancyBox main JS and CSS files -->
 <script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
 <link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
@@ -10,29 +14,33 @@
 
 <script language="JavaScript">
     function thisSelect(inputobj, linkname, format) 
-    {ldelim}
+    {
         var thisDate = new CalendarPopup();
         thisDate.showNavigationDropdowns();
         thisDate.select(inputobj,linkname, format);
-    {rdelim}
+    }
 </script>
 
 <body>
-    <form name="userManagerForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
+    <form name="userManagerForm" action="<?php echo $this->_tpl_vars['SCRIPT_NAME']; ?>
+" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
         
-        <input type="hidden" name="id" value="{$uid}">
-        <input type="hidden" id="psw" name="psw" value="{$password}">
+        <input type="hidden" name="id" value="<?php echo $this->_tpl_vars['uid']; ?>
+">
+        <input type="hidden" id="psw" name="psw" value="<?php echo $this->_tpl_vars['password']; ?>
+">
         
         <div id="body-full">     <!-- body-full starts here-->
             <div class="wrap">   <!-- wrap class starts here-->
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left">    <!-- left class starts here-->
-                        {if $application_status eq 'Not Submitted' || $application_status eq ''}
+                        <?php if ($this->_tpl_vars['application_status'] == 'Not Submitted' || $this->_tpl_vars['application_status'] == ''): ?>
                         
-                        {if $cmd eq 'new' || $cmd eq 'edit'}
+                        <?php if ($this->_tpl_vars['cmd'] == 'new' || $this->_tpl_vars['cmd'] == 'edit'): ?>
                         <input type="hidden" id="cmd" name="cmd" value="add">
                         <div class="left">   <!-- left class starts here-->
-                            {$message}
+                            <?php echo $this->_tpl_vars['message']; ?>
+
                             <table width="850" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td width="470" class="prepand2" colspan="2">
@@ -44,11 +52,13 @@
                                         <table border="0">
                                             <tr>
                                                 <td align="left">
-                                                {if $photo_id neq 0}
-                                                    <img src="{$file}?{$smarty.now}" width="150" height="150">
-                                                {else}
+                                                <?php if ($this->_tpl_vars['photo_id'] != 0): ?>
+                                                    <img src="<?php echo $this->_tpl_vars['file']; ?>
+?<?php echo time(); ?>
+" width="150" height="150">
+                                                <?php else: ?>
                                                     <img src="/app_contents/common/images/default.png" id="photoImage" width="150" height="150">
-                                                {/if}
+                                                <?php endif; ?>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -65,17 +75,20 @@
                                                     <tr>
                                                         <td width="33%">
                                                             <span class="span-text">First Name</span><br class="br"/>
-                                                            <input type="text" name="first_name" id="first_name" value="{$first_name|stripslashes}" class="inputbox3 W150">
+                                                            <input type="text" name="first_name" id="first_name" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['first_name'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" class="inputbox3 W150">
                                                         </td>
                                                         <td width="33%">
                                                             <span class="span-text">Last Name</span><br class="br"/>
-                                                            <input type="text" name="last_name" id="last_name" value="{$last_name|stripslashes}" class="inputbox3 W150">
+                                                            <input type="text" name="last_name" id="last_name" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['last_name'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" class="inputbox3 W150">
                                                         </td>
                                                         <td width="33%">
                                                             <span class="span-text">Gender</span><br class="br"/>
                                                             <select id="gender" name="gender" class="combo1 W150">
                                                                 <option value="">Select Gender</option>
-                                                                {html_options values=$gender_list output=$gender_list selected=$gender}
+                                                                <?php echo smarty_function_html_options(array('values' => $this->_tpl_vars['gender_list'],'output' => $this->_tpl_vars['gender_list'],'selected' => $this->_tpl_vars['gender']), $this);?>
+
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -83,37 +96,43 @@
                                                     <tr>
                                                         <td>
                                                             <span class="span-text">Present Address</span><br class="br"/>
-                                                            <textarea id="present_address" name="present_address" class="textarea W185 H60">{$present_address|stripslashes}</textarea>
+                                                            <textarea id="present_address" name="present_address" class="textarea W185 H60"><?php echo ((is_array($_tmp=$this->_tpl_vars['present_address'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+</textarea>
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text">Present Phone</span><br class="br"/>
-                                                            <input type="text" name="present_phone" id="present_phone" value="{$present_phone|stripslashes}" 
+                                                            <input type="text" name="present_phone" id="present_phone" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['present_phone'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text">Email</span><br class="br"/>
-                                                            <input type="text" name="email" id="email" value="{$email|stripslashes}" class="inputbox3 W185" onChange="isUserEmailExists();">
+                                                            <input type="text" name="email" id="email" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['email'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" class="inputbox3 W185" onChange="isUserEmailExists();">
                                                         </td>
                                                     </tr>
                                                     <tr><td><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td>
                                                             <span class="span-text">Permanent Address</span><br class="br"/>
-                                                            <textarea id="permanent_address" name="permanent_address" class="textarea W185 H60">{$permanent_address|stripslashes}</textarea>
+                                                            <textarea id="permanent_address" name="permanent_address" class="textarea W185 H60"><?php echo ((is_array($_tmp=$this->_tpl_vars['permanent_address'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+</textarea>
                                                             <div id="copy-address">
                                                                 <img src="/app_contents/common/images/copy26.png" width="20" onClick="copyAddress('present_address', 'permanent_address');">
                                                             </div>
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text">Permanent Phone</span><br class="br"/>
-                                                            <input type="text" name="permanent_phone" id="permanent_phone" value="{$permanent_phone|stripslashes}" 
+                                                            <input type="text" name="permanent_phone" id="permanent_phone" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['permanent_phone'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text">Received Grant Before</span><br class="br"/>
                                                             <select name="received_grant" id="received_grant" class="combo1 W150">
                                                                 <option value=""></option>
-                                                                {html_options values=$received_grant_list output=$received_grant_list selected=$received_grant}
+                                                                <?php echo smarty_function_html_options(array('values' => $this->_tpl_vars['received_grant_list'],'output' => $this->_tpl_vars['received_grant_list'],'selected' => $this->_tpl_vars['received_grant']), $this);?>
+
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -130,15 +149,18 @@
                                                     <tr>
                                                         <td width="33%">
                                                             <span class="span-text">Name</span><br class="br"/>
-                                                            <input type="text" name="guardian_name" id="guardian_name" value="{$guardian_name|stripslashes}" class="inputbox3 W150">
+                                                            <input type="text" name="guardian_name" id="guardian_name" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['guardian_name'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" class="inputbox3 W150">
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text">Occupation</span><br class="br"/>
-                                                            <input type="text" name="guardian_occupation" id="guardian_occupation" value="{$guardian_occupation|stripslashes}" class="inputbox3 W150">
+                                                            <input type="text" name="guardian_occupation" id="guardian_occupation" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['guardian_occupation'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" class="inputbox3 W150">
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text">Annual Income</span><br class="br"/>
-                                                            <input type="text" name="guardian_income" id="guardian_income" value="{$guardian_income|stripslashes}" 
+                                                            <input type="text" name="guardian_income" id="guardian_income" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['guardian_income'])) ? $this->_run_mod_handler('stripslashes', true, $_tmp) : stripslashes($_tmp)); ?>
+" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                     </tr>
@@ -149,7 +171,8 @@
                                                             <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W175">
                                                         </td>
                                                         <td colspan="2">
-                                                            {if $guardian_doc_id}<a href="{$guardian_file}"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>{/if}
+                                                            <?php if ($this->_tpl_vars['guardian_doc_id']): ?><a href="<?php echo $this->_tpl_vars['guardian_file']; ?>
+"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a><?php endif; ?>
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -199,26 +222,30 @@
                                                             <span class="span-text">Country</span><br class="br"/>
                                                             <select id="country" name="country" class="combo1 W150" onChange="toggleOptions();">
                                                                 <option value="">Select Country</option>
-                                                                {html_options options=$country_list selected=$country}
+                                                                <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['country_list'],'selected' => $this->_tpl_vars['country']), $this);?>
+
                                                             </select>    
                                                         </td>
                                                         <td colspan="2">
                                                             <span class="span-text">Name of the university/education institution</span><br class="br"/>
-                                                            <input type="text" name="university_name" id="university_name" value="{$university_name}"class="inputbox3 W300">
+                                                            <input type="text" name="university_name" id="university_name" value="<?php echo $this->_tpl_vars['university_name']; ?>
+"class="inputbox3 W300">
                                                         </td>
                                                     </tr>
                                                     <tr><td><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
                                                         <td colspan="3">
                                                             <span class="span-text">Name of the institution's contact person along with address, telephone number(s) and email</span><br class="br"/>
-                                                            <textarea name="university_contact" id="university_contact" class="textarea W525">{$university_contact}</textarea>
+                                                            <textarea name="university_contact" id="university_contact" class="textarea W525"><?php echo $this->_tpl_vars['university_contact']; ?>
+</textarea>
                                                         </td>
                                                     </tr>
                                                     <tr><td><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
                                                         <td colspan="3">
                                                             <span class="span-text">Brief description of the subject(s) being studied</span><br class="br"/>
-                                                            <textarea name="subject_desc" id="subject_desc" class="textarea W525 H90">{$subject_desc}</textarea>
+                                                            <textarea name="subject_desc" id="subject_desc" class="textarea W525 H90"><?php echo $this->_tpl_vars['subject_desc']; ?>
+</textarea>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -235,18 +262,20 @@
                                                         <td width="34%"><span class="span-text">Acceptance Letter: </span> </td>
                                                         <td width="34%"><input type="file" name="acceptance_letter" id="acceptance_letter" class="W175"></td>
                                                         <td>
-                                                            {if $acceptance_doc_id gt 0}
-                                                                <a href="{$acceptance_letter_file}"><img src="/app_contents/common/images/view22.png"></a>
-                                                            {/if}
+                                                            <?php if ($this->_tpl_vars['acceptance_doc_id'] > 0): ?>
+                                                                <a href="<?php echo $this->_tpl_vars['acceptance_letter_file']; ?>
+"><img src="/app_contents/common/images/view22.png"></a>
+                                                            <?php endif; ?>
                                                         </td>
                                                      </tr>
                                                      <tr>
                                                          <td><span class="span-text">Followship/Scholarship Award Letter: </span></td>
                                                          <td><input type="file" name="scholarship_letter" id="scholarship_letter" class="W175"></td>
                                                          <td>
-                                                             {if $scholarship_doc_id gt 0}
-                                                                <a href="{$scholarship_letter_file}"><img src="/app_contents/common/images/view22.png"></a>
-                                                             {/if}
+                                                             <?php if ($this->_tpl_vars['scholarship_doc_id'] > 0): ?>
+                                                                <a href="<?php echo $this->_tpl_vars['scholarship_letter_file']; ?>
+"><img src="/app_contents/common/images/view22.png"></a>
+                                                             <?php endif; ?>
                                                          </td>
                                                     </tr>
                                                 </table>
@@ -265,9 +294,10 @@
                                                             <input type="file" name="enroll_certification" id="enroll_certification" class="W175">
                                                         </td>
                                                         <td>
-                                                            {if $enroll_doc_id gt 0}
-                                                                <a href="{$enroll_certification_file}"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
-                                                            {/if}
+                                                            <?php if ($this->_tpl_vars['enroll_doc_id'] > 0): ?>
+                                                                <a href="<?php echo $this->_tpl_vars['enroll_certification_file']; ?>
+"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
+                                                            <?php endif; ?>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -286,9 +316,10 @@
                                                             <input type="file" name="i20" id="i20" class="W300">
                                                         </td>
                                                         <td>
-                                                            {if i20_doc_id gt 0}
-                                                            <a href="{$i20_file}"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
-                                                            {/if}
+                                                            <?php if (i20_doc_id > 0): ?>
+                                                            <a href="<?php echo $this->_tpl_vars['i20_file']; ?>
+"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
+                                                            <?php endif; ?>
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -304,23 +335,28 @@
                                                     <tr>
                                                         <td>
                                                             <span class="span-text">TOFEL</span><br class="br"/>
-                                                            <input type="text" name="tofel" id="tofel" value="{$tofel}" class="inputbox3 W60">
+                                                            <input type="text" name="tofel" id="tofel" value="<?php echo $this->_tpl_vars['tofel']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">IELTS</span><br class="br"/>
-                                                            <input type="text" name="ielts" id="ielts" value="{$ielts}" class="inputbox3 W60">
+                                                            <input type="text" name="ielts" id="ielts" value="<?php echo $this->_tpl_vars['ielts']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">SAT</span><br class="br"/>
-                                                            <input type="text" name="sat" id="sat" value="{$sat}" class="inputbox3 W60">
+                                                            <input type="text" name="sat" id="sat" value="<?php echo $this->_tpl_vars['sat']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">GRE</span><br class="br"/>
-                                                            <input type="text" name="gre" id="gre" value="{$gre}" class="inputbox3 W60">
+                                                            <input type="text" name="gre" id="gre" value="<?php echo $this->_tpl_vars['gre']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">GMAT</span><br class="br"/>
-                                                            <input type="text" name="gmat" id="gmat" value="{$gmat}" class="inputbox3 W60">
+                                                            <input type="text" name="gmat" id="gmat" value="<?php echo $this->_tpl_vars['gmat']; ?>
+" class="inputbox3 W60">
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -336,11 +372,13 @@
                                                     <tr>
                                                         <td width="33%">
                                                             <span class="span-text">Ticket Number</span><br class="br"/>
-                                                            <input type="text" name="ticket_number" id="ticket_number" value="{$ticket_number}" class="inputbox3 W150">
+                                                            <input type="text" name="ticket_number" id="ticket_number" value="<?php echo $this->_tpl_vars['ticket_number']; ?>
+" class="inputbox3 W150">
                                                         </td>
                                                         <td>
                                                             <span class="span-text">Date of Ticket</span><br class="br"/>
-                                                            <input type="text" name="date_ticket" id="date_ticket" value="{$date_ticket|date_format:'%d/%m/%Y'}" class="inputbox3 W123">
+                                                            <input type="text" name="date_ticket" id="date_ticket" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['date_ticket'])) ? $this->_run_mod_handler('date_format', true, $_tmp, '%d/%m/%Y') : smarty_modifier_date_format($_tmp, '%d/%m/%Y')); ?>
+" class="inputbox3 W123">
                                                             <img name="anchor1" id="anchor1" align=top width=22 height=20 
                                                                  style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
                                                                  onClick="thisSelect(document.userManagerForm.date_ticket,'anchor1','dd/MM/yyyy'); return false;">
@@ -351,16 +389,19 @@
                                                         <td width="33%">
                                                             <span class="span-text">Ticket Fare (BDT)</span><br class="br"/>
                                                             <input type="text" name="ticket_fare" id="ticket_fare" onkeyup="calculateFareBDT()" 
-                                                                   value="{$ticket_fare}" class="inputbox3 W150" onkeypress="return isNumberKey(event);">
+                                                                   value="<?php echo $this->_tpl_vars['ticket_fare']; ?>
+" class="inputbox3 W150" onkeypress="return isNumberKey(event);">
                                                         </td>
                                                         <td width="33%">
                                                             <span class="span-text">Tax (BDT)</span><br class="br"/>
-                                                            <input type="text" name="tax" id="tax" value="{$tax}" onkeyup="calculateFareBDT()" 
+                                                            <input type="text" name="tax" id="tax" value="<?php echo $this->_tpl_vars['tax']; ?>
+" onkeyup="calculateFareBDT()" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event);">
                                                         </td>
                                                         <td width="33%">
                                                             <span class="span-text">Total (BDT)</span><br class="br"/>
-                                                            <input type="text" name="total" id="total" value="{$total}" class="inputbox3 W150 DISABLE" readonly>
+                                                            <input type="text" name="total" id="total" value="<?php echo $this->_tpl_vars['total']; ?>
+" class="inputbox3 W150 DISABLE" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
@@ -368,16 +409,19 @@
                                                         <td width="33%">
                                                             <span class="span-text">Ticket Fare (USD)</span><br class="br"/>
                                                             <input type="text" name="ticket_fare_usd" id="ticket_fare_usd" onkeyup="calculateFareUSD()" 
-                                                                   value="{$ticket_fare_usd}" class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                                   value="<?php echo $this->_tpl_vars['ticket_fare_usd']; ?>
+" class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                         <td width="33%">
                                                             <span class="span-text">Tax (USD)</span><br class="br"/>
-                                                            <input type="text" name="tax_usd" id="tax_usd" onkeyup="calculateFareUSD()" value="{$tax_usd}" 
+                                                            <input type="text" name="tax_usd" id="tax_usd" onkeyup="calculateFareUSD()" value="<?php echo $this->_tpl_vars['tax_usd']; ?>
+" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                         <td width="33%">
                                                             <span class="span-text">Total (USD)</span><br class="br"/>
-                                                            <input type="text" name="total_usd" id="total_usd" value="{$total_usd}" class="inputbox3 W150 DISABLE" readonly>
+                                                            <input type="text" name="total_usd" id="total_usd" value="<?php echo $this->_tpl_vars['total_usd']; ?>
+" class="inputbox3 W150 DISABLE" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
@@ -387,9 +431,10 @@
                                                             <input type="file" name="ticket_doc" id="ticket_doc" class="W185">
                                                         </td>
                                                         <td colspan="2">
-                                                            {if $ticket_doc_id}
-                                                                <a href="{$ticket_file}"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
-                                                            {/if}
+                                                            <?php if ($this->_tpl_vars['ticket_doc_id']): ?>
+                                                                <a href="<?php echo $this->_tpl_vars['ticket_file']; ?>
+"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
+                                                            <?php endif; ?>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -413,17 +458,17 @@
                                 </tr>
                             </table>
                         </div>
-                        {/if}
+                        <?php endif; ?>
                         
-                        {else}
-                            {if $application_status eq 'Accepted'}
+                        <?php else: ?>
+                            <?php if ($this->_tpl_vars['application_status'] == 'Accepted'): ?>
                                 <div class="success">Congratulations!!! Your application has accepted.</div>
-                            {elseif $application_status eq 'Rejected'}
+                            <?php elseif ($this->_tpl_vars['application_status'] == 'Rejected'): ?>
                                 <div class="error">Sorry. Your application has been rejected.</div>
-                            {else}
+                            <?php else: ?>
                                 <div class="info">You have already submitted your application. Please wait for the scholarship result. You will be notified the result via email. </div>
-                            {/if}
-                        {/if}
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>  <!-- left class ends here-->
                     
                 </div>           <!-- body-block ends here-->
@@ -432,10 +477,18 @@
         
     </form>
     <script language="JavaScript">
-    {foreach from=$academic_qualifications item=item}
+    <?php if (count($_from = (array)$this->_tpl_vars['academic_qualifications'])):
+    foreach ($_from as $this->_tpl_vars['item']):
+?>
         addNewRow(0);
-        populateAcademicDetails("{$item->id}", "{$item->uid}", "{$item->degree}", "{$item->attachmentname}","{$item->file_location}", "{$item->doc_id}");
-    {/foreach}
+        populateAcademicDetails("<?php echo $this->_tpl_vars['item']->id; ?>
+", "<?php echo $this->_tpl_vars['item']->uid; ?>
+", "<?php echo $this->_tpl_vars['item']->degree; ?>
+", "<?php echo $this->_tpl_vars['item']->attachmentname; ?>
+","<?php echo $this->_tpl_vars['item']->file_location; ?>
+", "<?php echo $this->_tpl_vars['item']->doc_id; ?>
+");
+    <?php endforeach; unset($_from); endif; ?>
     //getMonthList();
     //getYearList();
     calculateFareBDT();
