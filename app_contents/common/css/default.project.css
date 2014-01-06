@@ -288,7 +288,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 		
 /* -------------------- Start Left --------------------- */
 
-.left{ float:left; position:relative; border: 0px solid red;}
+.left{  float:left; position:relative; border: 1px solid red;}
 	
 .left h3{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#000; background:url(../images/line.gif) left 5px repeat-x; margin-bottom:8px; }
 
