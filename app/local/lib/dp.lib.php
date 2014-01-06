@@ -189,6 +189,7 @@
     {
         $info['table'] = COUNTRY_LOOKUP_TBL;
         $info['debug'] = false;
+        $info['where'] = '1 ORDER BY name ASC';
 
         $result = select($info);       
         

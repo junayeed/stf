@@ -336,3 +336,40 @@ function toggleOptions()
         $('#others-qualifications').show();
     }
 }
+
+function CheckAll(thisField)
+{
+    var i;
+    //alert(AppIDs)
+    
+    if(thisField.checked==true)
+    {
+        for(i=0;i<AppIDs.length;i++)
+        {
+            document.getElementById('app_id_'+AppIDs[i]).checked = true;
+        }
+    }
+    else
+    {
+        for(i=0;i<AppIDs.length;i++)
+        {
+            document.getElementById('app_id_'+AppIDs[i]).checked = false;
+        }
+    }    
+}
+
+function doApplicantSearch()
+{
+    var source                = document.getElementById('applicantFrame').src;
+    var applicant_name        = $('#applicant_name').val();
+    var email                 = $('#email').val();
+    var country               = $('#country').val();
+    var application_status    = $('#application_status').val();
+    var gender                = $('#gender').val();
+    var guardian_income_min                = $('#guardian_income_min').val();
+    var guardian_income_max                = $('#guardian_income_max').val();
+    
+    $('#applicantFrame').attr('src', source+'&applicant_name='+applicant_name+'&email='+email+'&country='+country+
+                                            '&application_status='+application_status+'&gender='+gender+'&guardian_income_max='+guardian_income_max+
+                                            '&guardian_income_min='+guardian_income_min);
+}

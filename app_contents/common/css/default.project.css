@@ -53,11 +53,14 @@ p{ padding:0px; margin:0px; }
 a{ text-decoration:none; }
 a img{ border:0px; }
 
+.padding2{
+   padding: 2px; 
+}
 table, table th, table td, cellpadding, cellspacing, border{
     /*border: medium none;*/
     border: 0px solid orchid;
     border-collapse: collapse;
-    padding: 0;
+    padding: 5px;
 }
 
 .inputbox
@@ -87,7 +90,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 .inputbox3
 { 
     font-family: 'Arial'; 
-    font-size:12px; 
+    font-size:11px; 
     font-weight:normal; 
     color:#000; 
     border:1px solid #959595; 
@@ -142,6 +145,36 @@ table, table th, table td, cellpadding, cellspacing, border{
     color:#FFF; 
     background-color:#353477; 
     border:1px solid #353477;
+}
+
+.inputbox-green
+{ 
+    border-radius: 2px 2px 2px 2px;
+    font-family: 'Arial';
+    font-size: 10px;
+    font-weight: bold;
+    height: 22px;
+    line-height: 16px;
+    width: 47px; 
+    color:#FFF; 
+    background-color:green; 
+    border:1px solid green;
+    cursor: pointer;
+}
+
+.inputbox-red
+{ 
+    border-radius: 2px 2px 2px 2px;
+    font-family: 'Arial';
+    font-size: 10px;
+    font-weight: bold;
+    height: 22px;
+    line-height: 16px;
+    width: 47px; 
+    color:#FFF; 
+    background-color:red; 
+    border:1px solid red;
+    cursor: pointer;
 }
 
 .inputbox-noborder
@@ -282,13 +315,13 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Body Block <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
-.body-block{width:890px; padding:22px 0px 72px 0px; float:left; position:relative;}
+.body-block{width:930px; padding:22px 0px 72px 0px; float:left; position:relative;}
 		
-.main-body{ width:890px; float:left; position:relative; }
+.main-body{ width:930px; float:left; position:relative; }
 		
 /* -------------------- Start Left --------------------- */
 
-.left{  float:left; position:relative; border: 1px solid red;}
+.left{  float:left; position:relative; border: 0px solid red;}
 	
 .left h3{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#000; background:url(../images/line.gif) left 5px repeat-x; margin-bottom:8px; }
 
@@ -775,7 +808,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 .hide { display: none;}
 
-#copy-address{border: 0px solid red; width: 25px; position: absolute; top: 216px;  left: 363px; cursor: pointer; }
+#copy-address{border: 0px solid red; width: 25px; position: absolute; top: 264px;  left: 371px; cursor: pointer; }
 
 .customers-body2 {width:140px;float:left;position:relative;}
 
@@ -1006,12 +1039,29 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 }
 
 .button-div{
-    width: 660px;
+    width: 650px;
     position: block  ;
     bottom: 50px;
     right: 294px; 
     background-color: #F2F2F2;
     padding: 10px;
+    text-align: right;
+}
+
+.button-div label
+{
+    width: 200px;
+    font-size: 11px;
+    text-align: left;
+    text-align: left;
+}
+
+.universal-button-div{
+    width: 750px;
+    position: block;
+    bottom: 50px;
+    background-color: #FFF;
+    padding: 5px;
     text-align: right;
 }
 
@@ -1088,4 +1138,32 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 }
 .text-success {
     color: #468847;
+}
+
+
+.reject-label{
+    background-color: red;
+    color: #FFF;
+    font-family: 'Arial';
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.pending-label{
+    background-color: #F4D471;
+    color: #A80000;
+    font-family: 'Arial';
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.accept-label{
+    background-color: green;
+    color: #FFF;
+    font-family: 'Arial';
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
 }

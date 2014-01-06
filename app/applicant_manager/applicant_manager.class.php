@@ -159,17 +159,10 @@ class applicantManagerApp extends DefaultApplication
       }
       
       $data['message']                     = $msg;
-      $data['file']                        = getFileLocation($data['photo_id']);//$fileLocation;
-      $data['guardian_file']               = getFileLocation($data['guardian_doc_id']);
-      $data['acceptance_letter_file']      = getFileLocation($data['acceptance_doc_id']);
-      $data['scholarship_letter_file']     = getFileLocation($data['scholarship_doc_id']);
-      $data['enroll_certification_file']   = getFileLocation($data['enroll_doc_id']);
-      $data['i20_file']                    = getFileLocation($data['i20_doc_id']);
-      $data['ticket_file']                 = getFileLocation($data['ticket_doc_id']);
-      $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
-      $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
-      //dumpVar($data);
       $data['country_list']                = getCountryList();
+      $data['application_status_list']     = getEnumFieldValues(APPLICATIONS_TBL, 'application_status');
+      $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
+      $data['degree_list']                 = getEnumFieldValues(ACADEMIC_QUALIFICATIONS_TBL, 'degree');
       
       return createPage(APPLICANT_EDITOR_TEMPLATE, $data);
    }
@@ -269,55 +262,59 @@ class applicantManagerApp extends DefaultApplication
    */
     function showList()
     {
-        $user_status = getUserField('user_status');
-        $user_type   = getUserField('user_type');
+        $data['name']      = getUserField('applicant_name');
+        $data['email']     = getUserField('email');
+        $data['country']   = getUserField('country');
+        $data['application_status']   = getUserField('application_status');
+        $data['gender']   = getUserField('gender');
+        $data['guardian_income_max']   = getUserField('guardian_income_max');
+        $data['guardian_income_min']   = getUserField('guardian_income_min');
         
-        if ($user_type == '') 
-        {
-            $user_type = $_SESSION['userType'];
-        }
-        else
-        {
-            if ($user_type == 'All')
-            {
-                unset($_SESSION['userType']);
-            }    
-            else
-            {    
-                $_SESSION['userType'] = $user_type;
-            }
-        }
-        
-        if ($user_status == '') 
-        {
-            $user_status = $_SESSION['userStatus'];
-        }
-        else
-        {
-            if ($user_status == 'All')
-            {
-                unset($_SESSION['userStatus']);
-            }    
-            else
-            {    
-                $_SESSION['userStatus'] = $user_status;
-            }
-        }
-
         $filterClause = '1';
 
-        if ($_SESSION['userStatus'])
+        if ($data['name'])
         {
-            $filterClause .= ' and user_status = ' . q(getFromSession('userStatus'));
+            $filterClause .= ' AND UT.first_name LIKE ' .  q( '%'.$data['name'].'%') .  ' OR UT.last_name LIKE '.q( '%'.$data['name'].'%');
         }
-        if ($_SESSION['userType'])
+        if ($data['email'])
         {
-            $filterClause .= ' and user_type = ' . q(getFromSession('userType'));
+            $filterClause .= ' AND UT.email LIKE ' .  q( '%'.$data['email'].'%');
         }
+        if ($data['country'])
+        {
+            $filterClause .= ' AND CLT.id = ' . q($data['country']);
+        }
+        if ($data['gender'])
+        {
+            $filterClause .= ' AND UT.gender = ' . q($data['gender']);
+        }
+        if ($data['guardian_income_max'] && $data['guardian_income_min'])
+        {
+            $filterClause .= ' AND GT.guardian_income >=' . $data['guardian_income_min'] . ' AND GT.guardian_income <= ' . $data['guardian_income_max'];
+        }
+        else if ($data['guardian_income_max'])
+        {
+            $filterClause .= ' AND GT.guardian_income <= ' . $data['guardian_income_max'];
+        }
+        else if ($data['guardian_income_min'])
+        {
+            $filterClause .= ' AND GT.guardian_income >=' . $data['guardian_income_min'];
+        }
+        if ($data['application_status'])
+        {
+            $filterClause .= ' AND AT.application_status = ' . q($data['application_status']);
+        }
+        else
+        {
+             $filterClause .= ' AND AT.application_status != ' . q('Not Submitted') . ' AND AT.application_status != ' . q('');
+        }
+        
 
-        $info['table'] = APPLICATIONS_TBL.' AS UR';
-        $info['debug'] = true;
-        $info['where'] = $filterClause . ' AND applicant_status != ' . q('Not Submitted');
+        $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
+                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid)';
+        $info['debug']  = false;
+        $info['fields'] = array('CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 'CLT.name AS country_name');
+        $info['where']  = $filterClause .  ' ORDER BY AT.country';
 
         $data['list'] = select($info);
 

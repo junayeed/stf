@@ -4,34 +4,40 @@
 <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
 <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
 <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/sorttable.js"></script>
-
+<script language="JavaScript" src="/app_contents/applicant_manager/applicant_manager.js"></script>
+<script> var AppIDs     = []; </script>
 </head>
 
 <body class="whiteBody">
     <form method="post" action="{$SCRIPT_NAME}?cmd=list" name="userListForm">
+        <div id="universal-button-div" class="universal-button-div">
+           <input type="submit" value="ACCEPT"   name="accept" id="accept" class="inputbox-green">
+           <input type="button" value="REJECT" name="reject" id="reject" class="inputbox-red">
+           <input type="hidden" name="submitted" value="0">
+        </div>
+        
         <div class="customer-left-body">
             <table width="760" cellpadding="0" cellspacing="0" border="0">
                 <thead>
                     <tr>
-                        <td width="8">&nbsp;</td>
+                        <td width="8"><input type="checkbox" onclick="CheckAll(this);"></td>
                         <td width="144">Name</td>
-                       <td width="50">country</td>
-                        <td width="72">User Type</td>
-                        <td width="108">Create Date</td>
-                        <td width="143">Last Updated</td>
+                        <td width="50">Gender</td>
+                        <td width="72">Status</td>
+                        <td width="108">Submission Date</td>
                         <td width="70">Action</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {foreach from=$list item=item}
+                    {foreach from=$list key=key item=item}
+                      <script> AppIDs.push({$item->id}) </script>
                     <tr>
-                        <td width="8" class="border">&nbsp;</td>
-                        <td width="144" class="border">{$item->first_name} {$item->middle_initial} {$item->last_name}</td>
-                        <td width="50" class="border">{$item->country}</td>
-                        <td width="72" class="border">{$item->user_type}</td>
-                        <td width="108" class="border">{$item->create_date|date_format:'%m-%d-%Y'}</td>
-                        <td width="143" class="border">{$item->last_updated|date_format:'%m-%d-%Y %H:%M:%S'}</td>
-                        <td width="70" class="border"><a href="{$SCRIPT_NAME}?id={$item->uid}&cmd=edit" target="_parent"><img src="/app_contents/common/images/edit.png" alt="Edit" /></a>&nbsp;&nbsp;&nbsp;<a onClick='return doConfirm(PROMPT_DELETE_CONFIRM);' href='{$SCRIPT_NAME}?id={$item->uid}&cmd=delete' target='_top'><img src="/app_contents/common/images/cross.png" alt="Cross" /></a></td>
+                        <td width="8" class="border"><input type="checkbox" id="app_id_{$item->id}" value="{$item->id}"></td>
+                        <td width="144" class="border">{$item->name}</td>
+                        <td width="50" class="border">{$item->gender}</td>
+                        <td width="72" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
+                        <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
+                        <td width="70" class="border"><a href="{$SCRIPT_NAME}?id={$item->id}&cmd=accept" target="_parent"><img src="/app_contents/common/images/accept16.png" alt="Accept" /></a>&nbsp;&nbsp;&nbsp;<a onClick='return doConfirm(PROMPT_DELETE_CONFIRM);' href='{$SCRIPT_NAME}?id={$item->id}&cmd=reject' target='_top'><img src="/app_contents/common/images/cross.png" alt="Cross" /></a></td>
                     </tr>
                     {/foreach}
                 </tbody>

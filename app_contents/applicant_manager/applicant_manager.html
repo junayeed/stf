@@ -18,7 +18,7 @@
 </script>
 
 <body>
-    <form name="applicantManagerForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
+    <form name="applicantManagerForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
         
         <input type="hidden" name="id" value="{$uid}">
         <input type="hidden" id="psw" name="psw" value="{$password}">
@@ -28,61 +28,11 @@
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left">    <!-- left class starts here-->
                         <h3 style="clear: both;"><span>Available Applicant(s)</span></h3>
-                        <iframe id="applicantFrame"  src="{$SCRIPT_NAME}?cmd=list" scrolling="no" width="720px" frameborder="0" onload='resizeIframe(this);'></iframe>
+                        <iframe id="applicantFrame"  src="{$SCRIPT_NAME}?cmd=list" scrolling="no" width="760px" frameborder="0" onload='resizeIframe(this);'></iframe>
                     </div>  <!-- left class ends here-->
                     <div class="right">  <!-- right class starts here-->
-                        
                         <div class="right-body">  <!-- right-body class starts here-->
-                            <h3><span>Customer Import</span></h3>
-                        </div>
-                        <div class="customers-body">   <!--customer body starts here-->
-                            <div class="font2"><label id="first_name_lbl">Capsule ID</label></div>
-                            <div class="prepand">
-                                <input type="text" name="capsule_id" id="capsule_id" value="{$capsule_id|stripslashes}" class="inputbox2" />
-                            </div>
-                            
-                            <!-- capsule_customer starts here-->
-                            <div id="capsule_customer" style="display: none;">
-                                <div class="font2">
-                                    <label id="capsule_first_name_lbl">First Name: </label><label id="capsule_first_name"></label>
-                                </div>
-                                <div class="font2">
-                                    <label id="capsule_last_name_lbl">Last Name: </label><label id="capsule_last_name"></label>
-                                </div>
-                                <div class="font2">
-                                    <label id="capsule_company_name_lbl">Company Name: </label><label id="capsule_company_name"></label>
-                                </div>
-                                <div class="font2">
-                                    <label id="capsule_email_lbl">Email: </label><label id="capsule_email"></label>
-                                </div>
-                                <div class="font2">
-                                    <label id="capsule_address_lbl">Address: </label><label id="capsule_address"></label>
-                                </div>
-                                <div class="font2">
-                                    <label id="capsule_town_lbl">Town: </label><label id="capsule_town"></label>
-                                </div>
-                                <div class="font2">
-                                    <label id="capsule_county_lbl">County: </label><label id="capsule_county"></label>
-                                </div>
-                                <div class="font2">
-                                    <label id="capsule_postcode_lbl">Postcode: </label><label id="capsule_postcode"></label>
-                                </div>
-                            </div>
-                            <!-- capsule_customer ends here-->
-                            <table width="140" cellpadding="0" cellspacing="0" border="0">
-                                <tr>
-                                    <td width="" class="prepand2">
-                                        <input type="button" class="inputbox-submit" id="send" name="send" value="Get" onClick="getCapsuleInfo();">
-                                    </td>
-                                    <td width="" class="prepand2" align="center">
-                                        <a href="javascript:void(0)" onClick="doClearCustomerImportForm();"><img src="/app_contents/common/images/reset.gif" alt="Reset" /></a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>  
-                        
-                        <div class="right-body prepand4">  <!-- right-body class starts here-->
-                            <h3><span>Customer Details</span></h3>
+                            <h3><span>Selection Criteria</span></h3>
                         </div>                             <!-- right-body class starts here-->
 
                         <div class="customers-body">   <!--customer body starts here-->
@@ -94,43 +44,53 @@
                             <div class="prepand">
                                 <input type="text" name="last_name" id="last_name" value="{$last_name|stripslashes}" class="inputbox2" />
                             </div> -->
-                            <div class="font2"><label id="company_name_lbl">Company Name</label></div>
+                            <div class="font2"><label id="applicant_name_lbl">Name</label></div>
                             <div class="prepand">
-                                <input type="text" name="company_name" id="company_name" value="{$company_name|stripslashes}" onchange="isCompanyExists();" class="inputbox2" />
+                                <input type="text" name="applicant_name" id="applicant_name" value="{$name|stripslashes}" class="inputbox3 W127" />
                             </div>
                             <div class="font2 prepand"><label id="email_lbl">Email</label></div>
                             <div class="prepand">
-                                <input type="text" name="email" id="email" value="{$email|stripslashes}" onchange="checkDuplicateEmail();" class="inputbox2" />
+                                <input type="text" name="email" id="email" value="{$email|stripslashes}"  class="inputbox3 W127" />
                             </div>
-                            <div class="font2 prepand"><label id="address_lbl">Address</label></div>
+                            <div class="font2 prepand"><label id="county_lbl">Country</label></div>
                             <div class="prepand">
-                                <textarea name="address" id="address" class="inputbox2 H50">{$address|stripslashes}</textarea>
-                            </div>
-                            <div class="font2 prepand"><label id="town_lbl">Town</label></div>
-                            <div class="prepand">
-                                <input type="text" name="town" id="town" value="{$town|stripslashes}" class="inputbox2" />
-                            </div>
-                            <div class="font2 prepand"><label id="county_lbl">County</label></div>
-                            <div class="prepand">
-                                <select name="county" id="county" class="inputbox2">
+                                <select name="country" id="country" class="combo1 W127">
                                     <option value="">-- Select --</option>
-                                    {html_options options=$county_list selected=$county}
+                                    {html_options options=$country_list selected=$country}
                                 </select>
                             </div>
-                            <div class="font2 prepand" id="postcode_lbl">Postcode</div>
+                            <div class="font2 prepand" id="guardian_income_min_lbl">Guardian Income</div>
                             <div class="prepand">
-                                <input type="text" name="postcode" id="postcode" value="{$postcode|stripslashes}" class="inputbox2" />
+                                <input type="text" name="guardian_income_min" id="guardian_income_min" value="{$guardian_income_min|stripslashes}" class="inputbox3 W127" placeholder="Minimum" />
+                            </div>
+                            <div class="font2 prepand" id="guardian_income_max_lbl">Guardian Income</div>
+                            <div class="prepand">
+                                <input type="text" name="guardian_income_max" id="guardian_income_max" value="{$guardian_income_max|stripslashes}" class="inputbox3 W127" placeholder="Maximum" />
                             </div>
                             <div class="font2 prepand"><label id="status_lbl">Status</label></div>
                             <div class="prepand">
-                                <select name="status" id="status" class="inputbox2">
-                                    {html_options values=$status_list output=$status_list selected=$status}
+                                <select name="application_status" id="application_status" class="combo1 W127">
+                                    <option value="">-- Select --</option>
+                                    {html_options values=$application_status_list output=$application_status_list selected=$application_status}
                                 </select>
+                            </div>
+                            <div class="font2 prepand"><label id="gender_lbl">Gender</label></div>
+                            <div class="prepand">
+                                <select name="gender" id="gender" class="combo1 W127">
+                                    <option value="">-- Select --</option>
+                                    {html_options values=$gender_list output=$gender_list selected=$gender}
+                                </select>
+                            </div>
+                            <div class="font2 prepand"><label id="gender_lbl">Academic Qualification</label></div>
+                            <div class="prepand">
+                                {foreach from=$degree_list key=key item=item}
+                                <p style="padding: 2px;"><input type="checkbox" name="{$key}" id="{$key}" class="css-checkbox"><label for="{$key}" name="include_lbl_1" class="css-label">{$item}</label><p>
+                                {/foreach}
                             </div>
                             <table width="140" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td width="" class="prepand2">
-                                        <input type="submit" class="inputbox-submit" id="send" name="send" value="SAVE">
+                                        <input type="button" class="inputbox-submit" id="send" name="send" value="Search"  onclick="doApplicantSearch();">
                                     </td>
                                     <td width="" class="prepand2" align="center">
                                         <a href="javascript:void(0)" onClick="doResetForm(this);"><img src="/app_contents/common/images/reset.gif" alt="Reset" /></a>

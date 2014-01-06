@@ -76,24 +76,21 @@ class RegistrationApp extends DefaultApplication
         //Instantiate the phpMailer class
         $mail                 = new phpmailer();
         $mail->Host           = softbizsolution.com;
-        $mail->Mailer         = "smtp";
+        $mail->Mailer         = "sendmail";
         $mail->SMTPAuth       = false;
         $mail->FromName       = 'STF Team';
-        $mail->From           = 'junayeed@gmail.com';
+        $mail->From           = 'sa@erd.gov.bd';
         $mail->Subject        = 'STF Registration';
      
         $body = createPage(EMAIL_TEMPLATE, $data);
-        //dumpvar($body);
 
         $mail->Body           = nl2br(html_entity_decode($body));
         $mail->IsHTML(true);
 
         $mail->AddAddress($data['email']);
-
+        
         $mailSent = $mail->Send();
         
-        //dumpvar($mailSent);
-
         return $mailSent;
     }
    
