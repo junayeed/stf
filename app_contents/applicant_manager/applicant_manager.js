@@ -412,3 +412,20 @@ function showApplicantInfo(elemID)
     
    
 }
+
+function showTabs(ID)
+{ 
+    var i =0;
+    
+    for(i=1;i<=4;i++)
+    {
+       $('#tabs-'+i).hide(); 
+       $('#tab'+i).css('background-color','#0CA3D2');
+    }
+   
+    
+    $('#tabs-'+ID).show();
+    
+    $('#tab'+ID).css('background-color','#484789');
+    
+}

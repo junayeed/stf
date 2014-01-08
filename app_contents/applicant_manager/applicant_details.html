@@ -1,3 +1,129 @@
+<div id="info-top" class="info-top">
+    <table  width="100%">
+        <tr>
+            <td width="15%"><img src="{$applicant_pic}?{$smarty.now}" width="100" height="100"><td>
+            <td width="55%">
+                      <h2>{$first_name} {$last_name}</h2>
+                      <p class="text-info" ><a href="mailto:#">{$email}</a></p>
+                      <p class="text-warning" >{$gender}</p>
+                       <p class="text-success" ><b>{$country}</b></p>
+            </td> 
+            <td width="30%" style="text-align: right">
+                 <div id="universal-button-div">
+                    <input type="submit" value="ACCEPT"   name="accept" id="accept" class="inputbox-green">
+                    <input type="button" value="REJECT" name="reject" id="reject" class="inputbox-red">
+                 </div>
+            </td>
+        </tr>
+    </table>
+</div>    
+
+<div id="info-body" class="info-body">
+    
+    <div id="tabs">
+        <ul class="ui-tabs">
+            <li><a href="#"  id="tab1" onclick="showTabs(1)" style="background-color:#0CA3D2 !important; " >Personal Details</a></li>
+            <li><a href="#" id="tab2" onclick="showTabs(2)">Education Info</a></li>
+            <li><a href="#" id="tab3" onclick="showTabs(3)">Ticket Info</a></li>
+            <li><a href="#" id="tab4" onclick="showTabs(4)">Attachment</a></li>
+        </ul>
+    </div> 
+    <div id="tabs-content">
+        <div id="tabs-1" style="display: inline">
+           
+                <h3 class="h3">Present Address:</h3>
+                <table width="100%">
+                    <tr>
+                        <td width="20%">Address</td>
+                        <td width="80%">{$present_address}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{$present_phone}</td>
+                    </tr>
+                </table>
+                <h3 class="h3">Permanent Address</h3>
+                <table width="100%">
+                    <tr>
+                        <td width="20%">Address</td>
+                        <td width="80%">{$permanent_address}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{$permanent_phone}</td>
+                    </tr>
+                </table>
+        </div>
+        <div id="tabs-2" style="display: none">
+            <br>
+                <h3 class="h3">University Information</h3>
+                <table width="100%">
+                    <tr>
+                        <td width="20%">Country</td>
+                        <td width="80%">{$country}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{$university_name}</td>
+                    </tr>
+                    <tr>
+                        <td>Contact</td>
+                        <td>{$university_contact}</td>
+                    </tr>
+                    <tr>
+                        <td>Subject</td>
+                        <td>{$subject_desc}</td>
+                    </tr>
+                </table>
+        </div>
+        <div id="tabs-3" style="display: none">
+            <br>
+            <h3 class="h3">Ticket Information</h3>
+                <table width="100%">
+                    <tr>
+                        <td width="20%">Ticket Number</td>
+                        <td width="80%">{$ticket_number}</td>
+                    </tr>
+                    <tr>
+                        <td>Ticket Date</td>
+                        <td>{$date_ticket|date_format:'%d/%m/%Y'}</td>
+                    </tr>
+                    <tr>
+                        <td>Ticket Fare (BDT)</td>
+                        <td>{$ticket_fare|number_format:2:",":"."}</td>
+                    </tr>
+                    <tr>
+                        <td>Tax (BDT)</td>
+                        <td>{$tax|number_format:2:",":"."}</td>
+                    </tr>
+                    <tr>
+                        <td>Total (BDT)</td>
+                        <td>{$total|number_format:2:",":"."}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Ticket Fare (USD)</td>
+                        <td>{$ticket_fare_usd|number_format:2:",":"."}</td>
+                    </tr>
+                    <tr>
+                        <td>Tax (USD)</td>
+                        <td>{$tax_usd|number_format:2:",":"."}</td>
+                    </tr>
+                    <tr>
+                        <td>Total (USD)</td>
+                        <td>{$total_usd|number_format:2:",":"."}</td>
+                    </tr>
+                    
+                </table>
+        </div>    
+        
+    </div>
+</div>
+
+
+
+<!--
+
 <div class="std_col_1">
     <h4>PERSONAL DETAILS</h4>
     <img src="{$applicant_pic}?{$smarty.now}" width="100" height="100"><br>

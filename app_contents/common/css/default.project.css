@@ -1174,7 +1174,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     width: 600px;
     font-family: 'Arial';
     font-size: 11px;
-    height: 500px;
+    height: 450px;
+    padding: 5px;
     
 }
 
@@ -1200,4 +1201,127 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     margin: 5px 0px 5px 5px;
     border: 1px solid red;
     width: 31%;
+}
+
+#info-top{
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+#info-top p{
+   
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+#info-body{
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+#info-body p{
+   
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+#info-top table td{
+    vertical-align: top;
+}
+
+#info-top  h2{
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+    color: #000;
+    text-shadow: 0px 2px #fff; 
+}
+.info-top{
+    background-color:#F1F1F1; 
+    border-radius: 5px;
+   
+}
+
+.info-body{
+   background-color:#FFF;
+   border-radius: 5px; 
+   margin-top: 5px; 
+}
+
+.h3{
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom:5px;
+    color: #000;
+    text-shadow: 0px 2px #fff; 
+}
+
+#tabs{
+    
+    
+}
+#tab-content{
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 1.42857;
+    margin-top: 10px;
+    padding: 5px;
+     
+}
+#tabs-content table{
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 1.42857;
+    border: 1px;
+    background-color: #F2F2F2; 
+}
+#tabs-content table td{
+    border: 1px solid #fff;
+    padding: 5px;
+}
+
+
+#tabs ul
+{
+    float:left;
+    width:100%;
+    padding:0;
+    margin:0;
+    list-style-type:none;
+   
+}
+#tabs a
+{
+    float:left;
+    width:11.2em;
+    text-decoration:none;
+    color:white;
+    background-color:#0CA3D2;
+    padding:0.2em 0.6em;
+    border-right:1px solid white;
+    border-radius: 2px;
+}
+#tabs a:hover {background-color:#0CA3D2; color:#000; }
+#tabs li {display:inline;}
+
+.activetab
+{
+    float:left;
+    width:11.2em;
+    text-decoration:none;
+    color:white;
+    background-color:#484789;
+    padding:0.2em 0.6em;
+    border-right:1px solid white;
+    border-radius: 2px;
 }
