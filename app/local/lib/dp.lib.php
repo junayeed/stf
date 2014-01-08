@@ -204,8 +204,13 @@
         return $retData;
     }
     
-    function getFileLocation($file_id)
+    function getFileLocation($file_id = 0)
     {
+        if ($file_id == 0)
+        {
+            return ;
+        }
+        
         $uid = getFromSession('uid'); 
         
         $thisDoc  = new DocumentEntity($file_id);

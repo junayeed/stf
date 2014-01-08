@@ -22,6 +22,7 @@
    */
    define('APPLICANT_EDITOR_TEMPLATE',          TEMPLATE_DIR . '/applicant_manager.html');
    define('APPLICANT_LIST_TEMPLATE',            TEMPLATE_DIR . '/applicant_list.html');
+   define('APPLICANT_DETAILS_TEMPLATE',         TEMPLATE_DIR . '/applicant_details.html');
 
 
    /**#@+

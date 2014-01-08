@@ -5,6 +5,14 @@
 <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
 <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/sorttable.js"></script>
 <script language="JavaScript" src="/app_contents/applicant_manager/applicant_manager.js"></script>
+<script language="JavaScript" src="/app_contents/common/js/jquery.js"></script>
+
+<!-- Add fancyBox main JS and CSS files -->
+<script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
+<link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
+
 <script> var AppIDs     = []; </script>
 </head>
 
@@ -29,16 +37,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {foreach from=$list key=key item=item}
-                      <script> AppIDs.push({$item->id}) </script>
-                    <tr>
-                        <td width="8" class="border"><input type="checkbox" id="app_id_{$item->id}" value="{$item->id}"></td>
-                        <td width="144" class="border">{$item->name}</td>
-                        <td width="50" class="border">{$item->gender}</td>
-                        <td width="72" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
-                        <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
-                        <td width="70" class="border"><a href="{$SCRIPT_NAME}?id={$item->id}&cmd=accept" target="_parent"><img src="/app_contents/common/images/accept16.png" alt="Accept" /></a>&nbsp;&nbsp;&nbsp;<a onClick='return doConfirm(PROMPT_DELETE_CONFIRM);' href='{$SCRIPT_NAME}?id={$item->id}&cmd=reject' target='_top'><img src="/app_contents/common/images/cross.png" alt="Cross" /></a></td>
-                    </tr>
+                    {foreach from=$list key=okey item=oitem}
+                        
+                        <tr class="">
+                            <td width="8">&nbsp;</td>
+                            <td colspan="5"><div class="font">{$okey}</div></td>
+                        </tr>
+                        {foreach from=$oitem key=key item=item}
+                        <script> AppIDs.push({$item->id}) </script>
+                        <tr>
+                            <td width="8" class="border"><input type="checkbox" id="app_id_{$item->id}" value="{$item->id}"></td>
+                            <td width="144" class="border">
+                                <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
+                            </td>
+                            <td width="50" class="border">{$item->gender}</td>
+                            <td width="72" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
+                            <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
+                            <td width="70" class="border">
+                                <img id="img_{$item->id}" class="fancybox" src="/app_contents/common/images/view16.png" alt="View" onClick="showApplicantInfo({$item->id});" />
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="{$SCRIPT_NAME}?id={$item->id}&cmd=accept" target="_parent">
+                                    <img src="/app_contents/common/images/accept16.png" alt="Accept" />
+                                </a>&nbsp;&nbsp;&nbsp;
+                                <a onClick='return doConfirm(PROMPT_DELETE_CONFIRM);' href='{$SCRIPT_NAME}?id={$item->id}&cmd=reject' target='_top'>
+                                    <img src="/app_contents/common/images/cross.png" alt="Cross" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="app_tr_{$item->id}">
+                            <td colspan="6">
+                                <div id="std_details_{$item->id}" class="student_details" style="display: none;"></div>
+                            </td>
+                        </tr>
+                        {/foreach}
                     {/foreach}
                 </tbody>
             </table>

@@ -227,9 +227,9 @@ table, table th, table td, cellpadding, cellspacing, border{
 .border a {color: #6D6C9D !important; }
 .border a:hover {color: #083A81 !important; }
 
-.font{ font-family: 'Arial'; font-size:12px !important; font-weight:normal; color:#FFF; width:auto; float:left; padding:5px 5px 4px 6px; background-color:#4c4b92; }
+.font{ font-family: 'Arial'; font-size:12px !important; font-weight:normal; color:#FFF !important; width:auto; float:left; padding:5px 5px 4px 6px; background-color:#4c4b92; }
 .font strong{ font-weight:bold; }
-.font2{ font-family: 'Arial'; font-size:10px; font-weight:normal; color:#000; }
+.font2{ font-family: 'Arial'; font-size:11px; font-weight:normal; color:#000; }
 
 .font3 
 { 
@@ -476,10 +476,10 @@ table, table th, table td, cellpadding, cellspacing, border{
 					 position:relative;
 					}
 		
-	.customer-left-body thead tr td{ font-family: 'Arial'; font-size:12px; font-weight:bold; color:#375f98; background-color:#f2f2f2; line-height:28px; }
+.customer-left-body thead tr td{ font-family: 'Arial'; font-size:12px; font-weight:bold; color:#375f98; background-color:#f2f2f2; line-height:28px; }
 	
-	.customer-left-body tbody tr td{ font-family: 'Arial'; font-size:12px; font-weight:normal; color:#000; padding-top:13px; padding-bottom:16px; }
-		.customer-left-body tbody tr td a{ color:#000; }
+.customer-left-body tbody tr td{ font-family: 'Arial'; font-size:12px; font-weight:normal; color:#000; padding-top:4px; padding-bottom:4px; }
+.customer-left-body tbody tr td a{ color:#000; }
 	
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> End Customer <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
@@ -873,25 +873,25 @@ input[type=checkbox].css-checkbox
 
 input[type=checkbox].css-checkbox + label.css-label 
 {
-    padding-left:20px;
-    height:15px; 
+    padding-left:25px;
+    height:17px; 
     display:inline-block;
-    line-height:15px;
+    line-height:20px;
     background-repeat:no-repeat;
     background-position: 0 0;
-    font-size:11px;
+    font-size:12px;
     vertical-align:middle;
     cursor:pointer;
 }
 
 input[type=checkbox].css-checkbox:checked + label.css-label 
 {
-    background-position: 0 -15px;
+    background-position: 0 -17px;
 }
 						
 .css-label
 { 
-    background-image:url(../images/lite-green-check.png); 
+    background-image:url(../images/checkbox_7.png); 
 }
 
 
@@ -1166,4 +1166,38 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     font-size: 10px;
     font-weight: bold;
     padding: 5px;
+}
+
+.student_details
+{
+    border: 0px solid red;
+    width: 600px;
+    font-family: 'Arial';
+    font-size: 11px;
+    height: 500px;
+    
+}
+
+.std_col_1
+{
+    float: left;
+    margin: 5px 0px 0px 0px;
+    border: 0px solid red;
+    width: 48%;
+}
+
+.std_col_2
+{
+    float: left;
+    margin: 5px 5px 0px 5px;
+    border: 0px solid red;
+    width: 49%;
+}
+
+.std_col_3
+{
+    float: right;
+    margin: 5px 0px 5px 5px;
+    border: 1px solid red;
+    width: 31%;
 }

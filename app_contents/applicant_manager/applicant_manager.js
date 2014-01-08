@@ -366,10 +366,49 @@ function doApplicantSearch()
     var country               = $('#country').val();
     var application_status    = $('#application_status').val();
     var gender                = $('#gender').val();
-    var guardian_income_min                = $('#guardian_income_min').val();
-    var guardian_income_max                = $('#guardian_income_max').val();
+    var guardian_income_min   = $('#guardian_income_min').val();
+    var guardian_income_max   = $('#guardian_income_max').val();
+    var degree_list           = '';
+    
+    $("input[name='degree']").each( function () 
+    {
+       if ($(this).attr('checked'))
+       {
+           if (degree_list) degree_list += ', ';
+           degree_list += '\'' + $(this).val() + '\'';
+       }
+    });
     
     $('#applicantFrame').attr('src', source+'&applicant_name='+applicant_name+'&email='+email+'&country='+country+
                                             '&application_status='+application_status+'&gender='+gender+'&guardian_income_max='+guardian_income_max+
-                                            '&guardian_income_min='+guardian_income_min);
+                                            '&guardian_income_min='+guardian_income_min+'&degree='+degree_list);
+}
+
+function showApplicantInfo(elemID)
+{
+    //alert(elemID);
+    //$('#std_details_'+elemID).fancybox();
+    //$('#std_details_'+elemID).show();
+    
+    $.ajax
+        (
+            {
+                url: 'applicant_manager.php?cmd=viewapp',                //the script to call to get data          
+                data: "id="+elemID,
+                dataType: 'html',                                        //data format      
+                success: function(response)                          //on recieve of reply
+                {
+                        //alert(response);
+                        $('#std_details_'+elemID).html(response);
+                        $.fancybox.open({
+                            'href'          : '#std_details_'+elemID,
+                            'titleShow'     : false,
+                            'transitionIn'  : 'elastic',
+                            'transitionOut' : 'elastic'
+                        });
+                }    
+            }
+        );
+    
+   
 }

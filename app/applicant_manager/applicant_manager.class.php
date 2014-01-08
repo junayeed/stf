@@ -24,21 +24,23 @@ class applicantManagerApp extends DefaultApplication
       
       switch ($cmd)
       {
-           case 'edit'       : $screen = $this->showEditor($msg);     break;
-           case 'new'        : $screen = $this->showNewEditor($msg);  break;
-           case 'add'        : $screen = $this->saveRecord();         break;
-           case 'delete'     : $screen = $this->deleteRecord();       break;
-           case 'list'       : $screen = $this->showList();           break;
-           case 'checkuser'  : $screen = $this->checkDuplicateUser(); break;
+           case 'edit'       : $screen = $this->showEditor($msg);      break;
+           case 'new'        : $screen = $this->showNewEditor($msg);   break;
+           case 'add'        : $screen = $this->saveRecord();          break;
+           case 'delete'     : $screen = $this->deleteRecord();        break;
+           case 'list'       : $screen = $this->showList();            break;
+           case 'checkuser'  : $screen = $this->checkDuplicateUser();  break;
            case 'checkemail' : $screen = $this->checkDuplicateEmail(); break;
            case 'deletedoc'  : $screen = $this->deleteAcademicDoc();   break;
+           case 'viewapp'    : $screen = $this->viewApplication();     break;
+           
            default           : $screen = $this->showEditor($msg);
       }
 
       // Set the current navigation item
       $this->setNavigation('user');
       
-      if ($cmd == 'checkuser' || $cmd == 'checkemail')
+      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp')
       {
           return;
       }
@@ -54,6 +56,33 @@ class applicantManagerApp extends DefaultApplication
 
       return true;
    }
+   
+   
+   function viewApplication()
+   {
+       $id = getUserField('id');
+       
+       $info['table'] = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid = UT.uid) LEFT JOIN ' . 
+                        GUARDIAN_TBL . ' AS GT ON (AT.uid = GT.uid) LEFT JOIN ' . USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id) LEFT JOIN ' .
+                        TICKETS_TBL . ' AS TT ON (AT.uid = TT.uid)';
+       $info['debug'] = false;
+       $info['where'] = 'AT.id = ' . $id;
+       
+       $data = select($info);
+       $data[0]->applicant_pic            = getFileLocation($data[0]->photo_id);
+       $data[0]->income_tax_doc           = getFileLocation($data[0]->guardian_doc_id);
+       $data[0]->ticket_doc               = getFileLocation($data[0]->ticket_doc_id);
+       $data[0]->acceptance_letter_file   = getFileLocation($data[0]->acceptance_doc_id);
+       $data[0]->scholarship_letter_file  = getFileLocation($data[0]->scholarship_doc_id);
+       $data[0]->enroll_file              = getFileLocation($data[0]->enroll_doc_id);
+       $data[0]->i20_file                 = getFileLocation($data[0]->i20_doc_id);
+       //dumpvar($data[0]);
+       
+       $std_details = createPage(APPLICANT_DETAILS_TEMPLATE, $data[0]);
+       
+       echo $std_details;
+   }
+   
    
    function deleteAcademicDoc()
    {
@@ -262,13 +291,16 @@ class applicantManagerApp extends DefaultApplication
    */
     function showList()
     {
-        $data['name']      = getUserField('applicant_name');
-        $data['email']     = getUserField('email');
-        $data['country']   = getUserField('country');
-        $data['application_status']   = getUserField('application_status');
-        $data['gender']   = getUserField('gender');
+        $data['name']                  = getUserField('applicant_name');
+        $data['email']                 = getUserField('email');
+        $data['country']               = getUserField('country');
+        $data['gender']                = getUserField('gender');
+        $data['degree']                = getUserField('degree');
+        $data['application_status']    = getUserField('application_status');
         $data['guardian_income_max']   = getUserField('guardian_income_max');
         $data['guardian_income_min']   = getUserField('guardian_income_min');
+        $data['user_type_list']        = getEnumFieldValues(USER_TBL, 'user_type');
+        $data['user_status_list']      = getEnumFieldValues(USER_TBL, 'user_status');
         
         $filterClause = '1';
 
@@ -308,19 +340,33 @@ class applicantManagerApp extends DefaultApplication
         {
              $filterClause .= ' AND AT.application_status != ' . q('Not Submitted') . ' AND AT.application_status != ' . q('');
         }
+        if ($data['degree'])
+        {
+            $filterClause .= ' AND AQT.degree IN (' . $data['degree'] . ')';
+        }
         
 
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
-                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid)';
+                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
+                          ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid)';
         $info['debug']  = false;
-        $info['fields'] = array('CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 'CLT.name AS country_name');
+        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 
+                                'CLT.name AS country_name', 'UT.uid');
         $info['where']  = $filterClause .  ' ORDER BY AT.country';
 
-        $data['list'] = select($info);
-
-        $data['user_type_list']     = getEnumFieldValues(USER_TBL, 'user_type');
-        $data['user_status_list']   = getEnumFieldValues(USER_TBL, 'user_status');
-
+        $result = select($info);
+        
+        if ($result)
+        {
+            foreach($result as $key=>$value)
+            {
+                $retData[$value->country_name][] = $value; 
+            }
+        }
+        
+        $data['list'] = $retData;
+        echo_br('Count = ' . count($result));
+        
         echo createPage(APPLICANT_LIST_TEMPLATE, $data);
     }
 }
