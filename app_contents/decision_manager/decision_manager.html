@@ -1,0 +1,107 @@
+<!-- Add fancyBox main JS and CSS files -->
+<script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
+<link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
+
+
+
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+</script>
+
+<script> var AppIDs     = []; </script>
+
+<body onLoad="showSliders();">
+    <form name="applicantManagerForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{$uid}">
+        <input type="hidden" id="cmd" name="cmd" value="saveall">
+        
+        <div id="body-full">     <!-- body-full starts here-->
+            <div class="wrap">   <!-- wrap class starts here-->
+                <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
+                    <div class="left left-full">    <!-- left class starts here-->
+                        <div class="customers-search-body">
+                            <div class="company-name">
+                                <div class="font3 prepand" id="scholarship_bulk_amount_lbl">Scholarship Bulk Amount</div>
+                                <div class="prepand">
+                                    <input type="text" name="scholarship_bulk_amount" id="scholarship_bulk_amount" value="{$scholarship_bulk_amount}" 
+                                           class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
+                                </div>
+                            </div>
+                            <div class="company-name">
+                                <div class="font3 prepand" id="scholarship_percentage_lbl">Scholarship Percentage</div>
+                                <div class="prepand">
+                                    <div id="location_slider"></div>
+                                    <input type="text" name="scholarship_percentage" id="scholarship_percentage" value="{$scholarship_percentage*100|number_format:'2'}" 
+                                           class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
+                                </div>
+                            </div>
+                            <div class="company-name">
+                                <div class="font3 prepand" id="awarded_amount_lbl">Awarded Amount</div>
+                                <div class="prepand">
+                                    <input type="text" name="awarded_amount" id="awarded_amount" value="{$awarded_amount}" 
+                                           class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
+                                </div>
+                            </div>
+                            <div class="company-name">
+                                <input type="button" class="" id="Distribute" name="Distribute" value="Calculate" onclick="distributeScholarshipAmount();">
+                                 <input type="submit" class="" id="Distribute" name="saveall" value="Save All">
+                                 
+                            </div>
+                        </div>
+                        <h3 style="clear: both;"><span>Accepted Applicant(s)</span></h3>
+                        <div class="customer-left-body">
+                            <table width="930" cellpadding="0" cellspacing="0" border="0">
+                                <thead>
+                                    <tr>
+                                        <td width="8"></td>
+                                        <td width="144">Name</td>
+                                        <td width="50">Gender</td>
+                                        <td width="72">Status</td>
+                                        <td width="108">Submission Date</td>
+                                        <td width="100">Ticket Fare(BDT)</td>
+                                        <td width="100">Scholarship Amount</td>
+                                        <td width="100">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach from=$list key=okey item=oitem}
+                                        <tr class="">
+                                            <td width="8">&nbsp;</td>
+                                            <td colspan="5"><div class="font">{$okey}</div></td>
+                                        </tr>
+                                        {foreach from=$oitem key=key item=item}
+                                        <script> AppIDs.push({$item->id}) </script>
+                                        <tr>
+                                            <td width="8" class="border"></td>
+                                            <td width="144" class="border">
+                                                <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
+                                            </td>
+                                            <td width="50" class="border">{$item->gender}</td>
+                                            <td width="72" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
+                                            <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
+                                            <td width="108" class="border">{$item->ticket_fare|number_format:'2'}</td>
+                                            <td width="70" class="border">
+                                                <input type="text" name="awarded_amount_{$item->id}" id="awarded_amount_{$item->id}" value="{$item->scholarship_amount|number_format:'2'}" 
+                                                       onkeypress="return isNumberKey(event)">
+                                            </td>
+                                            <td width="100" class="border"><input type="button" class="inputbox-submit" id="save" name="save" value="Save" onclick="doApplicantSearch();"></td>
+                                        </tr>
+                                        {/foreach}
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  <!-- left class ends here-->
+                </div>           <!-- body-block ends here-->
+            </div>               <!-- wrap class ends here-->
+        </div>                   <!-- body-full ends here-->
+        
+    </form>
+</body>
