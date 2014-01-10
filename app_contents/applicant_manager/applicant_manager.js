@@ -358,6 +358,124 @@ function CheckAll(thisField)
     }    
 }
 
+function acceptApp(appID)
+{
+    
+    $.ajax
+        (
+           {
+              url: 'applicant_manager.php?cmd=acceptApplication',                //the script to call to get data          
+              data: "id="+appID,
+              dataType: 'html',                                        //data format      
+              success: function(response)                          //on recieve of reply
+              {
+                       $('#application_status_'+appID).html('ACCEPTED');
+                       $('#application_status_'+appID).removeClass('reject-label');
+                       $('#application_status_'+appID).removeClass('pending-label');
+                       $('#application_status_'+appID).addClass('accept-label');
+              }    
+           }
+        );
+}
+
+function rejectApp(appID)
+{
+    $.ajax
+        (
+           {
+              url: 'applicant_manager.php?cmd=rejectApplication',                //the script to call to get data          
+              data: "id="+appID,
+              dataType: 'html',                                        //data format      
+              success: function(response)                          //on recieve of reply
+              {  
+                   $('#application_status_'+appID).html('REJECTED');
+                   $('#application_status_'+appID).removeClass('accept-label');
+                   $('#application_status_'+appID).removeClass('pending-label');
+                   $('#application_status_'+appID).addClass('reject-label');
+                            
+              }    
+           }
+        );
+}
+
+function acceptAll()
+{
+     var i,ids='';
+     var selectedId = [];
+     
+        for(i=0;i<AppIDs.length;i++)
+        {
+            if(document.getElementById('app_id_'+AppIDs[i]).checked == true)
+            {
+               if(i) ids = ids+',';
+               
+               ids = ids+AppIDs[i]; 
+               selectedId.push(AppIDs[i]);
+            }
+        }
+        
+        $.ajax
+        (
+           {
+              url: 'applicant_manager.php?cmd=acceptall',                //the script to call to get data          
+              data: "ids="+ids,
+              dataType: 'html',                                        //data format      
+              success: function(response)                          //on recieve of reply
+              {
+                    
+                    for(i=0;i<selectedId.length;i++)
+                    {    
+                       $('#application_status_'+selectedId[i]).html('ACCEPTED');
+                       $('#application_status_'+selectedId[i]).removeClass('reject-label');
+                       $('#application_status_'+selectedId[i]).removeClass('pending-label');
+                       $('#application_status_'+selectedId[i]).addClass('accept-label');
+                    }        
+              }    
+           }
+        );
+     
+}
+
+function rejectAll()
+{
+     var i,ids='';
+     var selectedId = [];
+     
+        for(i=0;i<AppIDs.length;i++)
+        {
+            if(document.getElementById('app_id_'+AppIDs[i]).checked == true)
+            {
+               if(i) ids = ids+',';
+               
+               ids = ids+AppIDs[i];
+               selectedId.push(AppIDs[i]);
+            }
+        }
+        
+        $.ajax
+        (
+           {
+              url: 'applicant_manager.php?cmd=rejectall',                //the script to call to get data          
+              data: "ids="+ids,
+              dataType: 'html',                                        //data format      
+              success: function(response)                          //on recieve of reply
+              {
+                    for(i=0;i<selectedId.length;i++)
+                    {    
+                       $('#application_status_'+selectedId[i]).html('REJECTED');
+                       $('#application_status_'+selectedId[i]).removeClass('accept-label');
+                       $('#application_status_'+selectedId[i]).removeClass('pending-label');
+                       $('#application_status_'+selectedId[i]).addClass('reject-label');
+                    }
+                            
+              }    
+           }
+        );
+     
+}
+
+
+
 function doApplicantSearch()
 {
     var source                = document.getElementById('applicantFrame').src;
@@ -413,19 +531,19 @@ function showApplicantInfo(elemID)
    
 }
 
-function showTabs(ID)
+function showTabs(tabID,appID)
 { 
     var i =0;
     
     for(i=1;i<=4;i++)
     {
-       $('#tabs-'+i).hide(); 
-       $('#tab'+i).css('background-color','#0CA3D2');
+       $('#tabs-'+i+'_'+appID).hide(); 
+       $('#tab'+i+'_'+appID).css('background-color','#0CA3D2');
     }
    
     
-    $('#tabs-'+ID).show();
+    $('#tabs-'+tabID+'_'+appID).show();
     
-    $('#tab'+ID).css('background-color','#484789');
+    $('#tab'+tabID+'_'+appID).css('background-color','#484789');
     
 }

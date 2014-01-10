@@ -169,7 +169,7 @@ class User extends Entity
          foreach($rows as $key => $value)
          {
             $this->academic_qualifications[$key]                = $value;
-            $this->academic_qualifications[$key]->file_location = getFileLocation($value->doc_id);
+            $this->academic_qualifications[$key]->file_location = getFileLocation($value->doc_id,getFromSession('uid'));
          }
       }
    }

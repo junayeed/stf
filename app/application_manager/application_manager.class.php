@@ -159,13 +159,13 @@ class applicationManagerApp extends DefaultApplication
       }
       
       $data['message']                     = $msg;
-      $data['file']                        = getFileLocation($data['photo_id']);//$fileLocation;
-      $data['guardian_file']               = getFileLocation($data['guardian_doc_id']);
-      $data['acceptance_letter_file']      = getFileLocation($data['acceptance_doc_id']);
-      $data['scholarship_letter_file']     = getFileLocation($data['scholarship_doc_id']);
-      $data['enroll_certification_file']   = getFileLocation($data['enroll_doc_id']);
-      $data['i20_file']                    = getFileLocation($data['i20_doc_id']);
-      $data['ticket_file']                 = getFileLocation($data['ticket_doc_id']);
+      $data['file']                        = getFileLocation($data['photo_id'],$uid);//$fileLocation;
+      $data['guardian_file']               = getFileLocation($data['guardian_doc_id'],$uid);
+      $data['acceptance_letter_file']      = getFileLocation($data['acceptance_doc_id'],$uid);
+      $data['scholarship_letter_file']     = getFileLocation($data['scholarship_doc_id'],$uid);
+      $data['enroll_certification_file']   = getFileLocation($data['enroll_doc_id'],$uid);
+      $data['i20_file']                    = getFileLocation($data['i20_doc_id'],$uid);
+      $data['ticket_file']                 = getFileLocation($data['ticket_doc_id'],$uid);
       $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
       $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
       //dumpVar($data);

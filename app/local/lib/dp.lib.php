@@ -204,14 +204,14 @@
         return $retData;
     }
     
-    function getFileLocation($file_id = 0)
+    function getFileLocation($file_id = 0,$uid)
     {
         if ($file_id == 0)
         {
             return ;
         }
         
-        $uid = getFromSession('uid'); 
+        //$uid = getFromSession('uid'); 
         
         $thisDoc  = new DocumentEntity($file_id);
         $fileName = $thisDoc->getRemoteFileName();

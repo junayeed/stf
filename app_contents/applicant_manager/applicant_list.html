@@ -19,8 +19,8 @@
 <body class="whiteBody">
     <form method="post" action="{$SCRIPT_NAME}?cmd=list" name="userListForm">
         <div id="universal-button-div" class="universal-button-div">
-           <input type="submit" value="ACCEPT"   name="accept" id="accept" class="inputbox-green">
-           <input type="button" value="REJECT" name="reject" id="reject" class="inputbox-red">
+            <input type="button" value="ACCEPT"   name="accept" id="accept" onclick="acceptAll()" class="inputbox-green">
+           <input type="button" value="REJECT" name="reject" id="reject"    onclick="rejectAll()" class="inputbox-red">
            <input type="hidden" name="submitted" value="0">
         </div>
         
@@ -33,6 +33,7 @@
                         <td width="50">Gender</td>
                         <td width="72">Status</td>
                         <td width="108">Submission Date</td>
+                        <td width="108">Ticket Fare(BDT)</td>
                         <td width="70">Action</td>
                     </tr>
                 </thead>
@@ -51,8 +52,9 @@
                                 <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
                             </td>
                             <td width="50" class="border">{$item->gender}</td>
-                            <td width="72" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
+                            <td width="72" class="border"> <label id="application_status_{$item->id}" {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status|upper} </label></td>
                             <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
+                            <td width="108" class="border">{$item->ticket_fare|number_format:'2'}</td>
                             <td width="70" class="border">
                                 <img id="img_{$item->id}" class="fancybox" src="/app_contents/common/images/view16.png" alt="View" onClick="showApplicantInfo({$item->id});" />
                                 &nbsp;&nbsp;&nbsp;

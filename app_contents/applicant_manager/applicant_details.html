@@ -10,8 +10,8 @@
             </td> 
             <td width="30%" style="text-align: right">
                  <div id="universal-button-div">
-                    <input type="submit" value="ACCEPT"   name="accept" id="accept" class="inputbox-green">
-                    <input type="button" value="REJECT" name="reject" id="reject" class="inputbox-red">
+                     <input type="button" value="ACCEPT"   name="accept" id="accept" onclick="acceptApp({$app_id})" class="inputbox-green">
+                    <input type="button" value="REJECT" name="reject" id="reject" onclick="rejectApp({$app_id})" class="inputbox-red">
                  </div>
             </td>
         </tr>
@@ -22,14 +22,14 @@
     
     <div id="tabs">
         <ul class="ui-tabs">
-            <li><a href="#"  id="tab1" onclick="showTabs(1)" style="background-color:#0CA3D2 !important; " >Personal Details</a></li>
-            <li><a href="#" id="tab2" onclick="showTabs(2)">Education Info</a></li>
-            <li><a href="#" id="tab3" onclick="showTabs(3)">Ticket Info</a></li>
-            <li><a href="#" id="tab4" onclick="showTabs(4)">Attachment</a></li>
+            <li><a href="#"  id="tab1_{$app_id}" onclick="showTabs(1,{$app_id})" style="background-color:#0CA3D2 !important; " >Personal Details</a></li>
+            <li><a href="#" id="tab2_{$app_id}" onclick="showTabs(2,{$app_id})">Education Info</a></li>
+            <li><a href="#" id="tab3_{$app_id}" onclick="showTabs(3,{$app_id})">Ticket Info</a></li>
+            <li><a href="#" id="tab4_{$app_id}" onclick="showTabs(4,{$app_id})">Attachment</a></li>
         </ul>
     </div> 
     <div id="tabs-content">
-        <div id="tabs-1" style="display: inline">
+        <div id="tabs-1_{$app_id}" style="display: inline">
            
                 <h3 class="h3">Present Address:</h3>
                 <table width="100%">
@@ -54,7 +54,7 @@
                     </tr>
                 </table>
         </div>
-        <div id="tabs-2" style="display: none">
+        <div id="tabs-2_{$app_id}" style="display: none">
             <br>
                 <h3 class="h3">University Information</h3>
                 <table width="100%">
@@ -76,7 +76,7 @@
                     </tr>
                 </table>
         </div>
-        <div id="tabs-3" style="display: none">
+        <div id="tabs-3_{$app_id}" style="display: none">
             <br>
             <h3 class="h3">Ticket Information</h3>
                 <table width="100%">

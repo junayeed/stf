@@ -24,15 +24,19 @@ class applicantManagerApp extends DefaultApplication
       
       switch ($cmd)
       {
-           case 'edit'       : $screen = $this->showEditor($msg);      break;
-           case 'new'        : $screen = $this->showNewEditor($msg);   break;
-           case 'add'        : $screen = $this->saveRecord();          break;
-           case 'delete'     : $screen = $this->deleteRecord();        break;
-           case 'list'       : $screen = $this->showList();            break;
-           case 'checkuser'  : $screen = $this->checkDuplicateUser();  break;
-           case 'checkemail' : $screen = $this->checkDuplicateEmail(); break;
-           case 'deletedoc'  : $screen = $this->deleteAcademicDoc();   break;
-           case 'viewapp'    : $screen = $this->viewApplication();     break;
+           case 'edit'               : $screen = $this->showEditor($msg);      break;
+           case 'new'                : $screen = $this->showNewEditor($msg);   break;
+           case 'add'                : $screen = $this->saveRecord();          break;
+           case 'delete'             : $screen = $this->deleteRecord();        break;
+           case 'list'               : $screen = $this->showList();            break;
+           case 'checkuser'          : $screen = $this->checkDuplicateUser();  break;
+           case 'checkemail'         : $screen = $this->checkDuplicateEmail(); break;
+           case 'deletedoc'          : $screen = $this->deleteAcademicDoc();   break;
+           case 'viewapp'            : $screen = $this->viewApplication();     break;
+           case 'acceptall'          : $screen = $this->acceptAll();           break;
+           case 'rejectall'          : $screen = $this->rejectAll();           break;
+           case 'acceptApplication'  : $screen = $this->acceptApplication();           break;
+           case 'rejectApplication'  : $screen = $this->rejectApplication();           break;
            
            default           : $screen = $this->showEditor($msg);
       }
@@ -40,7 +44,9 @@ class applicantManagerApp extends DefaultApplication
       // Set the current navigation item
       $this->setNavigation('user');
       
-      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp')
+      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp' || $cmd=='acceptall' || $cmd=='rejectall'
+          || $cmd=='acceptApplication' || $cmd=='rejectApplication'
+         )
       {
           return;
       }
@@ -57,6 +63,94 @@ class applicantManagerApp extends DefaultApplication
       return true;
    }
    
+   function acceptApplication()
+   {
+       $id    = getUserField('id');
+       //dumpVar($ids);
+       //die;    
+       $info['table'] = APPLICATIONS_TBL;
+       $info['data']  = array('application_status' => 'Accepted');
+       $info['debug'] = true;
+       $info['where'] = 'id='. $id;
+
+       $result = update($info);
+       
+       if($result)
+       {
+           echo "1";
+       }
+       else
+       {
+           echo '0';
+       }
+   }
+   
+   function rejectApplication()
+   {
+       $id    = getUserField('id');
+       //dumpVar($ids);
+       //die;    
+       $info['table'] = APPLICATIONS_TBL;
+       $info['data']  = array('application_status' => 'Rejected');
+       $info['debug'] = true;
+       $info['where'] = 'id='. $id;
+
+       $result = update($info);
+       
+       if($result)
+       {
+           echo "1";
+       }
+       else
+       {
+           echo '0';
+       }
+   }
+   
+   function acceptAll()
+   {
+       $ids    = getUserField('ids');
+       //dumpVar($ids);
+       //die;    
+       $info['table'] = APPLICATIONS_TBL;
+       $info['data']  = array('application_status' => 'Accepted');
+       $info['debug'] = true;
+       $info['where'] = 'id  IN (' . $ids.')';
+
+       $result = update($info);
+       
+       if($result)
+       {
+           echo "1";
+       }
+       else
+       {
+           echo '0';
+       }
+   }
+   
+   function rejectAll()
+   {
+       $ids    = getUserField('ids');
+       //dumpVar($ids);
+       //die;    
+       $info['table'] = APPLICATIONS_TBL;
+       $info['data']  = array('application_status' => 'Rejected');
+       $info['debug'] = true;
+       $info['where'] = 'id  IN (' . $ids.')';
+
+       $result = update($info);
+       
+       if($result)
+       {
+           echo "1";
+       }
+       else
+       {
+           echo '0';
+       }
+   }
+   
    
    function viewApplication()
    {
@@ -69,13 +163,14 @@ class applicantManagerApp extends DefaultApplication
        $info['where'] = 'AT.id = ' . $id;
        
        $data = select($info);
-       $data[0]->applicant_pic            = getFileLocation($data[0]->photo_id);
-       $data[0]->income_tax_doc           = getFileLocation($data[0]->guardian_doc_id);
-       $data[0]->ticket_doc               = getFileLocation($data[0]->ticket_doc_id);
-       $data[0]->acceptance_letter_file   = getFileLocation($data[0]->acceptance_doc_id);
-       $data[0]->scholarship_letter_file  = getFileLocation($data[0]->scholarship_doc_id);
-       $data[0]->enroll_file              = getFileLocation($data[0]->enroll_doc_id);
-       $data[0]->i20_file                 = getFileLocation($data[0]->i20_doc_id);
+       $data[0]->applicant_pic            = getFileLocation($data[0]->photo_id,$data[0]->uid);
+       $data[0]->income_tax_doc           = getFileLocation($data[0]->guardian_doc_id,$data[0]->uid);
+       $data[0]->ticket_doc               = getFileLocation($data[0]->ticket_doc_id,$data[0]->uid);
+       $data[0]->acceptance_letter_file   = getFileLocation($data[0]->acceptance_doc_id,$data[0]->uid);
+       $data[0]->scholarship_letter_file  = getFileLocation($data[0]->scholarship_doc_id,$data[0]->uid);
+       $data[0]->enroll_file              = getFileLocation($data[0]->enroll_doc_id,$data[0]->uid);
+       $data[0]->i20_file                 = getFileLocation($data[0]->i20_doc_id,$data[0]->uid);
+       $data[0]->app_id                   = $id;
        //dumpvar($data[0]);
        
        $std_details = createPage(APPLICANT_DETAILS_TEMPLATE, $data[0]);
@@ -348,10 +443,10 @@ class applicantManagerApp extends DefaultApplication
 
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
-                          ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid)';
+                          ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid)';
         $info['debug']  = false;
         $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 
-                                'CLT.name AS country_name', 'UT.uid');
+                                'CLT.name AS country_name', 'UT.uid','TT.ticket_fare');
         $info['where']  = $filterClause .  ' ORDER BY AT.country';
 
         $result = select($info);
@@ -365,7 +460,8 @@ class applicantManagerApp extends DefaultApplication
         }
         
         $data['list'] = $retData;
-        echo_br('Count = ' . count($result));
+        //dumpVar($data['list']);
+        //echo_br('Count = ' . count($result));
         
         echo createPage(APPLICANT_LIST_TEMPLATE, $data);
     }
