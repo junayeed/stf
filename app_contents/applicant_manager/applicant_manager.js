@@ -373,6 +373,14 @@ function acceptApp(appID)
                        $('#application_status_'+appID).removeClass('reject-label');
                        $('#application_status_'+appID).removeClass('pending-label');
                        $('#application_status_'+appID).addClass('accept-label');
+                       
+                       $('#message-body').html('<div id="message" class="success">Application Status has been change successfully</div>');
+                       setTimeout(function(){
+                            $('#message').fadeOut("slow", function () {
+                            $('#message').removeClass('success');
+                                });
+
+                          }, 2000);
               }    
            }
         );
@@ -392,7 +400,14 @@ function rejectApp(appID)
                    $('#application_status_'+appID).removeClass('accept-label');
                    $('#application_status_'+appID).removeClass('pending-label');
                    $('#application_status_'+appID).addClass('reject-label');
-                            
+                   
+                   $('#message-body').html('<div id="message" class="error">Application Status has been change successfully</div>');
+                       setTimeout(function(){
+                            $('#message').fadeOut("slow", function () {
+                            $('#message').removeClass('error');
+                                });
+
+                          }, 2000);        
               }    
            }
         );
@@ -429,6 +444,14 @@ function acceptAll()
                        $('#application_status_'+selectedId[i]).removeClass('reject-label');
                        $('#application_status_'+selectedId[i]).removeClass('pending-label');
                        $('#application_status_'+selectedId[i]).addClass('accept-label');
+                       
+                       $('#message-body').html('<div id="message" class="success">Application Status has been change successfully</div>');
+                       setTimeout(function(){
+                            $('#message').fadeOut("slow", function () {
+                            $('#message').removeClass('success');
+                                });
+
+                          }, 2000);
                     }        
               }    
            }
@@ -466,6 +489,15 @@ function rejectAll()
                        $('#application_status_'+selectedId[i]).removeClass('accept-label');
                        $('#application_status_'+selectedId[i]).removeClass('pending-label');
                        $('#application_status_'+selectedId[i]).addClass('reject-label');
+                       
+                      
+                       $('#message-body').html('<div id="message" class="error">Application Status has been change successfully</div>');
+                       setTimeout(function(){
+                            $('#message').fadeOut("slow", function () {
+                            $('#message').removeClass('success');
+                                });
+
+                          }, 2000);
                     }
                             
               }    

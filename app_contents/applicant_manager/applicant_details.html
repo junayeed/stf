@@ -1,4 +1,5 @@
 <div id="info-top" class="info-top">
+    <div id="message-body" ></div>
     <table  width="100%">
         <tr>
             <td width="15%"><img src="{$applicant_pic}?{$smarty.now}" width="100" height="100"><td>
@@ -115,7 +116,59 @@
                     </tr>
                     
                 </table>
-        </div>    
+        </div> 
+        
+        <div id="tabs-4_{$app_id}" style="display: none">
+            <br>
+                <h3 class="h3">Attachment</h3>
+                <table width="100%">
+                    <tr>
+                        <td width="25%" style="text-align: center">
+                            <a  href="{$income_tax_doc}" target="_blank">
+                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Income Tax" />
+                            </a>
+                            <p>Income Tax<p>
+                        </td>
+                        <td width="25%" style="text-align: center">
+                            <a  href="{$ticket_doc}" target="_blank">
+                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Ticket" />
+                            </a>
+                            <p>Ticket<p>
+                        </td>
+                        <td width="25%" style="text-align: center">
+                            <a  href="{$acceptance_letter_file}" target="_blank">
+                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Acceptance Letter" />
+                            </a>
+                            <p>Acceptance Letter<p>
+                        </td>
+                        <td width="25%" style="text-align: center">
+                            <a  href="{$scholarship_letter_file}" target="_blank">
+                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Scholarship Letter" />
+                            </a>
+                            <p>Scholarship Letter<p>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%" style="text-align: center">
+                            <a  href="{$enroll_file}" target="_blank">
+                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Enroll" />
+                            </a>
+                            <p>Enroll<p>
+                        </td>
+                        <td width="25%" style="text-align: center">
+                            <a  href="{$i20_file}" target="_blank">
+                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="I20" />
+                            </a>
+                            <p>I20<p>
+                        </td>
+                        <td width="25%" style="text-align: center"></td>
+                        <td width="25%" style="text-align: center"></td>
+                        
+                    </tr>
+                </table>
+        </div>
         
     </div>
 </div>
