@@ -44,6 +44,7 @@
                                         <table border="0">
                                             <tr>
                                                 <td align="left">
+                                                    <span class="span-text" id="photo_lbl">Applicant's Picture</span><br class="br"/><br class="br"/>
                                                 {if $photo_id neq 0}
                                                     <img src="{$file}?{$smarty.now}" width="150" height="150">
                                                 {else}
@@ -64,17 +65,17 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td width="33%">
-                                                            <span class="span-text">First Name</span><br class="br"/>
+                                                            <span class="span-text" id="first_name_lbl">First Name</span><br class="br"/>
                                                             <input type="text" name="first_name" id="first_name" value="{$first_name|stripslashes}" class="inputbox3 W150">
                                                         </td>
                                                         <td width="33%">
-                                                            <span class="span-text">Last Name</span><br class="br"/>
+                                                            <span class="span-text"  id="last_name_lbl">Last Name</span><br class="br"/>
                                                             <input type="text" name="last_name" id="last_name" value="{$last_name|stripslashes}" class="inputbox3 W150">
                                                         </td>
                                                         <td width="33%">
-                                                            <span class="span-text">Gender</span><br class="br"/>
+                                                            <span class="span-text"  id="gender_lbl">Gender</span><br class="br"/>
                                                             <select id="gender" name="gender" class="combo1 W150">
-                                                                <option value="">Select Gender</option>
+                                                                <option value="">-- Select Gender --</option>
                                                                 {html_options values=$gender_list output=$gender_list selected=$gender}
                                                             </select>
                                                         </td>
@@ -82,48 +83,48 @@
                                                     <tr><td><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td>
-                                                            <span class="span-text">Present Address</span><br class="br"/>
+                                                            <span class="span-text" id="present_address_lbl">Present Address</span><br class="br"/>
                                                             <textarea id="present_address" name="present_address" class="textarea W185 H60">{$present_address|stripslashes}</textarea>
                                                         </td>
                                                         <td valign="top">
-                                                            <span class="span-text">Present Phone</span><br class="br"/>
+                                                            <span class="span-text" id="present_phone_lbl">Present Phone</span><br class="br"/>
                                                             <input type="text" name="present_phone" id="present_phone" value="{$present_phone|stripslashes}" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                         <td valign="top">
-                                                            <span class="span-text">Email</span><br class="br"/>
+                                                            <span class="span-text" id="email_lbl">Email</span><br class="br"/>
                                                             <input type="text" name="email" id="email" value="{$email|stripslashes}" class="inputbox3 W185" onChange="isUserEmailExists();">
                                                         </td>
                                                     </tr>
                                                     <tr><td><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td>
-                                                            <span class="span-text">Permanent Address</span><br class="br"/>
+                                                            <span class="span-text" id="permanent_address_lbl">Permanent Address</span><br class="br"/>
                                                             <textarea id="permanent_address" name="permanent_address" class="textarea W185 H60">{$permanent_address|stripslashes}</textarea>
                                                             <div id="copy-address">
                                                                 <img src="/app_contents/common/images/copy26.png" width="20" onClick="copyAddress('present_address', 'permanent_address');">
                                                             </div>
                                                         </td>
                                                         <td valign="top" colspan="2">
-                                                            <span class="span-text">Permanent Phone</span><br class="br"/>
+                                                            <span class="span-text" id="permanent_phone_lbl">Permanent Phone</span><br class="br"/>
                                                             <input type="text" name="permanent_phone" id="permanent_phone" value="{$permanent_phone|stripslashes}" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td valign="top">
-                                                            <span class="span-text">Received Grant Before</span><br class="br"/>
+                                                            <span class="span-text" id="received_grant_lbl">Received Grant Before</span><br class="br"/>
                                                             <select name="received_grant" id="received_grant" class="combo1 W150" onChange="toggleGrantOptions();">
-                                                                <option value=""></option>
+                                                                <option value="">-- Select --</option>
                                                                 {html_options values=$received_grant_list output=$received_grant_list selected=$received_grant}
                                                             </select>
                                                         </td>
                                                         <td valign="top" id="td_received_grant_amount">
-                                                            <span class="span-text">Received Grant Amount</span><br class="br"/>
-                                                            <input type="text" name="received_grant_amount" id="received_grant_amount" value="{$received_grant_amount|number_format:'2'}" class="inputbox3 W150">
+                                                            <span class="span-text" id="received_grant_amount_lbl">Received Grant Amount</span><br class="br"/>
+                                                            <input type="text" name="received_grant_amount" id="received_grant_amount" value="{$received_grant_amount|number_format:'2'}" class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                         <td valign="top" id="td_grant_received_date">
-                                                            <span class="span-text">Received Grant Date</span><br class="br"/>
+                                                            <span class="span-text" id="grant_received_date_lbl">Received Grant Date</span><br class="br"/>
                                                             <input type="text" name="grant_received_date" id="grant_received_date" value="{$grant_received_date|date_format:'%Y-%m-%d'}" class="inputbox3 W90" readonly />
                                                             <img name="anchor1" id="anchor1" align=top width=22 height=20 
                                                                  style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
@@ -142,15 +143,15 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td width="33%">
-                                                            <span class="span-text">Name</span><br class="br"/>
+                                                            <span class="span-text" id="guardian_name_lbl">Name</span><br class="br"/>
                                                             <input type="text" name="guardian_name" id="guardian_name" value="{$guardian_name|stripslashes}" class="inputbox3 W150">
                                                         </td>
                                                         <td valign="top">
-                                                            <span class="span-text">Occupation</span><br class="br"/>
+                                                            <span class="span-text" id="guardian_occupation_lbl">Occupation</span><br class="br"/>
                                                             <input type="text" name="guardian_occupation" id="guardian_occupation" value="{$guardian_occupation|stripslashes}" class="inputbox3 W150">
                                                         </td>
                                                         <td valign="top">
-                                                            <span class="span-text">Annual Income</span><br class="br"/>
+                                                            <span class="span-text" id="guardian_income_lbl">Annual Income</span><br class="br"/>
                                                             <input type="text" name="guardian_income" id="guardian_income" value="{$guardian_income|stripslashes}" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
@@ -158,8 +159,8 @@
                                                     <tr><td><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
                                                         <td colspan="3">
-                                                            <span class="span-text">Income Tax Return/Income Statement</span>   
-                                                            <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W175">
+                                                            <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement</span>   
+                                                            <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
                                                         </td>
                                                         <td colspan="2">
                                                             {if $guardian_doc_id}<a href="{$guardian_file}"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>{/if}
@@ -209,28 +210,28 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td>
-                                                            <span class="span-text">Country</span><br class="br"/>
+                                                            <span class="span-text" id="country_lbl">Country</span><br class="br"/>
                                                             <select id="country" name="country" class="combo1 W150" onChange="toggleOptions();">
-                                                                <option value="">Select Country</option>
+                                                                <option value="">-- Select Country --</option>
                                                                 {html_options options=$country_list selected=$country}
                                                             </select>    
                                                         </td>
                                                         <td colspan="2">
-                                                            <span class="span-text">Name of the university/education institution</span><br class="br"/>
+                                                            <span class="span-text" id="university_name_lbl">Name of the university/education institution</span><br class="br"/>
                                                             <input type="text" name="university_name" id="university_name" value="{$university_name}"class="inputbox3 W300">
                                                         </td>
                                                     </tr>
                                                     <tr><td><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
                                                         <td colspan="3">
-                                                            <span class="span-text">Name of the institution's contact person along with address, telephone number(s) and email</span><br class="br"/>
+                                                            <span class="span-text" id="university_contact_lbl">Name of the institution's contact person along with address, telephone number(s) and email</span><br class="br"/>
                                                             <textarea name="university_contact" id="university_contact" class="textarea W525">{$university_contact}</textarea>
                                                         </td>
                                                     </tr>
                                                     <tr><td><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
                                                         <td colspan="3">
-                                                            <span class="span-text">Brief description of the subject(s) being studied</span><br class="br"/>
+                                                            <span class="span-text" id="subject_desc_lbl">Brief description of the subject(s) being studied</span><br class="br"/>
                                                             <textarea name="subject_desc" id="subject_desc" class="textarea W525 H90">{$subject_desc}</textarea>
                                                         </td>
                                                     </tr>
@@ -245,7 +246,7 @@
                                             <div class="table-content">
                                             <table  width="100%">
                                                     <tr>
-                                                        <td width="34%"><span class="span-text">Acceptance Letter: </span> </td>
+                                                        <td width="34%"><span class="span-text" id="acceptance_letter_lbl">Acceptance Letter: </span> </td>
                                                         <td width="34%"><input type="file" name="acceptance_letter" id="acceptance_letter" class="W175"></td>
                                                         <td>
                                                             {if $acceptance_doc_id gt 0}
@@ -254,7 +255,7 @@
                                                         </td>
                                                      </tr>
                                                      <tr>
-                                                         <td><span class="span-text">Followship/Scholarship Award Letter: </span></td>
+                                                         <td><span class="span-text" id="scholarship_letter_lbl">Followship/Scholarship Award Letter: </span></td>
                                                          <td><input type="file" name="scholarship_letter" id="scholarship_letter" class="W175"></td>
                                                          <td>
                                                              {if $scholarship_doc_id gt 0}
@@ -273,9 +274,9 @@
                                             <div class="table-content">
                                                 <table  width="100%">
                                                     <tr>
-                                                        <td width="45%">
-                                                            <span class="span-text"> </span><br class="br"/>
-                                                            <input type="file" name="enroll_certification" id="enroll_certification" class="W175">
+                                                        <td width="60%">
+                                                            <span class="span-text" id="enroll_certification_lbl">Enrolement Certificate: </span>
+                                                            <input type="file" name="enroll_certification" id="enroll_certification" class="W200">
                                                         </td>
                                                         <td>
                                                             {if $enroll_doc_id gt 0}
@@ -289,14 +290,14 @@
                                         <!-- Certification END here -->
                                         
                                         <!-- I-20 STARTS here-->
-                                        <div class="main-content" id="i20">
+                                        <div class="main-content" id="i-20">
                                             <h4 class="header">Copy of the duly signed I-20 form the enrolling educational institute: </h4>
                                             <div class="table-content">
                                                 <table width="100%">
                                                     <tr>
                                                         <td  width="45%">
-                                                            <span class="span-text"></span><br class="br"/>
-                                                            <input type="file" name="i20" id="i20" class="W300">
+                                                            <span class="span-text" id="i20_lbl">I-20 Certificate: </span>
+                                                            <input type="file" name="i20" id="i20" class="W200">
                                                         </td>
                                                         <td>
                                                             {if i20_doc_id gt 0}
@@ -348,12 +349,12 @@
                                                 <table width="100%">  
                                                     <tr>
                                                         <td width="33%">
-                                                            <span class="span-text">Ticket Number</span><br class="br"/>
+                                                            <span class="span-text" id="ticket_number_lbl">Ticket Number</span><br class="br"/>
                                                             <input type="text" name="ticket_number" id="ticket_number" value="{$ticket_number}" class="inputbox3 W150">
                                                         </td>
                                                         <td>
-                                                            <span class="span-text">Date of Ticket</span><br class="br"/>
-                                                            <input type="text" name="date_ticket" id="date_ticket" value="{$date_ticket|date_format:'%d/%m/%Y'}" class="inputbox3 W123">
+                                                            <span class="span-text" id="date_ticket_lbl">Date of Ticket</span><br class="br"/>
+                                                            <input type="text" name="date_ticket" id="date_ticket" value="{$date_ticket|date_format:'%d/%m/%Y'}" class="inputbox3 W123 DISABLE" readonly>
                                                             <img name="anchor1" id="anchor1" align=top width=22 height=20 
                                                                  style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
                                                                  onClick="thisSelect(document.userManagerForm.date_ticket,'anchor1','dd/MM/yyyy'); return false;">
@@ -362,12 +363,12 @@
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td width="33%">
-                                                            <span class="span-text">Ticket Fare (BDT)</span><br class="br"/>
+                                                            <span class="span-text" id="ticket_fare_lbl">Ticket Fare (BDT)</span><br class="br"/>
                                                             <input type="text" name="ticket_fare" id="ticket_fare" onkeyup="calculateFareBDT()" 
                                                                    value="{$ticket_fare}" class="inputbox3 W150" onkeypress="return isNumberKey(event);">
                                                         </td>
                                                         <td width="33%">
-                                                            <span class="span-text">Tax (BDT)</span><br class="br"/>
+                                                            <span class="span-text" id="tax_lbl">Tax (BDT)</span><br class="br"/>
                                                             <input type="text" name="tax" id="tax" value="{$tax}" onkeyup="calculateFareBDT()" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event);">
                                                         </td>
@@ -379,12 +380,12 @@
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td width="33%">
-                                                            <span class="span-text">Ticket Fare (USD)</span><br class="br"/>
+                                                            <span class="span-text" id="ticket_fare_usd_lbl">Ticket Fare (USD)</span><br class="br"/>
                                                             <input type="text" name="ticket_fare_usd" id="ticket_fare_usd" onkeyup="calculateFareUSD()" 
                                                                    value="{$ticket_fare_usd}" class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                         <td width="33%">
-                                                            <span class="span-text">Tax (USD)</span><br class="br"/>
+                                                            <span class="span-text" id="tax_usd_lbl">Tax (USD)</span><br class="br"/>
                                                             <input type="text" name="tax_usd" id="tax_usd" onkeyup="calculateFareUSD()" value="{$tax_usd}" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
@@ -396,7 +397,7 @@
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td width="33%">
-                                                            <span class="span-text">Attachement of Ticket</span><br class="br"/>
+                                                            <span class="span-text" id="ticket_doc_lbl">Attachement of Ticket</span><br class="br"/>
                                                             <input type="file" name="ticket_doc" id="ticket_doc" class="W185">
                                                         </td>
                                                         <td colspan="2">

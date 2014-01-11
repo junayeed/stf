@@ -19,19 +19,69 @@ var row_id           = 1;
 
 function setupForm(frm)
 { 
+    var grant       = $('#received_grant').val();
+    var country_val = $('#country').val();
+    
     with (frm)
     {
-        //setRequiredField(username,           'textbox',   'username');
-        //setRequiredField(user_status,        'dropdown',  'user_status');
-        //setRequiredField(user_type,          'dropdown',  'user_type');
+        /*** Personal Information start here ***/
+        setRequiredField(photo,              'file',      'photo');
         setRequiredField(first_name,         'textbox',   'first_name');
         setRequiredField(last_name,          'textbox',   'last_name');
         setRequiredField(email,              'textbox',   'email');
-
-        // if the password field is set i.e. we have the value for password mainly in the edit mode.
-        if ( !$('#psw').val())
+        setRequiredField(permanent_address,  'textbox',   'permanent_address');
+        setRequiredField(permanent_phone,    'textbox',   'permanent_phone');
+        setRequiredField(present_address,    'textbox',   'present_address');
+        setRequiredField(present_phone,      'textbox',   'present_phone');
+        
+        setRequiredField(gender,              'dropdown',   'gender');
+        setRequiredField(received_grant,      'dropdown',   'received_grant');
+        
+        if (grant === 'Yes')
         {
-            setRequiredField(password,           'textbox',   'password');
+            setRequiredField(received_grant_amount,    'textbox',   'received_grant_amount');
+            setRequiredField(grant_received_date,      'textbox',   'grant_received_date');
+        }
+        /*** Personal Information end here ***/
+        
+        /*** guardian Information start here ***/
+        setRequiredField(guardian_name,         'textbox',   'guardian_name');
+        setRequiredField(guardian_occupation,   'textbox',   'guardian_occupation');
+        setRequiredField(guardian_income,       'textbox',   'guardian_income');
+        setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
+        /*** guardian Information end here ***/
+        
+        //var country = $('#country').val();
+        //alert('Another Country ::: ' + country);
+        /*** University Information start here ***/
+        setRequiredField(country,                'dropdown',  'country');
+        setRequiredField(university_name,        'textbox',   'university_name');
+        setRequiredField(university_contact,     'textbox',   'university_contact');
+        setRequiredField(subject_desc,           'textbox',   'subject_desc');
+        setRequiredField(acceptance_letter,      'file',      'acceptance_letter');
+        setRequiredField(scholarship_letter,     'file',      'scholarship_letter');
+        setRequiredField(enroll_certification,   'file',      'enroll_certification');
+        setRequiredField(enroll_certification,   'file',      'enroll_certification');
+        
+        if (country_val == 'US')
+        {
+            setRequiredField(i20,   'file',      'i20');
+        }
+        /*** University Information end here ***/
+        
+        /*** Ticket Information start here ***/
+        setRequiredField(ticket_number,     'textbox',   'ticket_number');
+        setRequiredField(date_ticket,       'textbox',   'date_ticket');
+        setRequiredField(ticket_fare,       'textbox',   'ticket_fare');
+        setRequiredField(tax,               'textbox',   'tax');
+        setRequiredField(ticket_fare_usd,   'textbox',   'ticket_fare_usd');
+        setRequiredField(tax_usd,           'textbox',   'tax_usd');
+        setRequiredField(ticket_doc,        'file',   'ticket_doc');
+        /*** Ticket Information start here ***/
+        
+        if ( validateAcademicQualifications() )
+        {
+            
         }
     }
 }
@@ -52,12 +102,16 @@ function validateFields(frm)
             alert(ERROR_NAME);
             return false;
         }
-//        else if ( !RE_UK_POSTCODE.exec(postcode.value) )
-//        {
-//            highlightTableColumn('postcode');
-//            alert(ERROR_UK_ZIPCODE);
-//            return false;
-//        }
+        else if( !validateAcademicQualifications() )
+        {
+            alert('No academic qualification record found.\nPlease enter academic qualification information.');
+            return false;
+        }
+        else if( validateFileTypes() )
+        {
+            alert('Some of the file format is not supported.\nPlease enter a valid file.\nSuported file formats are: jpeg ,jpg, png, gif');
+            return false;
+        }
 
         return true;
     }
@@ -86,6 +140,54 @@ function doApplicationSubmit()
     }
 }
 
+function validateFileTypes()
+{
+    var fileArray            = ['photo', 'guardian_income_tax', 'acceptance_letter', 'scholarship_letter', 'enroll_certification', 'i20', 'ticket_doc'];
+    var validFileExtensions  = [".jpg", ".jpeg", ".gif", ".png"];
+    var isValidFile;
+    
+    for (var i=0; i<fileArray.length; i++)
+    {    
+        var sFileName = $('#'+fileArray[i]).val();
+        
+        isValidFile = false;
+
+        if(sFileName)
+        {    
+            for (var j = 0; j < validFileExtensions.length; j++) 
+            {
+                var sCurExtension = validFileExtensions[j];
+        
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) 
+                {
+                    isValidFile = true;
+                    break;
+                }
+            }
+            if (isValidFile)
+            {
+                resetColumn(fileArray[i]);
+            }
+            else
+            {
+                highlightTableColumn(fileArray[i]);
+                return false;
+            }
+        }
+    }    
+    return true;
+}
+
+function validateAcademicQualifications()
+{
+    if( $("#academic_qualifications > tbody").find("tr").length > 0 )
+    {
+        return true;
+    }
+    
+    return false;
+}
+
 function doFormSubmit()
 {
     
@@ -94,7 +196,7 @@ function doFormSubmit()
     var errCnt = 0;
     var frm = document.userManagerForm;
 
-    // Setup required fields
+// Setup required fields
     setupForm(frm);
     
     // Validate form for required fields
@@ -328,11 +430,11 @@ function toggleOptions()
     if (country === 'US')
     {
         $('#others-qualifications').hide();
-        $('#i20').show();
+        $('#i-20').show();
     }
     else
     {
-        $('#i20').hide();
+        $('#i-20').hide();
         $('#others-qualifications').show();
     }
 }

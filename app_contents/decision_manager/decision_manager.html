@@ -96,8 +96,8 @@
                                             </td>
                                             <td width="50" class="border"><input type="button" class="inputbox-submit" id="save" name="save" value="Save" onclick="doApplicantSearch();"></td>
                                         </tr>
-                                        {/foreach}
                                         {assign var=country_total value=$country_total+$item->ticket_fare}
+                                        {/foreach}
                                         <tr>
                                             <td colspan="4" class="border" align="right">Total ({$okey}): </td>
                                             <td colspan="5" class="border">{$country_total|number_format:'2'}</td>

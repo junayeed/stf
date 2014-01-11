@@ -7,8 +7,9 @@
 *  CVS ID: $Id$
 *
 **************************************************************/
-var DEFAULT_HIGHLIGHT_COLOR = '#E54747';
-var DEFAULT_RESET_COLOR     = '#C4C4C4';
+var DEFAULT_HIGHLIGHT_COLOR        = '#E54747';
+var DEFAULT_RESET_BORDER_COLOR     = '#959595';
+var DEFAULT_RESET_TEXT_COLOR       = '#083A81';
 
 // Global array required for storing
 // required fields information for
@@ -53,7 +54,7 @@ function showErrors(frm, setColor, resetColor)
    // if reset color is not provided
    // use default
    if (! resetColor)
-      resetColor = DEFAULT_RESET_COLOR;
+      resetColor = DEFAULT_RESET_BORDER_COLOR;
 
    with (frm)
    {
@@ -90,13 +91,13 @@ function highlightTableColumn(id, highColor)
 {
    if (!highColor)
        highColor = DEFAULT_HIGHLIGHT_COLOR;
-
+   
    // get the label/text
-   //thisElement                    = document.getElementById(id+'_lbl');
+   thisElement                    = document.getElementById(id+'_lbl');
    // get the object
    thisElementObj                 = document.getElementById(id);
    
-   //thisElement.style.color           = highColor;
+   thisElement.style.color           = highColor;
    //thisElement.style.fontWeight      = "bold";
    thisElementObj.style.borderColor  = highColor;
 }
@@ -121,7 +122,7 @@ function resetColumn(id, resetColor)
    // get the object
    thisElementObj                 = document.getElementById(id);
 
-   thisElementObj.style.borderColor  = resetColor;
+   thisElementObj.style.borderColor  = DEFAULT_RESET_BORDER_COLOR;
    
 }
 
@@ -130,16 +131,16 @@ function resetColumn(id, resetColor)
 //
 function resetTableColumn(id, resetColor)
 {
-   if (!resetColor)
-       resetColor = DEFAULT_RESET_COLOR;
+   //if (!resetColor)
+       //resetColor = DEFAULT_RESET_COLOR;
 
    // get the label/text
-   //thisElement                    = document.getElementById(id+'_lbl');
+   thisElement                    = document.getElementById(id+'_lbl');
    // get the object
    thisElementObj                 = document.getElementById(id);
    // reset the color of the label/text
-   //thisElement.style.color           = resetColor;
-   thisElementObj.style.borderColor  = resetColor;
+   thisElement.style.color           = DEFAULT_RESET_TEXT_COLOR; // change the label color
+   thisElementObj.style.borderColor  = DEFAULT_RESET_BORDER_COLOR;  // change the border color
    //thisElement.style.fontWeight      = "normal";
    
 }
@@ -233,6 +234,18 @@ function validateForm(thisForm)
          // If current field is a text box and it is empty
          // we have a required field violation
          else if (fieldType == 'textbox' && formFieldObject.value == "")
+         {
+             //alert("No value selected for " + fieldLabel);
+
+             if (fieldLabel)
+                highlightTableColumn(fieldLabel);
+
+             //formFieldObject.focus();
+             errCnt++;
+         }
+         // If current field is a file and it is empty
+         // we have a required field violation
+         else if (fieldType == 'file' && formFieldObject.value == "")
          {
              //alert("No value selected for " + fieldLabel);
 
