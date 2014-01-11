@@ -415,17 +415,18 @@ function rejectApp(appID)
 
 function acceptAll()
 {
-     var i,ids='';
+     var i,f=0,ids='';
      var selectedId = [];
      
         for(i=0;i<AppIDs.length;i++)
         {
             if(document.getElementById('app_id_'+AppIDs[i]).checked == true)
             {
-               if(i) ids = ids+',';
+               if(f) ids = ids+',';
                
-               ids = ids+AppIDs[i]; 
+               ids = ids+AppIDs[i];
                selectedId.push(AppIDs[i]);
+               f=1;
             }
         }
         
@@ -461,17 +462,18 @@ function acceptAll()
 
 function rejectAll()
 {
-     var i,ids='';
+     var i,f=0,ids='';
      var selectedId = [];
      
         for(i=0;i<AppIDs.length;i++)
         {
             if(document.getElementById('app_id_'+AppIDs[i]).checked == true)
             {
-               if(i) ids = ids+',';
+               if(f) ids = ids+',';
                
                ids = ids+AppIDs[i];
                selectedId.push(AppIDs[i]);
+               f=1;
             }
         }
         
