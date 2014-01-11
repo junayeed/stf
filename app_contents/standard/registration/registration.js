@@ -11,7 +11,7 @@ var duplicate_user   = false;
 var duplicate_email  = false;
 var psw_match        = true;
 
-function setuploginForm()
+function setupRegistrationForm()
 {
    var frm = document.registrationForm;
    
@@ -26,13 +26,14 @@ function setuploginForm()
    }
 }
 
-function dologinFormSubmit()
+function doRegistrationFormSubmit()
 {
+    
     var errCnt = 0;
     var frm    = document.registrationForm;
    
     // Setup required fields
-    setuploginForm();
+    setupRegistrationForm();
     
     // Validate form for required fields
     errCnt = validateForm(frm);
@@ -123,11 +124,11 @@ function isPSWMatched()
 function isUserNameExists()
 {
     var username = $('#username').val();
-
+    //alert(window.location.host)
     $.ajax
     (
         {                                      
-            url: 'registration.php?cmd=checkuser',
+            url:'http://'+window.location.host+ '/app/standard/registration/registration.php?cmd=checkuser',
             data: "username="+username,
             dataType: 'json',
             success: function(responseText)
@@ -156,7 +157,7 @@ function isEmailExists()
     $.ajax
     (
         {                                      
-            url: 'registration.php?cmd=checkemail',
+            url: 'http://'+window.location.host+ '/app/standard/registration/registration.php?cmd=checkemail',
             data: "email=" + email,
             dataType: 'json',
             success: function(responseText)

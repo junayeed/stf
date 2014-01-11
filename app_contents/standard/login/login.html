@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>User Login</title>{if $SYSTEM_PRODUCTION_MODE ne "Yes"}<!-- ** THIS NOTE ONLY SHOWS IN DEVELOPMENT MODE *** Purpose: This template is used to show the login form Javascript requirements: In addition to standard javascripts such as evoknow.js, messages.js you will need to create {$SYSTEM_COMMON_JAVASCRIPT_DIR}/{$SYSTEM_APP_PREFIX}/{$SYSTEM_APP_PREFIX}.js to store any custom javascript functions needed for this form.-->{/if}
+        <title>STF Home Page</title>{if $SYSTEM_PRODUCTION_MODE ne "Yes"}<!-- ** THIS NOTE ONLY SHOWS IN DEVELOPMENT MODE *** Purpose: This template is used to show the login form Javascript requirements: In addition to standard javascripts such as evoknow.js, messages.js you will need to create {$SYSTEM_COMMON_JAVASCRIPT_DIR}/{$SYSTEM_APP_PREFIX}/{$SYSTEM_APP_PREFIX}.js to store any custom javascript functions needed for this form.-->{/if}
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
         <!-- load javascript error/success messages for javascripts -->
         <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
@@ -8,21 +8,102 @@
         <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
         <!-- load current application specific javascript -->
         <script language="JavaScript" src="{$REL_TEMPLATE_DIR}/{$SYSTEM_APP_PREFIX}.js"></script>
+        <script language="JavaScript" src="/app_contents/standard/registration/registration.js"></script>
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/jquery.js"></script>
         <!-- setup default info -->
         <link rel="stylesheet" href="/app_contents/common/css/login.css" type="text/css">
     </head>
     <body>
-        <div class="login">
-            <h1>Login to Web App</h1>
-            <form name="loginForm" onSubmit="return dologinFormSubmit();" action="{$SCRIPT_NAME}" method="POST">
-                <p><input type="text" name="loginid" id="loginid" value="" placeholder="Username or Email"></p>
-                <p><input type="password" name="password" id="password" value="" placeholder="Password"></p>
-                <p class="submit"><input type="submit" name="commit" value="Login"></p>
-            </form>
-        </div>
+        <div id="container" class="container">
+            <div id="header" class="header">
+                <table width="100%">
+                  <tr>
+                      <td width="75%">
+                        <h1>Swedish Bangladesh Trust Fund</h1>
+                        <h2>Economic Relations Division (ERD)</h2>
+                      </td>
+                      <td style="text-align: right">
+                          <div class="login">
+                            <form name="loginForm" onSubmit="return dologinFormSubmit();" action="{$SCRIPT_NAME}" method="POST">
+                                <p><input type="text" name="loginid" id="loginid" value="" placeholder="Username">
+                                <input type="password" name="password" id="password" value="" placeholder="Password">
+                                <input type="submit" name="commit" value="Login"></p>
+                            </form>
+                          </div>
+                      </td>
+                  </tr>
+                </table>   
+            </div>
+            <div id="contain-body">
+                 <table width="100%">
+                   <tr>
+                       <td width="69%" style="vertical-align: top">
+                           <div id="contain-body" class="contain-body">
+                             <p>
+                               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                             </p>
+                             <p>
+                               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                             </p>
+                             <p>
+                               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                             </p>
+                           </div>  
+                       </td>
+                       <td>
+                           <div class="registration">
+                                <h1>Registration</h1>
+                                <form name="registrationForm" onSubmit="return doRegistrationFormSubmit();" action="/app/standard/registration/registration.php" method="POST">
+                                    <div id="rigistrationContent">
+                                        <table width="100%">
+                                            <tr>
+                                                <td><span class="span-text" id="first_name_lbl">First Name</span></td>
+                                                <td><input type="text" name="first_name" id="first_name" value="" class="W278"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="span-text" id="last_name_lbl">First Name</span></td>
+                                                <td><input type="text" name="last_name" id="last_name" value="" class="W278"></td>
+                                            </tr>
+                                            <td><span class="span-text" id="label_radio_lbl">Gender</span></td>
+                                            <td>
+                                                <label class="label_radio" for="radio-01"><input name="gender" id="radio-01" value="Male" type="radio" />Male</label>
+                                                <label class="label_radio" for="radio-02"><input name="gender" id="radio-02" value="Female" type="radio" />Female</label> 	
+                                            </td>
+                                            <tr>
+                                                <td><span class="span-text" id="email_lbl">Email</span></td>
+                                                <td><input type="text" name="email" id="email" value="" class="W278" onchange="isEmailExists();"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="span-text" id="username_lbl">Username</span></td>
+                                                <td><input type="text" name="username" id="username" value="" class="W278" onchange="isUserNameExists();"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="span-text" id="password_lbl">Password</span></td>
+                                                <td><input type="password" name="password" id="password" value="" class="W278" onchange="isPSWMatched();"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="span-text" id="confirm_password_lbl">Confirm Password</span></td>
+                                                <td><input type="password" name="confirm_password" id="confirm_password" value="" class="W278" onchange="isPSWMatched();"></td>
+                                            </tr>
+                                        </table>
+                                        <p class="submit">
+                                            <input type="submit" name="commit" value="Registration">
+                                            <input type="reset" name="reset" value="Clear">
+                                            <input type="hidden" name="cmd" value="save">
+                                            <input type="hidden" name="user_type" value="Applicant">
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                       </td>                       
+                   </tr>
+                 </table>  
+            </div>
+        </div>    
+        
 
         <div class="login-help">
-            <p>Not registered yet? <a href="/app/standard/registration/registration.php">Click here to register.</a>.</p>
+            <p>Copy right @ ERD, 2014</p>
         </div>
     </body>
 </html>
