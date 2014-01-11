@@ -220,4 +220,16 @@
         
         return $fileLocation;
     }
+    
+    function getActiveSessionYear()
+    {
+        $info['table']   = SESSIONS_TBL;
+        $info['debug']   = false;
+        $info['fields']  = array('session_year');
+        $info['where']   = 'session_status = ' . q('Active');
+        
+        $result = select($info);
+        
+        return $result[0]->session_year;
+    }
 ?>

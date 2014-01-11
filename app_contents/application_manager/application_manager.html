@@ -17,7 +17,7 @@
     {rdelim}
 </script>
 
-<body>
+<body onLoad="toggleGrantOptions();">
     <form name="userManagerForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
         
         <input type="hidden" name="id" value="{$uid}">
@@ -104,17 +104,30 @@
                                                                 <img src="/app_contents/common/images/copy26.png" width="20" onClick="copyAddress('present_address', 'permanent_address');">
                                                             </div>
                                                         </td>
-                                                        <td valign="top">
+                                                        <td valign="top" colspan="2">
                                                             <span class="span-text">Permanent Phone</span><br class="br"/>
                                                             <input type="text" name="permanent_phone" id="permanent_phone" value="{$permanent_phone|stripslashes}" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td valign="top">
                                                             <span class="span-text">Received Grant Before</span><br class="br"/>
-                                                            <select name="received_grant" id="received_grant" class="combo1 W150">
+                                                            <select name="received_grant" id="received_grant" class="combo1 W150" onChange="toggleGrantOptions();">
                                                                 <option value=""></option>
                                                                 {html_options values=$received_grant_list output=$received_grant_list selected=$received_grant}
                                                             </select>
+                                                        </td>
+                                                        <td valign="top" id="td_received_grant_amount">
+                                                            <span class="span-text">Received Grant Amount</span><br class="br"/>
+                                                            <input type="text" name="received_grant_amount" id="received_grant_amount" value="{$received_grant_amount|number_format:'2'}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td valign="top" id="td_grant_received_date">
+                                                            <span class="span-text">Received Grant Date</span><br class="br"/>
+                                                            <input type="text" name="grant_received_date" id="grant_received_date" value="{$grant_received_date|date_format:'%Y-%m-%d'}" class="inputbox3 W90" readonly />
+                                                            <img name="anchor1" id="anchor1" align=top width=22 height=20 
+                                                                 style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
+                                                                 onClick="thisSelect(document.userManagerForm.grant_received_date,'anchor1','yyyy-MM-dd'); return false;">
                                                         </td>
                                                     </tr>
                                                 </table>  

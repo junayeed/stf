@@ -1,0 +1,171 @@
+<?php
+
+/**
+ * File: session_manager.class.php
+ *
+ */
+
+/**
+ * The sessionManagerApp application class
+ */
+
+class sessionManagerApp extends DefaultApplication
+{
+   /**
+   * Constructor
+   * @return true
+   */
+
+   function run()
+   {
+      $cmd = getUserField('cmd');  
+      
+      switch ($cmd)
+      {
+           case 'edit'         : $screen = $this->showEditor($msg);     break;
+           case 'new'          : $screen = $this->showNewEditor($msg);  break;
+           case 'add'          : $screen = $this->saveRecord();         break;
+           case 'delete'       : $screen = $this->deleteRecord();       break;
+           case 'list'         : $screen = $this->showList();           break;
+           default             : $screen = $this->showEditor($msg);     break;
+      }
+
+      // Set the current navigation item
+      $this->setNavigation('user');
+      
+      if ($cmd == 'list')
+      {
+         echo $screen;
+      }
+      else
+      {
+         echo $this->displayScreen($screen);
+      }
+
+      return true;
+   }
+   
+    /**
+    * Shows User Editor
+    * @param message
+    * @return user editor template
+    */
+    function showNewEditor($msg)
+    {
+        $data['message'] = $msg;
+        $data['session_status_list']  = getEnumFieldValues(SESSIONS_TBL, 'session_status');
+        
+        return createPage(SESSION_EDITOR_TEMPLATE, $data);
+    }
+
+    /**
+    * Shows User Editor
+    * @param message
+    * @return user editor template
+    */
+    function showEditor($msg)
+    {
+        $id = getUserField('id');
+
+        if (!empty($id))
+        {
+            $thisData = getSessionDetails($id);
+            
+            if( empty($thisData))
+            {
+                $thisData = array();
+            }
+
+            foreach($thisData as $key => $value)
+            {
+                $sessionData[$key] = $value;	
+            }
+
+            $data = array_merge(array(), $sessionData);
+        }
+        
+        $data['message'] = $msg;
+        $data['session_status_list']  = getEnumFieldValues(SESSIONS_TBL, 'session_status');
+        
+        return createPage(SESSION_EDITOR_TEMPLATE, $data);
+    }
+
+    /**
+    * Saves User information
+    * @return message
+    */
+    function saveRecord()
+    {
+        $ID  = getUserField('id');
+
+        if($ID)
+        {
+            if(updateSession($ID))
+            {
+                $msg = $this->getMessage(SESSION_UPDATE_SUCCESS_MSG);
+            }
+            else
+            {
+                $msg = $this->getMessage(SESSION_UPDATE_ERROR_MSG);
+            }
+        }
+        else
+        {
+            if(addSession())
+            {
+                $msg = $this->getMessage(SESSION_SAVE_SUCCESS_MSG);
+            }
+            else
+            {
+                $msg = $this->getMessage(SESSION_SAVE_ERROR_MSG);
+            }
+        }
+        
+        setUserField('id',  '');
+        setUserField('cmd', '');
+
+        return $this->showEditor($msg);
+    }
+
+    /**
+    * deletes user info
+    * @return message
+    */
+    function deleteRecord()
+    {
+        $ID   = getUserField('id');
+
+        $rows  = deleteMagazine($ID);
+
+        if($rows)
+        {
+            $msg = $this->getMessage(SESSION_DELETE_SUCCESS_MSG);
+        }
+        else
+        {
+            $msg = $this->getMessage(SESSION_DELETE_ERROR_MSG);
+        }
+
+        setUserField('id',  '');
+        setUserField('cmd', '');
+
+        return $this->showNewEditor($msg);
+    }
+
+    /**
+    * Shows user list
+    * @return user list template
+    */
+    function showList()
+    {
+        $info['table']  = SESSIONS_TBL;
+        $info['debug']  = false;
+        $data['list']   = select($info);
+        
+
+        //dumpVar($data);
+
+        echo createPage(SESSION_LIST_TEMPLATE, $data);
+    }
+} 
+?>

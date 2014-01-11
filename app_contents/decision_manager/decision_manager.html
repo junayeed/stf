@@ -61,13 +61,14 @@
                                 <thead>
                                     <tr>
                                         <td width="8"></td>
-                                        <td width="144">Name</td>
-                                        <td width="50">Gender</td>
-                                        <td width="72">Status</td>
-                                        <td width="108">Submission Date</td>
-                                        <td width="100">Ticket Fare(BDT)</td>
+                                        <td width="160">Name</td>
+                                        <td width="40">Gender</td>
+                                        <td width="40">Status</td>
+                                        <td width="70">Ticket Fare (BDT)</td>
+                                        <td width="70">TAX (BDT)</td>
+                                        <td width="70">Total (BDT)</td>
                                         <td width="100">Scholarship Amount</td>
-                                        <td width="100">Action</td>
+                                        <td width="50">Action</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,24 +77,31 @@
                                             <td width="8">&nbsp;</td>
                                             <td colspan="5"><div class="font">{$okey}</div></td>
                                         </tr>
+                                        {assign var=country_total value="0"}
                                         {foreach from=$oitem key=key item=item}
                                         <script> AppIDs.push({$item->id}) </script>
                                         <tr>
                                             <td width="8" class="border"></td>
-                                            <td width="144" class="border">
+                                            <td width="160" class="border">
                                                 <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
                                             </td>
-                                            <td width="50" class="border">{$item->gender}</td>
-                                            <td width="72" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
-                                            <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
-                                            <td width="108" class="border">{$item->ticket_fare|number_format:'2'}</td>
+                                            <td width="40" class="border">{$item->gender}</td>
+                                            <td width="40" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
+                                            <td width="70" class="border">{$item->ticket_fare|number_format:'2'}</td>
+                                            <td width="70" class="border">{$item->tax|number_format:'2'}</td>
+                                            <td width="70" class="border">{$item->total|number_format:'2'}</td>
                                             <td width="70" class="border">
                                                 <input type="text" name="awarded_amount_{$item->id}" id="awarded_amount_{$item->id}" value="{$item->scholarship_amount|number_format:'2'}" 
-                                                       onkeypress="return isNumberKey(event)">
+                                                       onkeypress="return isNumberKey(event)" class="inputbox3 W70">
                                             </td>
-                                            <td width="100" class="border"><input type="button" class="inputbox-submit" id="save" name="save" value="Save" onclick="doApplicantSearch();"></td>
+                                            <td width="50" class="border"><input type="button" class="inputbox-submit" id="save" name="save" value="Save" onclick="doApplicantSearch();"></td>
                                         </tr>
                                         {/foreach}
+                                        {assign var=country_total value=$country_total+$item->ticket_fare}
+                                        <tr>
+                                            <td colspan="4" class="border" align="right">Total ({$okey}): </td>
+                                            <td colspan="5" class="border">{$country_total|number_format:'2'}</td>
+                                        </tr>
                                     {/foreach}
                                 </tbody>
                             </table>

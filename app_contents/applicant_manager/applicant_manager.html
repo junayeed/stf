@@ -36,15 +36,14 @@
                         </div>                             <!-- right-body class starts here-->
 
                         <div class="customers-body">   <!--customer body starts here-->
-                            <!--<div class="font2"><label id="first_name_lbl">First Name</label></div>
+                            <div class="font2"><label id="session_year_lbl">Session Year</label></div>
                             <div class="prepand">
-                                <input type="text" name="first_name" id="first_name" value="{$first_name|stripslashes}" class="inputbox2" />
+                                <select id="session_year" name="session_year" class="combo1 W127">
+                                    <option value="">-- Select --</option>
+                                    {html_options values=$session_year_list output=$session_year_list selected=$session_year}
+                                </select>
                             </div>
-                            <div class="font2 prepand"><label id="last_name_lbl">Last Name</label></div>
-                            <div class="prepand">
-                                <input type="text" name="last_name" id="last_name" value="{$last_name|stripslashes}" class="inputbox2" />
-                            </div> -->
-                            <div class="font2"><label id="applicant_name_lbl">Name</label></div>
+                            <div class="font2 prepand"><label id="applicant_name_lbl">Name</label></div>
                             <div class="prepand">
                                 <input type="text" name="applicant_name" id="applicant_name" value="{$name|stripslashes}" class="inputbox3 W127" />
                             </div>
@@ -57,6 +56,13 @@
                                 <select name="country" id="country" class="combo1 W127">
                                     <option value="">-- Select --</option>
                                     {html_options options=$country_list selected=$country}
+                                </select>
+                            </div>
+                            <div class="font2 prepand"><label id="received_grant_lbl">Received Grant</label></div>
+                            <div class="prepand">
+                                <select name="received_grant" id="received_grant" class="combo1 W127">
+                                    <option value="">-- Select --</option>
+                                    {html_options output=$received_grant_list values=$received_grant_list selected=$received_grant}
                                 </select>
                             </div>
                             <div class="font2 prepand" id="guardian_income_min_lbl">Guardian Income</div>
@@ -96,7 +102,7 @@
                                         <input type="button" class="inputbox-submit" id="send" name="send" value="Search"  onclick="doApplicantSearch();">
                                     </td>
                                     <td width="" class="prepand2" align="center">
-                                        <a href="javascript:void(0)" onClick="doResetForm(this);"><img src="/app_contents/common/images/reset.gif" alt="Reset" /></a>
+                                        <a href="javascript:void(0)" onClick="doClearForm(this);"><img src="/app_contents/common/images/reset.gif" alt="Reset" /></a>
                                     </td>
                                 </tr>
                             </table>

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * File: application_manager.class.php
+ * File: applicant_manager.class.php
  *
  * @copyright {@link www.softbizsoltion.com }
  * @author  junayeed@gmail.com
  */
 
 /**
- * The applicationManager application class
+ * The applicantManager application class
  */
 
 class applicantManagerApp extends DefaultApplication
@@ -44,9 +44,8 @@ class applicantManagerApp extends DefaultApplication
       // Set the current navigation item
       $this->setNavigation('user');
       
-      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp' || $cmd=='acceptall' || $cmd=='rejectall'
-          || $cmd=='acceptApplication' || $cmd=='rejectApplication'
-         )
+      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp' || $cmd=='acceptall' || 
+          $cmd == 'rejectall' || $cmd=='acceptApplication' || $cmd=='rejectApplication')
       {
           return;
       }
@@ -287,6 +286,9 @@ class applicantManagerApp extends DefaultApplication
       $data['application_status_list']     = getEnumFieldValues(APPLICATIONS_TBL, 'application_status');
       $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
       $data['degree_list']                 = getEnumFieldValues(ACADEMIC_QUALIFICATIONS_TBL, 'degree');
+      $data['session_year_list']           = getSessionYearlist();
+      $data['session_year']                = getActiveSessionYear();
+      $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
       
       return createPage(APPLICANT_EDITOR_TEMPLATE, $data);
    }
@@ -394,8 +396,8 @@ class applicantManagerApp extends DefaultApplication
         $data['application_status']    = getUserField('application_status');
         $data['guardian_income_max']   = getUserField('guardian_income_max');
         $data['guardian_income_min']   = getUserField('guardian_income_min');
-        $data['user_type_list']        = getEnumFieldValues(USER_TBL, 'user_type');
-        $data['user_status_list']      = getEnumFieldValues(USER_TBL, 'user_status');
+        $data['session_year']          = getUserField('session_year');
+        $data['received_grant']        = getUserField('received_grant');
         
         $filterClause = '1';
 
@@ -439,11 +441,20 @@ class applicantManagerApp extends DefaultApplication
         {
             $filterClause .= ' AND AQT.degree IN (' . $data['degree'] . ')';
         }
+        if($data['session_year'])
+        {
+            $filterClause .= ' AND ST.session_year = ' . q($data['session_year']);
+        }
+        if($data['received_grant'])
+        {
+            $filterClause .= ' AND AT.received_grant = ' . q($data['received_grant']);
+        }
         
 
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
-                          ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid)';
+                          ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
+                          SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id)';
         $info['debug']  = false;
         $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 
                                 'CLT.name AS country_name', 'UT.uid','TT.ticket_fare');

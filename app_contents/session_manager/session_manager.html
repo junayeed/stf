@@ -1,0 +1,86 @@
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+</script>
+
+<body>
+    <form name="sessionForm" id="sessionForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
+        <!-- HIDDERN FIELDS -->
+        <input type="hidden" name="id" value="{$id}">
+        <input type="hidden" name="cmd" value="add">
+        <!-- HIDDEN FIELDS -->
+
+        <div id="body-full">   <!-- body-full class starts here -->
+            <div class="wrap">  <!-- wrap class starts here -->
+                <div class="body-block" style="padding-bottom:30px;">  <!-- body-block class starts here -->
+                    <div class="left">    <!-- left class starts here-->
+                        <h3><span>Session(s)</span></h3>
+                        <iframe id="sessionFrame"  src="{$SCRIPT_NAME}?cmd=list" scrolling="no" width="760px" frameborder="0" onload='resizeIframe(this);'></iframe>
+                        <!--<div class="viewmore"><a href="javascript:void(0)">view more</a></div>-->
+                    </div>  <!-- left class ends here-->                    
+                    
+                    <div class="right">  <!-- right class starts here-->
+                        <div class="right-body">  <!-- right-body class starts here-->
+                            <h3><span>Session Details</span></h3>
+                        </div>                             <!-- right-body class starts here-->
+                        <div class="customers-body">   <!--customer body starts here-->
+                            <div class="font2"><label id="session_year_lbl">Session Year</label></div>
+                            <div class="prepand">
+                                <input type="text" name="session_year1" id="session_year1" value="{$session_year1|stripslashes}" class="inputbox3 W50" /> - 
+                                <input type="text" name="session_year2" id="session_year2" value="{$session_year2|stripslashes}" class="inputbox3 W50" />
+                            </div>
+                            <div class="font2"><label id="session_year_lbl">Session Status</label></div>
+                            <div class="prepand">
+                                <select id="session_status" name="session_status" class="combo1 W115">
+                                    <option value="">--Select--</option>
+                                    {html_options output=$session_status_list values=$session_status_list selected=$session_status}
+                                </select>
+                            </div>
+                            <div class="font2 prepand"><label id="magazine_abvr_lbl">Session Start Date</label></div>
+                            <div class="prepand">
+                                <input type="text" name="session_start_date" id="session_start_date" value="{$session_start_date|date_format:'%Y-%m-%d'}" class="inputbox3 W90" readonly />
+                                <img name="anchor1" id="anchor1" align=top width=22 height=20 
+                                     style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
+                                     onClick="thisSelect(document.sessionForm.session_start_date,'anchor1','yyyy-MM-dd'); return false;">
+                            </div>
+                            <div class="font2 prepand"><label id="magazine_abvr_lbl">Session Start Date</label></div>
+                            <div class="prepand">
+                                <input type="text" name="session_end_date" id="session_end_date" value="{$session_end_date|date_format:'%Y-%m-%d'}" class="inputbox3 W90" readonly />
+                                <img name="anchor1" id="anchor1" align=top width=22 height=20 
+                                     style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
+                                     onClick="thisSelect(document.sessionForm.session_end_date,'anchor1','yyyy-MM-dd'); return false;">
+                            </div>
+                            <div class="font2 prepand"><label id="scholarship_bulk_amount_lbl">Session Bulk Amount</label></div>
+                            <div class="prepand">
+                                <input type="text" name="scholarship_bulk_amount" id="scholarship_bulk_amount" value="{$scholarship_bulk_amount|number_format:'2'}" class="inputbox3 W115" /> 
+                            </div>
+                            <div class="font2 prepand"><label id="scholarship_percentage_lbl">Scholarship Percentage</label></div>
+                            <div class="prepand">
+                                <input type="text" name="scholarship_percentage" id="scholarship_percentage" value="{$scholarship_percentage|number_format:'2'}" class="inputbox3 W115" /> 
+                            </div>
+                            <div class="font2 prepand"><label id="awarded_amount_lbl">Awarded Amount</label></div>
+                            <div class="prepand">
+                                <input type="text" name="awarded_amount" id="awarded_amount" value="{$awarded_amount|number_format:'2'}" class="inputbox3 W115" /> 
+                            </div>
+                            <table width="140" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td width="" class="prepand2">
+                                        <input type="submit" class="inputbox-submit" id="send" name="send" value="SAVE">
+                                    </td>
+                                    <td width="" class="prepand2" align="center">
+                                        <a href="javascript:void(0)" onClick="doClearForm(this);"><img src="/app_contents/common/images/reset.gif" alt="Reset" /></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>  <!--customer body ends here-->
+                    </div>      <!-- right class ends here-->
+                    
+                </div>          <!-- body-block class ends here -->
+            </div>              <!-- wrap class ends here -->
+        </div>                  <!-- body-full class ends here -->
+    </form>
+</body>

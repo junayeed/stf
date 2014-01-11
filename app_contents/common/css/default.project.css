@@ -796,6 +796,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 .W127 { width: 127px; }
 .W123 { width: 123px; }
 .W110 { width: 110px; }
+.W115 { width: 115px; }
 .W90 { width: 90px; }
 .W78 { width: 78px; }
 .W73 { width: 73px; }
@@ -1336,4 +1337,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     padding:0.2em 0.6em;
     border-right:1px solid white;
     border-radius: 2px;
+}
+
+input[readonly], input[readonly="readonly"] {
+    background-color: F4F4F4;
 }

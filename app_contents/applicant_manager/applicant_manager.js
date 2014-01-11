@@ -189,7 +189,7 @@ function isUserEmailExists()
 
 function doClearForm()
 {
-    location.href = 'http://'+document.domain+'/app/user_manager/user_manager.php';
+    location.href = 'http://'+document.domain+'/app/applicant_manager/applicant_manager.php';
 }
 
 function populateAcademicDetails(id, uid, degree, attachmentname, file_location, doc_id)
@@ -486,6 +486,8 @@ function doApplicantSearch()
     var gender                = $('#gender').val();
     var guardian_income_min   = $('#guardian_income_min').val();
     var guardian_income_max   = $('#guardian_income_max').val();
+    var session_year          = $('#session_year').val();
+    var received_grant        = $('#received_grant').val();
     var degree_list           = '';
     
     $("input[name='degree']").each( function () 
@@ -499,7 +501,8 @@ function doApplicantSearch()
     
     $('#applicantFrame').attr('src', source+'&applicant_name='+applicant_name+'&email='+email+'&country='+country+
                                             '&application_status='+application_status+'&gender='+gender+'&guardian_income_max='+guardian_income_max+
-                                            '&guardian_income_min='+guardian_income_min+'&degree='+degree_list);
+                                            '&guardian_income_min='+guardian_income_min+'&degree='+degree_list+'&session_year='+session_year+
+                                            '&received_grant='+received_grant);
 }
 
 function showApplicantInfo(elemID)

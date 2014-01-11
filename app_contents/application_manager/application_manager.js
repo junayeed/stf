@@ -336,3 +336,19 @@ function toggleOptions()
         $('#others-qualifications').show();
     }
 }
+
+function toggleGrantOptions()
+{
+    var grant = $('#received_grant').val();
+    
+    if (grant === 'Yes')
+    {
+        $('#td_received_grant_amount').show();
+        $('#td_grant_received_date').show();
+    }
+    if (grant === 'No' || grant === '')
+    {
+        $('#td_received_grant_amount').hide();
+        $('#td_grant_received_date').hide();
+    }
+}
