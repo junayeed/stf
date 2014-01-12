@@ -21,6 +21,7 @@ function setupRegistrationForm()
       setRequiredField(last_name,        'textbox',  'last_name');
       setRequiredField(email,            'textbox',  'email');
       setRequiredField(username,         'textbox',  'username');
+      setRequiredField(gender,           'radio',    'gender');
       setRequiredField(password,         'textbox',  'password');
       setRequiredField(confirm_password, 'textbox',  'confirm_password');
    }

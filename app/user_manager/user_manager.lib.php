@@ -51,10 +51,10 @@
       return 1;
    }
    
-   function getSessionInfo($sid)
+   function getSessionInfo()
    {
-       $info['table'] =  SESSIONS_TBL;
-      $info['where'] = 'id ='.$sid;
+      $info['table'] =  SESSIONS_TBL;
+      $info['where'] = 'session_status ='. q('Active');
       $info['debug'] = false;
 
       $result = select($info);

@@ -47,9 +47,9 @@
                                     <div class="widget-container">
                                         <div class="widget-block">
                                             <div class="widget-content box-padding">
-                                                <p class="muted">Current Session is :<b>{$sessionInfo->year}</b></p><br>
+                                                <p class="muted">Current Session is: <b>{$sessionInfo->session_year}</b></p><br>
                                                 <p class="text-warning">
-                                                    Application Date is: <b>{$sessionInfo->session_start_date|date_format:'%d/%m/%Y'}</b> to <b>{$sessionInfo->session_start_date|date_format:'%d/%m/%Y'}</b>
+                                                    Application Date is: <b>{$sessionInfo->session_start_date|date_format:'%d/%m/%Y'}</b> to <b>{$sessionInfo->session_end_date|date_format:'%d/%m/%Y'}</b>
                                                 </p>
                                                 <br>
                                                 <p class="text-info">

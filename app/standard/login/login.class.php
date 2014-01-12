@@ -24,7 +24,7 @@ class LoginApp extends DefaultApplication
 
       // Get the user supplied credentials
       $credentials[LOGIN_ID_FIELD]  = getUserField('loginid');
-      $credentials['password']      = getUserField('password');
+      $credentials['password']      = getUserField('password_login');
 
       // Create a new user object with the credentials
       $thisUser = new User($credentials);

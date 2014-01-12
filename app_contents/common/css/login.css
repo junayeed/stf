@@ -25,7 +25,8 @@ form{
 }
 .login {
   
-  padding: 5px;
+  margin-right: 15px;
+  padding: 5px 10px 5px 5px;
   width: 410px;
   background: #A6CAD6;
   border-radius: 3px;
@@ -286,6 +287,11 @@ h2{
     color: #333;
     line-height: 22px;  
     vertical-align: top;
+}
+
+#contain-body
+{
+    padding: 10px;
 }
 
 #rigistrationContent table td{

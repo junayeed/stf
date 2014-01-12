@@ -119,13 +119,13 @@ function validateFields(frm)
 
 function doApplicationSubmit()
 {
-    var ok;
+    var ok = true;
     var frm = document.userManagerForm;
     
     if ( doConfirm("Are you sure to submit this applicaiton?" ) )
     {
         //user is sure to submit the application
-        ok = doFormSubmit();
+        //ok = doFormSubmit();
         //alert(ok);
         if (ok)
         {
@@ -388,7 +388,7 @@ function calculateFareUSD()
 
 function openFancyBox(elemID)
 {
-    var file_loc = 'http://stf.local' + $('#file_location_'+elemID).val();
+    var file_loc = 'http://' +window.location.host + $('#file_location_'+elemID).val();
     
     $.fancybox.open
     (

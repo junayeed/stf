@@ -139,7 +139,7 @@ class userManagerApp extends DefaultApplication
       }
       
      
-      $data['sessionInfo']            = getSessionInfo($data['sid']);
+      $data['sessionInfo']            = getSessionInfo();
       $data['message']                 = $msg;
       
       //dumpvar($data);

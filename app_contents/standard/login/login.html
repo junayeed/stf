@@ -26,7 +26,7 @@
                           <div class="login">
                             <form name="loginForm" onSubmit="return dologinFormSubmit();" action="{$SCRIPT_NAME}" method="POST">
                                 <p><input type="text" name="loginid" id="loginid" value="" placeholder="Username">
-                                <input type="password" name="password" id="password" value="" placeholder="Password">
+                                <input type="password" name="password_login" id="password_login" value="" placeholder="Password">
                                 <input type="submit" name="commit" value="Login"></p>
                             </form>
                           </div>
@@ -64,10 +64,10 @@
                                                 <td><span class="span-text" id="last_name_lbl">First Name</span></td>
                                                 <td><input type="text" name="last_name" id="last_name" value="" class="W278"></td>
                                             </tr>
-                                            <td><span class="span-text" id="label_radio_lbl">Gender</span></td>
+                                            <td><span class="span-text" id="gender_lbl">Gender</span></td>
                                             <td>
-                                                <label class="label_radio" for="radio-01"><input name="gender" id="radio-01" value="Male" type="radio" />Male</label>
-                                                <label class="label_radio" for="radio-02"><input name="gender" id="radio-02" value="Female" type="radio" />Female</label> 	
+                                                <label class="label_radio" for="gender"><input name="gender" id="gender" value="Male" type="radio" />Male</label>
+                                                <label class="label_radio" for="gender"><input name="gender" id="gender" value="Female" type="radio" />Female</label> 	
                                             </td>
                                             <tr>
                                                 <td><span class="span-text" id="email_lbl">Email</span></td>
