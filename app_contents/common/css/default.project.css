@@ -1093,10 +1093,10 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     position: relative;
 }
 .col-md-6 {
-    width: 415px;
+    width: 800px;
 }
 .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11 {
-    float: left;
+    /* float: left; */
 }
 .box-widget {
     background: none repeat scroll 0 0 #F8F8F8;

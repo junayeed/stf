@@ -232,4 +232,16 @@
         
         return $result[0]->session_year;
     }
+    
+    function getActiveSessionID()
+    {
+        $info['table']   = SESSIONS_TBL;
+        $info['debug']   = false;
+        $info['fields']  = array('id');
+        $info['where']   = 'session_status = ' . q('Active');
+        
+        $result = select($info);
+        
+        return $result[0]->id;
+    }
 ?>

@@ -117,7 +117,7 @@ function highlightColumn(id, highColor)
 function resetColumn(id, resetColor)
 {
    if (!resetColor)
-       resetColor = DEFAULT_RESET_COLOR;
+       resetColor = DEFAULT_RESET_BORDER_COLOR;
 
    // get the object
    thisElementObj                 = document.getElementById(id);

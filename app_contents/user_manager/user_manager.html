@@ -17,8 +17,10 @@
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left">
                         <div class="row">
-                            <div class="col-md-6" style="float: left">
+                            {if $application_status neq "Not Submitted"}
+                            <div class="col-md-6">
                                 <div class="box-widget">
+                                    
                                     <div class="widget-head clearfix">
                                         <h4>My Information</h4>
                                     </div>
@@ -39,7 +41,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6" style="float: right">
+                            {/if}
+                            <div class="col-md-6">
                                 <div class="box-widget">
                                     <div class="widget-head clearfix">
                                         <h4>Important Notes</h4>
@@ -53,10 +56,28 @@
                                                 </p>
                                                 <br>
                                                 <p class="text-info">
-                                                    You have submit your application in between the above date. If you submit your application after the given date then your application will no longer accepted for review
+                                                    "Sweden-Bangladesh Trust Fund" which was constituted in 1984 with the assistance of the Government of Sweden. Initially, the seed capital under this fund was 1,618,558.11 Euro that was deposited in Bangladesh Bank from which interest around BDT 4,500,000.00 (approximately BDTK 4.50 million) accrued in each year. Government of the Peoples Republic of Bangladesh is providing 75% of one way air travel fare to those students who have gone to abroad for higher studies since the inception of the Sweden-Bangladesh Trust Fund.
+
+                                                    <br><br>It is to be noted that a policy on "Sweden-Bangladesh Trust Fund" was approved on 07 December 2009 and it was also circulated in Economic Relations Division's website (www.erd.gov.bd) on 27 December 2009. 
                                                 </p><br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box-widget">
+                                    <div class="widget-head clearfix">
+                                        <h4>FAQ</h4>
+                                    </div>
+                                    <div class="widget-container">
+                                        <div class="widget-block">
+                                            <div class="widget-content box-padding">
                                                 <p class="text-success">
-                                                    Please provide the correct information.
+                                                    <b>Which label STF provides scholarship?</b><br><br>
+                                                    STF provides scholarship in under-graduate and gratuate label students who studies in different oversease universities.<br><br>
+                                                    <b>How much amount STF scholarship provide?</b><br><br>
+                                                    It is not fixed for each year. It depends on STF committe's decision according to number of eligible applicants. 
                                                 </p>
                                             </div>
                                         </div>

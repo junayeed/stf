@@ -22,33 +22,39 @@ function setupForm(frm)
     var grant       = $('#received_grant').val();
     var country_val = $('#country').val();
     
+    for(i=0; i<hasAttachmentsIDs.length; i++)
+        {
+            //if the doc id is found and file name is empty that means this field already has file
+            //if the doc is in NOT found and file name is also EMPTY that means there is no attachments
+            if (hasAttachmentsValues[i] == 0 && $('#'+hasAttachmentsIDs[i]).val() == '' )
+            {
+                alert('Id == ' +hasAttachmentsIDs[i] + '\n Values == ' + hasAttachmentsValues[i] + '\nFile Name == ' + $('#'+hasAttachmentsIDs[i]).val()+'\n Set Req');
+                setRequiredField(hasAttachmentsIDs[i], 'file', hasAttachmentsIDs[i]);
+            }
+        }
+        
+       
+    
     with (frm)
     {
         /*** Personal Information start here ***/
-        setRequiredField(photo,              'file',      'photo');
+        //setRequiredField(photo,              'file',      'photo');
         setRequiredField(first_name,         'textbox',   'first_name');
         setRequiredField(last_name,          'textbox',   'last_name');
         setRequiredField(email,              'textbox',   'email');
         setRequiredField(permanent_address,  'textbox',   'permanent_address');
-        setRequiredField(permanent_phone,    'textbox',   'permanent_phone');
-        setRequiredField(present_address,    'textbox',   'present_address');
         setRequiredField(present_phone,      'textbox',   'present_phone');
+        setRequiredField(present_address,    'textbox',   'present_address');
+        setRequiredField(cell_phone,         'textbox',   'cell_phone');
+        setRequiredField(gender,             'dropdown',  'gender');
         
-        setRequiredField(gender,              'dropdown',   'gender');
-        setRequiredField(received_grant,      'dropdown',   'received_grant');
-        
-        if (grant === 'Yes')
-        {
-            setRequiredField(received_grant_amount,    'textbox',   'received_grant_amount');
-            setRequiredField(grant_received_date,      'textbox',   'grant_received_date');
-        }
         /*** Personal Information end here ***/
         
         /*** guardian Information start here ***/
         setRequiredField(guardian_name,         'textbox',   'guardian_name');
         setRequiredField(guardian_occupation,   'textbox',   'guardian_occupation');
         setRequiredField(guardian_income,       'textbox',   'guardian_income');
-        setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
+        //setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
         /*** guardian Information end here ***/
         
         //var country = $('#country').val();
@@ -58,14 +64,14 @@ function setupForm(frm)
         setRequiredField(university_name,        'textbox',   'university_name');
         setRequiredField(university_contact,     'textbox',   'university_contact');
         setRequiredField(subject_desc,           'textbox',   'subject_desc');
-        setRequiredField(acceptance_letter,      'file',      'acceptance_letter');
-        setRequiredField(scholarship_letter,     'file',      'scholarship_letter');
-        setRequiredField(enroll_certification,   'file',      'enroll_certification');
-        setRequiredField(enroll_certification,   'file',      'enroll_certification');
+        //setRequiredField(acceptance_letter,      'file',      'acceptance_letter');
+        //setRequiredField(scholarship_letter,     'file',      'scholarship_letter');
+        //setRequiredField(enroll_certification,   'file',      'enroll_certification');
+        //setRequiredField(enroll_certification,   'file',      'enroll_certification');
         
         if (country_val == 'US')
         {
-            setRequiredField(i20,   'file',      'i20');
+            //setRequiredField(i20,   'file',      'i20');
         }
         /*** University Information end here ***/
         
@@ -76,13 +82,8 @@ function setupForm(frm)
         setRequiredField(tax,               'textbox',   'tax');
         setRequiredField(ticket_fare_usd,   'textbox',   'ticket_fare_usd');
         setRequiredField(tax_usd,           'textbox',   'tax_usd');
-        setRequiredField(ticket_doc,        'file',   'ticket_doc');
+        //setRequiredField(ticket_doc,        'file',      'ticket_doc');
         /*** Ticket Information start here ***/
-        
-        if ( validateAcademicQualifications() )
-        {
-            
-        }
     }
 }
 
@@ -107,7 +108,7 @@ function validateFields(frm)
             alert('No academic qualification record found.\nPlease enter academic qualification information.');
             return false;
         }
-        else if( validateFileTypes() )
+        else if( !validateFileTypes() )
         {
             alert('Some of the file format is not supported.\nPlease enter a valid file.\nSuported file formats are: jpeg ,jpg, png, gif');
             return false;
@@ -149,7 +150,7 @@ function validateFileTypes()
     for (var i=0; i<fileArray.length; i++)
     {    
         var sFileName = $('#'+fileArray[i]).val();
-        
+
         isValidFile = false;
 
         if(sFileName)
@@ -323,7 +324,7 @@ function addNewRow()
     
 }
 
-var degreeArray = ["", "S.S.C","O Levels","H.S.C.", "A Levels", "Bachelor","Masters","Ph.D"];
+var degreeArray = ["", "S.S.C","O Levels", "Dakhil","H.S.C.", "A Levels", "Alim", "IB", "Bachelor", "Kamil","Masters", "Fazil","Ph.D"];
 
 function getDegreeList()
 {
@@ -452,5 +453,17 @@ function toggleGrantOptions()
     {
         $('#td_received_grant_amount').hide();
         $('#td_grant_received_date').hide();
+    }
+}
+
+function showAttachment(elemID)
+{
+    if ($('#'+elemID).val() > 0 && $('#'+elemID).val() != '')
+    {
+        $('#'+elemID+'_tr').show();
+    }
+    else
+    {
+        $('#'+elemID+'_tr').hide();
     }
 }

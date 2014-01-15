@@ -132,47 +132,62 @@ class applicationManagerApp extends DefaultApplication
       return createPage(USER_EDITOR_TEMPLATE, $data);
    }
 
-   /**
-   * Shows User Editor
-   * @param message
-   * @return user editor template
-   */
-   function showEditor($msg)
-   {
-      $uid = getFromSession('uid'); //getUserField('id');
+    /**
+     * Shows User Editor
+     * @param message
+     * @return user editor template
+     */
+    function showEditor($msg)
+    {
+        $attachementID = array('photo' => 'photo_id', 'guardian_income_tax' => 'guardian_doc_id', 'acceptance_letter'=>'acceptance_doc_id', 
+                               'scholarship_letter'=>'scholarship_doc_id', 'enroll_certification' => 'enroll_doc_id', 'i20' => 'i20_doc_id', 
+                               'ticket_doc' => 'ticket_doc_id');
+        
+        $uid = getFromSession('uid'); //getUserField('id');
       
-      if (!empty($uid))
-      {
-         $thisUser = new User(array('uid' => $uid));
+        if (!empty($uid))
+        {
+            $thisUser = new User(array('uid' => $uid));
          
-         if( empty($thisUser))
-         {
-            $thisUser = array();
-         }
+            if( empty($thisUser))
+            {
+                $thisUser = array();
+            }
          
-         foreach($thisUser as $key => $value)
-         {
-            $userData[$key] = $value;	
-         }
+            foreach($thisUser as $key => $value)
+            {
+                $userData[$key] = $value;	
+            }
          
-         $data = array_merge(array(), $userData);
-      }
-      
-      $data['message']                     = $msg;
-      $data['file']                        = getFileLocation($data['photo_id'],$uid);//$fileLocation;
-      $data['guardian_file']               = getFileLocation($data['guardian_doc_id'],$uid);
-      $data['acceptance_letter_file']      = getFileLocation($data['acceptance_doc_id'],$uid);
-      $data['scholarship_letter_file']     = getFileLocation($data['scholarship_doc_id'],$uid);
-      $data['enroll_certification_file']   = getFileLocation($data['enroll_doc_id'],$uid);
-      $data['i20_file']                    = getFileLocation($data['i20_doc_id'],$uid);
-      $data['ticket_file']                 = getFileLocation($data['ticket_doc_id'],$uid);
-      $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
-      $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
-      //dumpVar($data);
-      $data['country_list']       = getCountryList();
-      
-      return createPage(APPLICATION_EDITOR_TEMPLATE, $data);
-   }
+            $data = array_merge(array(), $userData);
+        }
+        
+        foreach( $attachementID as $key => $value)
+        {
+            $data['hasAttachmentArray'][$key] = $data[$value];
+        }
+        
+        $data['message']                     = $msg;
+        $data['file']                        = getFileLocation($data['photo_id'], $uid);//$fileLocation;
+        $data['guardian_file']               = getFileLocation($data['guardian_doc_id'], $uid);
+        $data['acceptance_letter_file']      = getFileLocation($data['acceptance_doc_id'], $uid);
+        $data['scholarship_letter_file']     = getFileLocation($data['scholarship_doc_id'], $uid);
+        $data['enroll_certification_file']   = getFileLocation($data['enroll_doc_id'], $uid);
+        $data['i20_file']                    = getFileLocation($data['i20_doc_id'], $uid);
+        $data['ticket_file']                 = getFileLocation($data['ticket_doc_id'], $uid);
+        $data['ielts_file']                  = getFileLocation($data['ielts_doc_id'], $uid);
+        $data['tofel_file']                  = getFileLocation($data['tofel_doc_id'], $uid);
+        $data['gre_file']                    = getFileLocation($data['gre_doc_id'], $uid);
+        $data['sat_file']                    = getFileLocation($data['sat_doc_id'], $uid);
+        $data['gmat_file']                   = getFileLocation($data['gmat_doc_id'], $uid);
+        $data['others_file']                 = getFileLocation($data['others_doc_id'], $uid);
+        $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
+        $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
+        //dumpVar($data);
+        $data['country_list']                = getCountryList();
+
+        return createPage(APPLICATION_EDITOR_TEMPLATE, $data);
+    }
 
    /**
    * Saves User information
