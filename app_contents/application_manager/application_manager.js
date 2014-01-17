@@ -28,7 +28,12 @@ function setupForm(frm)
             //if the doc is in NOT found and file name is also EMPTY that means there is no attachments
             if (hasAttachmentsValues[i] == 0 && $('#'+hasAttachmentsIDs[i]).val() == '' )
             {
-                alert('Id == ' +hasAttachmentsIDs[i] + '\n Values == ' + hasAttachmentsValues[i] + '\nFile Name == ' + $('#'+hasAttachmentsIDs[i]).val()+'\n Set Req');
+                //alert('Id == ' +hasAttachmentsIDs[i] + '\n Values == ' + hasAttachmentsValues[i] + '\nFile Name == ' + $('#'+hasAttachmentsIDs[i]).val()+'\n Set Req');
+                if (country_val === 'US' && hasAttachmentsValues[i] === 'i20')
+                {
+                    setRequiredField(hasAttachmentsIDs[i], 'file', hasAttachmentsIDs[i]);
+                    continue;
+                }
                 setRequiredField(hasAttachmentsIDs[i], 'file', hasAttachmentsIDs[i]);
             }
         }

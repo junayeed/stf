@@ -27,7 +27,13 @@ class sessionManagerApp extends DefaultApplication
            case 'add'          : $screen = $this->saveRecord();         break;
            case 'delete'       : $screen = $this->deleteRecord();       break;
            case 'list'         : $screen = $this->showList();           break;
+           case 'checksession' : $screen = $this->checkActiveSession(); break;
            default             : $screen = $this->showEditor($msg);     break;
+      }
+      
+      if ($cmd == 'checksession')
+      {
+          return;
       }
 
       // Set the current navigation item
@@ -43,6 +49,24 @@ class sessionManagerApp extends DefaultApplication
       }
 
       return true;
+   }
+   
+   function checkActiveSession()
+   {
+       $info['table']  = SESSIONS_TBL;
+       $info['debug']  = false;
+       $info['where']  = 'session_status = ' . q('Active');
+       
+       $result = select($info);
+       
+       if ($result)
+       {
+           echo json_encode('1');
+       }
+       else
+       {
+           echo json_encode('');
+       }
    }
    
     /**
