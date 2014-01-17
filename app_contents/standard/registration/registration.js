@@ -97,6 +97,18 @@ function validateFields(frm)
             alert(ERROR_EMAIL);
             return false;
         }
+        else if(psw_match==false){
+            alert(ERROR_PASS_MATCH);
+            highlightTableColumn('password');
+            highlightTableColumn('confirm_password');
+            return false;
+        } 
+        else if(psw_match==false){
+            alert(ERROR_PASS_MATCH);
+            highlightTableColumn('password');
+            highlightTableColumn('confirm_password');
+            return false;
+        } 
 
         return true;
     }
