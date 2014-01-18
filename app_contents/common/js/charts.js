@@ -25,7 +25,7 @@ function showTop10Countries()
             {
                 column: 
                 {
-                    pointPadding: 0.1,
+                    pointPadding: 0.0,
                     borderWidth: 0
                 }
             },
@@ -138,10 +138,8 @@ function showPieCharts(male, female)
                         enabled: true,
                         color: '#000000',
                         connectorColor: '#000000',
-                        formatter: function() 
-                        {
-                            return this.percentage +' %';
-                        }
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        
                     }
                 }
             },
