@@ -1060,7 +1060,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 }
 
 .button-div{
-    width: 650px;
+    
     position: block  ;
     bottom: 50px;
     right: 294px; 
@@ -1319,6 +1319,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     padding:0;
     margin:0;
     list-style-type:none;
+    border-bottom: 1px solid #CCCCCC;
    
 }
 #tabs a
@@ -1330,7 +1331,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     background-color:#0CA3D2;
     padding:0.2em 0.6em;
     border-right:1px solid white;
-    border-radius: 2px;
+    border-radius: 10px 10px 0px 0px;
 }
 #tabs a:hover {background-color:#0CA3D2; color:#000; }
 #tabs li {display:inline;}

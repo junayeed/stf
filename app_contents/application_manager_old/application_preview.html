@@ -1,0 +1,148 @@
+<!-- Add fancyBox main JS and CSS files -->
+<script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
+<link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
+
+<body>
+    <table>
+        <tr>
+            <td><u>Application Form</u></td>
+            <td><img src="{$file}?{$smarty.now}" width="150" height="150"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Reimbursement of Expenses against one way air travel from the Sweden-Bangladesh Trust Fund.<br>(Academic Session: {$session_year})
+            </td>    
+        </tr>
+        <tr>
+            <td>Name: </td>
+            <td>{$first_name} {$last_name}</td>
+        </tr>
+        <tr>
+            <td>Gender: </td>
+            <td>{$gender}</td>
+        </tr>
+        <tr>
+            <td>Guardian Name: </td>
+            <td>{$guardian_name}</td>
+        </tr>
+        <tr>
+            <td>Guardian Occupation: </td>
+            <td>{$guardian_occupation}</td>
+        </tr>
+        <tr>
+            <td>Guardian Income: </td>
+            <td>{$guardian_income}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Address of the Applicant in Bangladesh: </td>
+        </tr>
+        <tr>
+            <td>Present Address: </td>
+            <td>{$present_address}</td>
+        </tr>
+        <tr>
+            <td>Present Phone: </td>
+            <td>{$present_phone}</td>
+        </tr>
+        <tr>
+            <td>Permanent Address: </td>
+            <td>{$permanent_address}</td>
+        </tr>
+        <tr>
+            <td>Cell Phone: </td>
+            <td>{$cell_phone}</td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td>{$email}</td>
+        </tr>
+        <tr>
+            <td>Education Qualification: </td>
+            <td><b>Attached</b></td>
+        </tr>
+        <tr>
+            <td colspan="2">University Information (where the applicant has been enrolled)</td>
+        </tr>
+        <tr>
+            <td>Country: </td>
+            <td>{$country_name}</td>
+        </tr>
+        <tr>
+            <td>University Name: </td>
+            <td>{$university_name}</td>
+        </tr>
+        <tr>
+            <td>Institution's contact person's details: </td>
+            <td>{$university_contact}</td>
+        </tr>
+        <tr>
+            <td>Field of Study including Major: </td>
+            <td>{$subject_desc}</td>
+        </tr>
+        <tr>
+            <td>Acceptance Letter: </td>
+            <td><b>Attached</b></td>
+        </tr>
+        <tr>
+            <td>Followship/Scholarship Award Letter: </td>
+            <td><b>Attached</b></td>
+        </tr>
+        <tr>
+            <td width="40%">Certification from the enrolling educational institute to the effect that no travel expense has been not or would be reimbursed to the applicant (to be enclosed): </td>
+            <td><b>Attached</b></td>
+        </tr>
+        <tr>
+            <td>I-20: </td>
+            <td><b>Attached</b></td>
+        </tr>
+        <tr>
+            <td>TOFEL: </td>
+            <td>{$tofel} (<b>Attached</b>)</td>
+        </tr>
+        <tr>
+            <td>IELTS: </td>
+            <td>{$ielts} (<b>Attached</b>)</td>
+        </tr>
+        <tr>
+            <td>SAT: </td>
+            <td>{$sat} (<b>Attached</b>)</td>
+        </tr>
+        <tr>
+            <td>GRE </td>
+            <td>{$gre} (<b>Attached</b>)</td>
+        </tr>
+        <tr>
+            <td>GMAT: </td>
+            <td>{$gmat} (<b>Attached</b>)</td>
+        </tr>
+         <tr>
+             <td colspan="2">Cost of one-way ticket (in US and BD Taka) </td>
+        </tr>
+         <tr>
+            <td>Ticket Number </td>
+            <td>{$ticket_number}</td>
+        </tr>
+         <tr>
+            <td>Ticket Date </td>
+            <td>{$ticket_date}</td>
+        </tr>
+        <tr>
+            <td> Total Fare(USD): {#total_usd}  </td>
+            <td> Total Fare(BDT): {#total}  </td>    
+        </tr>
+        <tr>
+            <td>Ticket Document </td>
+            <td><b>Attached</b></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Signature with Date</td>
+        </tr>
+        
+        <tr>
+            <td colspan="2">Note: Please print this document and signature it</td>
+        </tr>
+    </table>
+</body>

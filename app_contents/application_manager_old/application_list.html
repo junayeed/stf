@@ -1,0 +1,53 @@
+<html>
+<head>
+<link rel="stylesheet" href="{$SYSTEM_COMMON_CSS_DIR}/default.project.css" type="text/css">
+<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
+<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
+<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/sorttable.js"></script>
+
+</head>
+
+<body class="whiteBody">
+    <form method="post" action="{$SCRIPT_NAME}?cmd=list" name="userListForm">
+        <div class="customer-left-body">
+            <table width="760" cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <td width="8">&nbsp;</td>
+                        <td width="144">Name</td>
+                        <td width="107">User Name</td>
+                        <td width="108">User Status</td>
+                        <td width="72">User Type</td>
+                        <td width="108">Create Date</td>
+                        <td width="143">Last Updated</td>
+                        <td width="70">Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach from=$list item=item}
+                    <tr>
+                        <td width="8" class="border">&nbsp;</td>
+                        <td width="144" class="border">{$item->first_name} {$item->middle_initial} {$item->last_name}</td>
+                        <td width="107" class="border">{$item->username}</td>
+                        <td width="108" class="border">{$item->user_status}</td>
+                        <td width="72" class="border">{$item->user_type}</td>
+                        <td width="108" class="border">{$item->create_date|date_format:'%m-%d-%Y'}</td>
+                        <td width="143" class="border">{$item->last_updated|date_format:'%m-%d-%Y %H:%M:%S'}</td>
+                        <td width="70" class="border"><a href="{$SCRIPT_NAME}?id={$item->uid}&cmd=edit" target="_parent"><img src="/app_contents/common/images/edit.png" alt="Edit" /></a>&nbsp;&nbsp;&nbsp;<a onClick='return doConfirm(PROMPT_DELETE_CONFIRM);' href='{$SCRIPT_NAME}?id={$item->uid}&cmd=delete' target='_top'><img src="/app_contents/common/images/cross.png" alt="Cross" /></a></td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+<!--        <div class="viewmore">
+            <table width="760">
+                <tr>
+                    <td class="font3 padding-left10">Total {$row_count} product(s) found</td>
+                    <td class="font3">Showing page {$page_no+1} out of {$page_count}</td>
+                    <td class="font3 padding-right10" align="right">{if $page_no neq ''}<a href='{$SCRIPT_NAME}?page_no={$page_no-1}&cmd=list'>Previous</a>{else}Previous{/if} | {if $page_no eq $page_count-1}Next{else}<a href='{$SCRIPT_NAME}?page_no={$page_no+1}&cmd=list'>Next</a>{/if}</td>
+                </tr>    
+            </table>
+        </div>-->
+    </form>
+</body>
+</html>

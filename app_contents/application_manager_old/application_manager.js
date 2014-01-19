@@ -316,7 +316,6 @@ function addNewRow()
 {
     var td_empty              = '<td width="4" class="prepand">&nbsp;</td>';
     var td_degree             = '<td width="47" class="prepand"> '+ getDegreeList() +'</td>';
-    var td_result             = '<td width="63" class="prepand"><input type="text" name="result_'+row_id+'" id="result_'+row_id+'"    value="" class="inputbox3 W150" ></td>';  
     var td_attachment_name    = '<td width="63" class="prepand"><input type="text" name="attachmentname_'+row_id+'" id="attachmentname_'+row_id+'"    value="" class="inputbox3 W150" ></td>';  
     var td_attachment         = '<td width="70" class="prepand"><input type="file" name="academicfiles_'+row_id+'" onchange=uploadFiles("academicfiles_'+row_id+'")   id="academicfiles_'+row_id+'"    value="" class="W175" /></td>';
     var td_action             = '<td width="50" class="prepand" id="td_action_'+row_id+'"><a href="javascript: void(0);" onClick="deleteRow('+row_id+');"><img src="/app_contents/common/images/cross2.png"></a></td>';
@@ -324,7 +323,7 @@ function addNewRow()
     var hidden_field          = '<input type="hidden" id="aqid_'+row_id+'" name="aqid_'+row_id+'" value="" >\n\
                                  <input type="hidden" id="file_location_'+row_id+'" name="file_location_'+row_id+'" value="">';
      
-    $('<tr id="tr_'+row_id+'" class="border">'+ td_empty+td_degree+td_result+td_attachment_name+td_view+td_attachment+td_action+hidden_field+'</tr>').prependTo("#academic_qualifications > tbody")
+    $('<tr id="tr_'+row_id+'" class="border">'+ td_empty+td_degree+td_attachment_name+td_view+td_attachment+td_action+hidden_field+'</tr>').prependTo("#academic_qualifications > tbody")
     $('#id_'+row_id).hide();
     row_id++;    
     
@@ -472,26 +471,4 @@ function showAttachment(elemID)
     {
         $('#'+elemID+'_tr').hide();
     }
-}
-
-function showTabs(thisField,currentTabId)
-{
-    
-    hideAllTabs();
-    $('#'+currentTabId).show();
-    $('#'+thisField).css('background-color','RED');
-}
-
-function hideAllTabs()
-{
-    $('#personal-info-content').hide();
-    $('#academic-info-content').hide();
-    $('#university-info-content').hide();
-    $('#ticket-info-content').hide();
-    
-    $('#personal-info-tab').css('background-color','#0CA3D2');
-    $('#academic-info-tab').css('background-color','#0CA3D2');
-    $('#university-info-tab').css('background-color','#0CA3D2');
-    $('#ticket-tab').css('background-color','#0CA3D2');
-     
 }

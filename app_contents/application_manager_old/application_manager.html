@@ -17,7 +17,7 @@
     {rdelim}
 </script>
 
-<body onLoad="toggleGrantOptions();showTabs('personal-info-tab','personal-info-content') ">
+<body onLoad="toggleGrantOptions();">
     <form name="userManagerForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
         
         <input type="hidden" name="id" value="{$uid}">
@@ -33,26 +33,33 @@
                         <input type="hidden" id="cmd" name="cmd" value="add">
                         <div class="left">   <!-- left class starts here-->
                             {$message}
-                            <table width="850" cellpadding="0" cellspacing="0" border="1">
+                            <table width="850" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td width="470" class="prepand2" colspan="2">
-                                        <h3><span>Application Details</span></h3><br>
-                                        <div id="tabs">
-                                            <ul class="ui-tabs">
-                                                <li><a href="#"  id="personal-info-tab" onclick="showTabs(this.id,'personal-info-content')" style="background-color:RED !important; " >Personal Details</a></li>
-                                                <li><a href="#" id="academic-info-tab" onclick="showTabs(this.id,'academic-info-content')">Education Info</a></li>
-                                                <li><a href="#" id="university-info-tab" onclick="showTabs(this.id,'university-info-content')">University Info</a></li>
-                                                <li><a href="#" id="ticket-tab" onclick="showTabs(this.id,'ticket-info-content')">Ticket Info</a></li>
-                                            </ul>
-                                        </div> 
+                                        <h3><span>Application Details</span></h3>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="100%">
-                                        <!-- Personal Information Content Start here -->
-                                        <div id="personal-info-content">
+                                    <td valign="top" align="center">
+                                        <table border="0">
+                                            <tr>
+                                                <td align="left">
+                                                    <span class="span-text" id="photo_lbl">Applicant's Picture</span><br class="br"/><br class="br"/>
+                                                {if $photo_id neq 0}
+                                                    <img src="{$file}?{$smarty.now}" width="150" height="150">
+                                                {else}
+                                                    <img src="/app_contents/common/images/default.png" id="photoImage" width="150" height="150">
+                                                {/if}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="file" name="photo" id="photo" class="W75"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td width="80%">
                                         <!-- Personal Information starts here -->
-                                        <div class="main-content" id="personal-info" >
+                                        <div class="main-content">
                                             <h4 class="header">Personal Information</h4>
                                             <div class="table-content">
                                                 <table width="100%">
@@ -72,26 +79,6 @@
                                                                 {html_options values=$gender_list output=$gender_list selected=$gender}
                                                             </select>
                                                         </td>
-                                                        
-                                                        <td rowspan="5" valign="top" align="center">
-                                        
-                                                            <table border="0">
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <span class="span-text" id="photo_lbl">Applicant's Picture</span><br class="br"/><br class="br"/>
-                                                                    {if $photo_id neq 0}
-                                                                        <img src="{$file}?{$smarty.now}" width="150" height="150">
-                                                                    {else}
-                                                                        <img src="/app_contents/common/images/default.png" id="photoImage" width="150" height="150">
-                                                                    {/if}
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><input type="file" name="photo" id="photo" class="W75"></td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-
                                                     </tr>
                                                     <tr><td><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
@@ -353,54 +340,8 @@
                                         </div>
                                         <!-- Personal Information table ends here-->
                                         
-                                        
-                                         
-                                        <!-- Guardian Information table starts here-->
-                                        <div class="main-content" id="guardian-info">
-                                            <h4 class="header">Guardian Information</h4>
-                                            <div class="table-content">
-                                                <table width="100%">
-                                                    <tr>
-                                                        <td valign="top">
-                                                            <span class="span-text" id="guardian_name_lbl">Name</span><br class="br"/>
-                                                            <input type="text" name="guardian_name" id="guardian_name" value="{$guardian_name|stripslashes}" class="inputbox3 W150">
-                                                        </td>
-                                                        <td valign="top">
-                                                            <span class="span-text" id="guardian_occupation_lbl">Occupation</span><br class="br"/>
-                                                            <input type="text" name="guardian_occupation" id="guardian_occupation" value="{$guardian_occupation|stripslashes}" class="inputbox3 W150">
-                                                        </td>
-                                                        <td valign="top">
-                                                            <span class="span-text" id="guardian_income_lbl">Annual Income</span><br class="br"/>
-                                                            <input type="text" name="guardian_income" id="guardian_income" value="{$guardian_income|stripslashes}" 
-                                                                   class="inputbox3 W110" onkeypress="return isNumberKey(event)">
-                                                        </td>
-                                                        <td valign="top">
-                                                            <span class="span-text" id="tin_lbl">Tax Identification Number (TIN)</span><br class="br"/>
-                                                            <input type="text" name="tin" id="tin" value="{$tin|default:''}" maxlength="12" 
-                                                                   class="inputbox3 W150" onkeypress="return isNumberKey(event)">
-                                                        </td>
-                                                    </tr>
-                                                    <tr><td><div style=" height: 10px;"></div></td></tr>
-                                                    <tr>
-                                                        <td colspan="3">
-                                                            <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement</span>   
-                                                            <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
-                                                        </td>
-                                                        <td>
-                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>{/if}
-                                                        </td>
-                                                    </tr>
-                                                </table>  
-                                            </div>
-                                        </div>
-                                        <!-- Guardian Information table ends here-->
-                                        </div>
-                                        <!-- Personal Information Content End here -->
-                                        
-                                        <!-- Academic Info Content starts here-->
-                                        <div id="academic-info-content">
                                         <!-- Academic Qualifications table starts here-->
-                                        <div class="main-content" id="academic-info">
+                                        <div class="main-content">
                                             <h4 class="header">Academic Qualifications</h4>
                                             <div class="table-content">
                                                 <table width="100%"> 
@@ -411,7 +352,6 @@
                                                                     <tr>
                                                                         <td width="4">&nbsp;</td>
                                                                         <td width="47"><span>Exam/Degree</span></td>
-                                                                        <td width="47"><span>Result(Division/Grade)</span></td>
                                                                         <td width="47"><span>Attachment Name</span></td>
                                                                         <td width="47"><span> </span></td>
                                                                         <td width="47"><span>Attachment</span></td>
@@ -431,14 +371,9 @@
                                             </div>
                                         </div>
                                         <!-- Academic Qualification table ends here-->
-                                        </div>
-                                         <!-- Academic Info Content End here-->
                                         
-                                         
-                                        <!-- University Information Content starts here--> 
-                                        <div id="university-info-content"> 
                                         <!-- University Information table starts here-->
-                                        <div class="main-content" id="unitersity-info1">
+                                        <div class="main-content">
                                             <h4 class="header">University Information (where the applicant has been enrolled)</h4>
                                             <div class="table-content">
                                                 <table width="100%">
@@ -475,7 +410,7 @@
                                         <!-- University Information table ends here-->
                                         
                                         <!-- Acceptance Letter and Fellowship letter start here -->
-                                        <div class="main-content" id="unitersity-info2">
+                                        <div class="main-content">
                                             <h4 class="header">Acceptance Letter and Followship/Scholarship Award issue by the enrolling educational institute (to be enclosed)</h4>
                                             <div class="table-content">
                                             <table  width="100%">
@@ -503,7 +438,7 @@
                                         <!-- Acceptance Letter and Fellowship letter END here -->
                                         
                                         <!-- Certification START here -->
-                                        <div class="main-content" id="unitersity-info3">
+                                        <div class="main-content">
                                             <h4 class="header H35">Certification from the enrolling educational institute to the effect that no travel expense has been not or would be reimbursed to the applicant (to be enclosed):</h4>
                                             <div class="table-content">
                                                 <table  width="100%">
@@ -617,13 +552,9 @@
                                             </div>
                                         </div>
                                         <!-- Others Qualifications ENDS here-->
-                                        </div>
-                                        <!-- University Information Content starts here--> 
                                         
-                                        <!-- Ticket Info Content starts here-->
-                                        <div id="ticket-info-content"> 
                                         <!-- Air Fare Information table starts here-->
-                                        <div class="main-content" id="ticket-info1">
+                                        <div class="main-content">
                                             <h4 class="header">Air Fare Details (Cost of one way ticket in BDT and USD)</h4>
                                             <div class="table-content">
                                                 <table width="100%">  
@@ -638,10 +569,6 @@
                                                             <img name="anchor1" id="anchor1" align=top width=22 height=20 
                                                                  style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
                                                                  onClick="thisSelect(document.userManagerForm.date_ticket,'anchor1','dd/MM/yyyy'); return false;">
-                                                        </td>
-                                                        <td width="33%">
-                                                            <span class="span-text" id="destination_airport_lbl">Destination Airport</span><br class="br"/>
-                                                            <input type="text" name="destination_airport" id="destination_airport" value="{$destination_airport}" class="inputbox3 W150">
                                                         </td>
                                                     </tr>
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
@@ -695,9 +622,48 @@
                                         </div>
                                         <!-- air fare table starts here-->
                                         
+                                        <!-- Guardian Information table starts here-->
+                                        <div class="main-content">
+                                            <h4 class="header">Guardian Information</h4>
+                                            <div class="table-content">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="guardian_name_lbl">Name</span><br class="br"/>
+                                                            <input type="text" name="guardian_name" id="guardian_name" value="{$guardian_name|stripslashes}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="guardian_occupation_lbl">Occupation</span><br class="br"/>
+                                                            <input type="text" name="guardian_occupation" id="guardian_occupation" value="{$guardian_occupation|stripslashes}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="guardian_income_lbl">Annual Income</span><br class="br"/>
+                                                            <input type="text" name="guardian_income" id="guardian_income" value="{$guardian_income|stripslashes}" 
+                                                                   class="inputbox3 W110" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="tin_lbl">Tax Identification Number (TIN)</span><br class="br"/>
+                                                            <input type="text" name="tin" id="tin" value="{$tin|default:''}" maxlength="12" 
+                                                                   class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td><div style=" height: 10px;"></div></td></tr>
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement</span>   
+                                                            <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
+                                                        </td>
+                                                        <td>
+                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>{/if}
+                                                        </td>
+                                                    </tr>
+                                                </table>  
+                                            </div>
+                                        </div>
+                                        <!-- Guardian Information table ends here-->
                                         
                                         <!-- Other Attachment table starts here-->
-                                        <div class="main-content" id="ticket-info2">
+                                        <div class="main-content">
                                             <h4 class="header">Others Attachment (Optional)</h4>
                                             <div class="table-content">
                                                 <table width="100%">
@@ -714,9 +680,7 @@
                                             </div>
                                         </div>
                                         <!-- Other Attachment table ends here-->
-                                        </div>
-                                        <!-- Ticket Info Content END here-->
-                                        
+
                                         <div id="buttons-div" class="button-div">
                                             <label>Note: Once you submit the application you can not modify the application.</label>
                                             <input type="button" value="SUBMIT" name="save" id="save" class="inputbox-blue margin-right50" onClick="doApplicationSubmit();">  
