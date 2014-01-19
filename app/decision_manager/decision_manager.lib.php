@@ -4,7 +4,7 @@
     {
         $info['table']  = SESSIONS_TBL;
         $info['debug']  = false;
-        $info['fields'] = array('scholarship_bulk_amount ');
+        $info['fields'] = array('scholarship_bulk_amount');
         $info['where']  = 'id = ' . $sid;
         
         $result = select($info);
@@ -16,7 +16,7 @@
     {
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid)'; 
         $info['debug']  = false;
-        $info['fields'] = array('SUM(TT.ticket_fare) AS total_ticket_fare');
+        $info['fields'] = array('SUM(TT.total) AS total_ticket_fare');
         $info['where']  = 'AT.application_status = ' . q('Accepted') . '  ORDER BY AT.country';
 
         $result = select($info);

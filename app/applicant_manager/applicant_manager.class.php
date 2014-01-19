@@ -286,7 +286,7 @@ class applicantManagerApp extends DefaultApplication
       $data['application_status_list']     = getEnumFieldValues(APPLICATIONS_TBL, 'application_status');
       $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
       $data['degree_list']                 = getEnumFieldValues(ACADEMIC_QUALIFICATIONS_TBL, 'degree');
-      $data['session_year_list']           = getSessionYearlist();
+      $data['session_year_list']           = getSessionYearList();
       $data['session_year']                = getActiveSessionYear();
       $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
       
@@ -396,7 +396,7 @@ class applicantManagerApp extends DefaultApplication
         $data['application_status']    = getUserField('application_status');
         $data['guardian_income_max']   = getUserField('guardian_income_max');
         $data['guardian_income_min']   = getUserField('guardian_income_min');
-        $data['session_year']          = getUserField('session_year');
+        $data['session_year']          = getUserField('session_year') ? getUserField('session_year') : getActiveSessionYear();
         $data['received_grant']        = getUserField('received_grant');
         
         $filterClause = '1';

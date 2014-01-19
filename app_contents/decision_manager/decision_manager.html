@@ -30,7 +30,7 @@
                             <div class="company-name">
                                 <div class="font3 prepand" id="scholarship_bulk_amount_lbl">Scholarship Bulk Amount</div>
                                 <div class="prepand">
-                                    <input type="text" name="scholarship_bulk_amount" id="scholarship_bulk_amount" value="{$scholarship_bulk_amount}" 
+                                    <input type="text" name="scholarship_bulk_amount" id="scholarship_bulk_amount" value="{$scholarship_bulk_amount|number_format:'1'}" 
                                            class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                             <div class="company-name">
                                 <div class="font3 prepand" id="awarded_amount_lbl">Total Ticket Fare</div>
                                 <div class="prepand">
-                                    <input type="text" name="awarded_amount" id="awarded_amount" value="{$totalTicketFare}" 
+                                    <input type="text" name="awarded_amount" id="awarded_amount" value="{$totalTicketFare|number_format:'1'}" 
                                            class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
                                 </div>
                             </div>
@@ -56,47 +56,42 @@
                             </div>
                         </div>
                         <h3 style="clear: both;"><span>Accepted Applicant(s)</span></h3>
-                        <div class="customer-left-body">
+                        <div class="customer-left-body"><h6>All Amounts are in BDT</h6>
                             <table width="930" cellpadding="0" cellspacing="0" border="0">
                                 <thead>
                                     <tr>
-                                        <td width="8"></td>
                                         <td width="160">Name</td>
                                         <td width="40">Gender</td>
                                         <td width="40">Status</td>
-                                        <td width="70">Ticket Fare (BDT)</td>
-                                        <td width="70">TAX (BDT)</td>
-                                        <td width="70">Total (BDT)</td>
-                                        <td width="100">Scholarship Amount</td>
-                                        <td width="50">Action</td>
+                                        <td width="70">Total Fare</td>
+                                        <td width="70">Collected Fare (Local Sources)</td>
+                                        <td width="70">Base Fare</td>
+                                        <td width="100">Grant Amount</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {foreach from=$list key=okey item=oitem}
                                         <tr class="">
-                                            <td width="8">&nbsp;</td>
                                             <td colspan="5"><div class="font">{$okey}</div></td>
                                         </tr>
                                         {assign var=country_total value="0"}
                                         {foreach from=$oitem key=key item=item}
                                         <script> AppIDs.push({$item->id}) </script>
                                         <tr>
-                                            <td width="8" class="border"></td>
                                             <td width="160" class="border">
                                                 <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
                                             </td>
                                             <td width="40" class="border">{$item->gender}</td>
                                             <td width="40" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
-                                            <td width="70" class="border">{$item->ticket_fare|number_format:'2'}</td>
-                                            <td width="70" class="border">{$item->tax|number_format:'2'}</td>
                                             <td width="70" class="border">{$item->total|number_format:'2'}</td>
+                                            <td width="70" class="border">{$item->collected_fare|number_format:'2'}</td>
+                                            <td width="70" class="border">{$item->base_fare|number_format:'2'}</td>
                                             <td width="70" class="border">
-                                                <input type="text" name="awarded_amount_{$item->id}" id="awarded_amount_{$item->id}" value="{$item->scholarship_amount|number_format:'2'}" 
+                                                <input type="text" name="grant_amount_{$item->id}" id="grant_amount_{$item->id}" value="{$item->grant_amount|number_format:'2'}" 
                                                        onkeypress="return isNumberKey(event)" class="inputbox3 W70">
                                             </td>
-                                            <td width="50" class="border"><input type="button" class="inputbox-submit" id="save" name="save" value="Save" onclick="doApplicantSearch();"></td>
                                         </tr>
-                                        {assign var=country_total value=$country_total+$item->ticket_fare}
+                                        {assign var=country_total value=$country_total+$item->total}
                                         {/foreach}
                                         <tr>
                                             <td colspan="4" class="border" align="right">Total ({$okey}): </td>

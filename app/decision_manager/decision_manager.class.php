@@ -335,7 +335,7 @@ class applicantManagerApp extends DefaultApplication
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid)';
         $info['debug']  = false;
         $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 
-                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 'TT.ticket_fare*'.$data['scholarship_percentage'].' AS scholarship_amount');
+                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 'TT.total*'.$data['scholarship_percentage'].' AS grant_amount');
         $info['where']  = 'AT.application_status = ' . q('Accepted') . '  ORDER BY AT.country';
 
         $result = select($info);

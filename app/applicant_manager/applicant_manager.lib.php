@@ -159,23 +159,4 @@
         
         return;
     }
-    
-    function getSessionYearlist()
-    {
-        $info['table']  = SESSIONS_TBL;
-        $info['debug']  = false;
-        $info['fields'] = array('id', 'session_year');
-        
-        $result = select($info);
-        
-        if ( $result)
-        {
-            foreach( $result AS $key => $value)
-            {
-                $retData[$value->id] = $value->session_year;
-            }
-        }
-        
-        return $retData;
-    }
 ?>

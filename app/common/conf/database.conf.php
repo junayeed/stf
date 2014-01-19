@@ -59,7 +59,8 @@
   define('APPLICATIONS_TBL',             DB_NAME . '.applications');
   define('SESSIONS_TBL',                 DB_NAME . '.sessions');
   define('TICKETS_TBL',                  DB_NAME . '.tickets');
-  define('ACADEMIC_QUALIFICATIONS_TBL',  DB_NAME . '. academic_qualifications');
+  define('ACADEMIC_QUALIFICATIONS_TBL',  DB_NAME . '.academic_qualifications');
+  define('AIRFARES_TBL',                 DB_NAME . '.airfares');
  
   
   if (AUTO_CONNECT_TO_DATABASE)

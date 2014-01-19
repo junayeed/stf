@@ -1,0 +1,71 @@
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+</script>
+
+<body>
+    <form name="airfareForm" id="airfareForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
+        <!-- HIDDERN FIELDS -->
+        <input type="hidden" name="id" value="{$id}">
+        <input type="hidden" name="cmd" value="add">
+        <!-- HIDDEN FIELDS -->
+
+        <div id="body-full">   <!-- body-full class starts here -->
+            <div class="wrap">  <!-- wrap class starts here -->
+                <div class="body-block" style="padding-bottom:30px;">  <!-- body-block class starts here -->
+                    <div class="left">    <!-- left class starts here-->
+                        <h3><span>Collected Air Fare from Local Sources</span></h3>
+                        <div class="customer-left-body">   <!--customer-left-body starts here-->
+                            <table width="760" cellpadding="0" cellspacing="0" border="0">
+                                <thead>
+                                    <tr>
+                                        <td width="50">Country</td>
+                                        <td width="50">Air Fare</td>
+                                        <td width="90">Source</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {foreach from=$country_list item=item}
+                                    <tr>
+                                        <td class="border">{$item->country_name}</td>
+                                        <td class="border"><input type="text" name="local_fare_{$item->country}" id="local_fare_{$item->country}" value="{$item->local_fare}" class="inputbox3 W127" onkeypress="return isNumberKey(event);"></td>
+                                        <td class="border"><input type="text" name="source_{$item->country}" id="source_{$item->country}" value="{$item->source}" class="inputbox3 W200"></td> 
+                                    </tr>
+                                {/foreach}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td align="right" colspan="3">
+                                            <input type="submit" class="inputbox-submit" id="save" name="send" value="SAVE">
+                                            <input type="reset" class="inputbox-submit" id="clear" name="clear" value="CLEAR">
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="viewmore"> </div>
+                    </div>  <!-- left class ends here-->                    
+                    
+                    <div class="right">  <!-- right class starts here-->
+                        <div class="right-body">  <!-- right-body class starts here-->
+                            <h3><span>Session Details</span></h3>
+                        </div>                             <!-- right-body class starts here-->
+                        <div class="customers-body">   <!--customer body starts here-->
+                            <div class="font3 prepand"><label id="session_year_lbl">Session Year</label></div>
+                            <div class="prepand">
+                                <select class="combo1 W127" name="session_year" id="session_year" onChange="searchAirFare();">
+                                    <option value="">-- Select --</option>
+                                    {html_options options=$session_year_list selected=$session_year}
+                                </select>
+                            </div>
+                        </div>  <!--customer body ends here-->
+                    </div>      <!-- right class ends here-->
+                </div>          <!-- body-block class ends here -->
+            </div>              <!-- wrap class ends here -->
+        </div>                  <!-- body-full class ends here -->
+    </form>
+</body>
