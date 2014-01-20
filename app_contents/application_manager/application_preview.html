@@ -12,7 +12,7 @@
                     <table id="preview-table" border="1">
                         <tr>
                             <td>
-                                <label id="">Application ID:</label> STF000123<br><br>
+                                <label id="">Application ID:</label> {$app_id}<br><br>
                                 
                             </td>
                             <td colspan="2" align="right"><img src="{$file}?{$smarty.now}" width="150" height="150"></td>
@@ -49,7 +49,7 @@
                             <td>{$guardian_income}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">Address of the Applicant in Bangladesh: </td>
+                            <td colspan="3">Address of the Applicant in Bangladesh</td>
                         </tr>
                         <tr>
                             <td>Present Address </td>
@@ -107,75 +107,90 @@
                         <tr>
                             <td>Acceptance Letter</td>
                              <td>:</td>
-                            <td><b>Attached</b></td>
+                            <td><b>{if $acceptance_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
                         <tr>
                             <td>Followship/Scholarship Award Letter</td>
                              <td>:</td>
-                            <td><b>Attached</b></td>
+                            <td><b>{if $scholarship_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
                         <tr>
                             <td >Certification from the enrolling educational institute to the effect that no travel expense has been not or would be reimbursed to the applicant (to be enclosed): </td>
                              <td>:</td>
-                            <td><b>Attached</b></td>
+                            <td><b>{if $enroll_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
                         <tr>
                             <td>I-20</td>
                              <td>:</td>
-                            <td><b>Attached</b></td>
+                            <td><b>{if $i20_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
+                        {if $tofel}
                         <tr>
                             <td>TOFEL</td>
                              <td>:</td>
-                            <td>{$tofel} (<b>Attached</b>)</td>
+                            <td>{$tofel} (<b>{if $tofel_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
                         </tr>
+                        {/if}
+                        {if $ielts}
                         <tr>
                             <td>IELTS</td>
                              <td>:</td>
-                            <td>{$ielts} (<b>Attached</b>)</td>
+                            <td>{$ielts} (<b>{if $ielts_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
                         </tr>
+                        {/if}
+                        {if $sat}
                         <tr>
                             <td>SAT</td>
                              <td>:</td>
-                            <td>{$sat} (<b>Attached</b>)</td>
+                            <td>{$sat} (<b>{if $sat_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
                         </tr>
+                        {/if}
+                        {if $gre}
                         <tr>
-                            <td>GRE </td>
+                            <td>GRE</td>
                              <td>:</td>
-                            <td>{$gre} (<b>Attached</b>)</td>
+                            <td>{$gre} (<b>{if $gre_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
                         </tr>
+                        {/if}
+                        {if $gmat}
                         <tr>
                             <td>GMAT</td>
                              <td>:</td>
-                            <td>{$gmat} (<b>Attached</b>)</td>
+                            <td>{$gmat} (<b>{if $gmat_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
                         </tr>
+                        {/if}
                          <tr>
                              <td colspan="3">Cost of one-way ticket (in US and BD Taka) </td>
                         </tr>
-                         <tr>
+                        <tr>
                             <td>Ticket Number </td>
                              <td>:</td>
                             <td>{$ticket_number}</td>
                         </tr>
-                         <tr>
+                        <tr>
                             <td>Ticket Date </td>
                              <td>:</td>
-                            <td>{$ticket_date}</td>
+                            <td>{$date_ticket}</td>
                         </tr>
                         <tr>
-                            <td> Total Fare(USD)</td>
+                            <td>Destination Airport</td>
                              <td>:</td>
-                            <td>{$total_usd}  </td>    
+                            <td>{$destination_airport}</td>
                         </tr>
-                         <tr>
-                            <td> Total</td>
+                        <tr>
+                            <td> Total (Ticket Fare + TAX)</td>
                              <td>:</td>
-                            <td> {$total}  </td>    
+                            <td>$ {$ticket_fare_usd|number_format:'2'}+$ {$tax_usd|number_format:'2'} = $ {$total_usd|number_format:'2'}</td>    
+                        </tr>
+                        <tr>
+                            <td> Total (Ticket Fare + TAX)</td>
+                             <td>:</td>
+                            <td> BDT {$ticket_fare|number_format:'2'}+BDT {$tax|number_format:'2'} = BDT {$total|number_format:'2'}</td>    
                         </tr>
                         <tr>
                             <td>Ticket Document </td>
                              <td>:</td>
-                            <td><b>Attached</b></td>
+                            <td><b>{if $ticket_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
                         <tr style="height: 50px;">
                             <td></td>
@@ -188,11 +203,10 @@
                             <td align="center" style="border-top: 1px solid black;">Signature with Date</td>
                         </tr>
                         <tr>
-                            <td colspan="2">Note: Please print this document and signature it</td>
+                            <td colspan="3"><b><u>Note</u></b>: Please print this document and signature it. Send the printed copy with the other documents.</td>
                         </tr>
                     </table>
                     <div id="buttons-div" class="button-div">
-                        <label>Note: Once you submit the application you can not modify the application.</label>
                         <input type="button" value="P R I N T" name="Print" id="save" class="inputbox-blue margin-right50 W75" onClick="javascript:window.print();">  
                         <input type="button" value="S E N D"   name="save" id="save" class="inputbox-blue W75"  onClick="doFormSubmit('ticket-info');" />
                         <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">

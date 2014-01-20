@@ -137,15 +137,8 @@ function doApplicationSubmit()
     
     if ( doConfirm("Are you sure to submit this applicaiton?" ) )
     {
-        //user is sure to submit the application
-        //ok = doFormSubmit();
-        //alert(ok);
-        if (ok)
-        {
-            frm.submitted.value = 1;
-            
-            frm.submit();
-        }
+        frm.submitted.value = 1;
+        frm.submit();
     }
     else
     {
@@ -419,8 +412,9 @@ function calculateFareBDT()
 {
     var fare = $('#ticket_fare').val()*1;
     var tax  = $('#tax').val()*1;
+    var total = fare+tax;
     
-    $('#total').val(fare+tax)
+    $('#total').val(total.toFixed(2));
     
 }
 
@@ -429,8 +423,9 @@ function calculateFareUSD()
 {
     var fare = $('#ticket_fare_usd').val()*1;
     var tax  = $('#tax_usd').val()*1;
+    var total = fare+tax;
     
-    $('#total_usd').val(fare+tax)
+    $('#total_usd').val(total.toFixed(2))
 }
 
 function openFancyBox(elemID)
@@ -536,7 +531,7 @@ function hideAllTabs()
      
 }
 
-function loadCityByCountry()
+function loadCityByCountry(destination_airport)
 {
     var country = $('#country').val();
     
@@ -574,6 +569,7 @@ function loadCityByCountry()
                     $("#destination_airport_tb").show(); 
                     $("#destination_airport_tb").removeAttr("disabled");
                 }
+                $("#destination_airport_dd").val(destination_airport); 
             }    
         }
     );

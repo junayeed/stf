@@ -7,10 +7,6 @@
  * @author  junayeed@gmail.com
  */
 
-/**
- * The applicationManager application class
- */
-
 class applicationManagerApp extends DefaultApplication
 {
    /**
@@ -24,22 +20,21 @@ class applicationManagerApp extends DefaultApplication
       
       switch ($cmd)
       {
-           case 'edit'            : $screen = $this->showEditor($msg);                    break;
-           case 'new'             : $screen = $this->showNewEditor($msg);                 break;
+           case 'edit'             : $screen = $this->showEditor($msg);                    break;
+           case 'new'              : $screen = $this->showNewEditor($msg);                 break;
            case 'personal-info'    : $screen = $this->saveRecord();                        break;
            case 'ticket-info'      : $screen = $this->saveTicketFareDetails();             break;
            case 'academic-info'    : $screen = $this->saveAcademicQualificationsDetails(); break;
            case 'university-info'  : $screen = $this->saveApplicationDetails();            break;
            case 'submit-app'       : $screen = $this->submitApplication();                 break;
-           case 'preview-app'      : $screen = $this->showEditor($msg);                 break;
-           
-           case 'delete'          : $screen = $this->deleteRecord();                      break;
-           case 'list'            : $screen = $this->showList();                          break;
-           case 'checkuser'       : $screen = $this->checkDuplicateUser();                break;
-           case 'checkemail'      : $screen = $this->checkDuplicateEmail();               break;
-           case 'deletedoc'       : $screen = $this->deleteAcademicDoc();                 break;
-           case 'city'            : $screen = $this->loadCityByCountry();                 break;
-           default                : $screen = $this->showEditor($msg);
+           case 'preview-app'      : $screen = $this->showEditor($msg);                    break;
+           case 'delete'           : $screen = $this->deleteRecord();                      break;
+           case 'list'             : $screen = $this->showList();                          break;
+           case 'checkuser'        : $screen = $this->checkDuplicateUser();                break;
+           case 'checkemail'       : $screen = $this->checkDuplicateEmail();               break;
+           case 'deletedoc'        : $screen = $this->deleteAcademicDoc();                 break;
+           case 'city'             : $screen = $this->loadCityByCountry();                 break;
+           default                 : $screen = $this->showEditor($msg);
       }
 
       // Set the current navigation item
@@ -149,24 +144,6 @@ class applicationManagerApp extends DefaultApplication
        }       
    }
    
-   /**
-    * Shows User Editor
-    * @param message
-    * @return user editor template
-    */
-   function showNewEditor($msg)
-   {
-      $data['user_type_list']        = getEnumFieldValues(USER_TBL, 'user_type');
-      $data['user_status_list']      = getEnumFieldValues(USER_TBL, 'user_status');
-      $data['gender_list']           = getEnumFieldValues(USER_TBL, 'gender');
-      $data['maritial_status_list']  = getEnumFieldValues(USER_TBL, 'maritial_status');
-      
-      //dumpVar($data);
-      
-      return createPage(USER_EDITOR_TEMPLATE, $data);
-   }
-   
-   
     /**
      * Shows User Editor
      * @param message
@@ -221,6 +198,7 @@ class applicationManagerApp extends DefaultApplication
         //dumpVar($data);
         $data['country_list']                = getCountryList();
         $data['current_tab']                 = getUserField('next_tab') == '' ? 'personal-info' : getUserField('next_tab');
+        $data['session_year']                = getActiveSessionYear();
         
         setUserField('id',  $uid);
         setUserField('cmd', 'edit');
@@ -233,14 +211,14 @@ class applicationManagerApp extends DefaultApplication
         {
             return createPage(APPLICATION_EDITOR_TEMPLATE, $data);
         }
-        
     }
     
     function saveApplicationDetails()
     {
         $data                           = getUserDataSet(APPLICATIONS_TBL);
         $data['uid']                    = getFromSession('uid');
-        $data['sid']                    = getActiveSessionID();     
+        $data['sid']                    = getActiveSessionID(); 
+        $data['app_id']                 = 'STF-' . getActiveSessionYear() . str_pad($data['uid'], 5, "0", STR_PAD_LEFT); 
         $data['acceptance_doc_id']      = saveAttachment($_FILES['acceptance_letter']);
         $data['scholarship_doc_id']     = saveAttachment($_FILES['scholarship_letter']);
         $data['enroll_doc_id']          = saveAttachment($_FILES['enroll_certification']);
@@ -264,12 +242,20 @@ class applicationManagerApp extends DefaultApplication
         {
             $info['where']  = 'uid = ' . $data['uid'] . ' AND sid = ' . $data['sid']; 
             
-            update($info);
+            if( update($info) )
+            {
+                $msg = '<div class="success">University Information has been updated successfully.</div>';
+            }
         } 
         else
         {
             $info['data']['create_date']  = date('Y-m-d');
-            insert($info);
+            $result = insert($info);
+            
+            if ($result)
+            {
+                $msg = '<div class="success">University Information has been updated successfully.</div>';
+            }
         }
         
         return $this->showEditor($msg);
@@ -300,11 +286,19 @@ class applicationManagerApp extends DefaultApplication
                 if($aq_id)
                 {
                     $info['where']  = "id = " . $aq_id;
-                    update($info);
+                    if ( update($info) )
+                    {
+                        $msg = '<div class="success">Academic Information has been updated successfully.</div>';
+                    }
                 }
                 else 
                 {
-                    insert($info);
+                    $result = insert($info);
+                    
+                    if ($result)
+                    {
+                        $msg = '<div class="success">Academic Information has been updated successfully.</div>';
+                    }
                 }
                 
             }
@@ -319,7 +313,7 @@ class applicationManagerApp extends DefaultApplication
          
         $data                    = getUserDataSet(TICKETS_TBL);
         $data['uid']             = $uid;
-        $data['ticket_doc_id']  = saveAttachment($_FILES['ticket_doc']);
+        $data['ticket_doc_id']   = saveAttachment($_FILES['ticket_doc']);
         $data['create_date']     = date('Y-m-d');
         
         $info['table']  = TICKETS_TBL;
@@ -328,13 +322,23 @@ class applicationManagerApp extends DefaultApplication
         
         if ( isRecordExistsByUID($uid, TICKETS_TBL) )
         {
+            updateDestinationAirport($uid);
+            
             $info['where'] = 'uid = ' . $uid; 
             
-            update($info);
+            if ( update($info) )
+            {
+                $msg = '<div class="success">Ticket Information has been updated successfully.</div>';
+            }
         } 
         else
         {
-            insert($info);
+            $result = insert($info);
+            
+            if ( $result )
+            {
+                $msg = '<div class="success">Ticket Information has been updated successfully.</div>';
+            }
         }
         
         return $this->showEditor($msg);

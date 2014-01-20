@@ -41,7 +41,7 @@
     function isRecordExistsByUID($uid, $table_name)
     {
         $info['table']  = $table_name;
-        $info['debug']  = true;
+        $info['debug']  = false;
         $info['where']  = 'uid = ' . $uid;
         
         $result = select($info);
@@ -67,5 +67,17 @@
         }
         
         return;
+    }
+    
+    function updateDestinationAirport($uid)
+    {
+        $data['destination_airport'] = getUserField('destination_airport');
+        
+        $info['table']  = APPLICATIONS_TBL;
+        $info['debug']  = false;
+        $info['where']  = 'uid = ' . $uid;
+        $info['data']   = $data;
+        
+        update($info);
     }
 ?>

@@ -170,7 +170,7 @@
                                         </div>
                                         <!-- Guardian Information table ends here-->
                                         
-                                        <div id="buttons-div" class="button-div"> ajaj
+                                        <div id="buttons-div" class="button-div">
                                             <input type="button" value="N E X T"   name="save" id="save" class="inputbox-blue W57" onClick="doFormSubmit('personal-info');" />
                                             <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
                                         </div>
@@ -421,15 +421,15 @@
                                                         </td>
                                                         <td>
                                                             <span class="span-text" id="date_ticket_lbl">Date of Ticket</span><br class="br"/>
-                                                            <input type="text" name="date_ticket" id="date_ticket" value="{$date_ticket|date_format:'%d/%m/%Y'}" class="inputbox3 W123 DISABLE" readonly>
+                                                            <input type="text" name="date_ticket" id="date_ticket" value="{$date_ticket|date_format:'%Y-%m-%d'}" class="inputbox3 W123 DISABLE" readonly>
                                                             <img name="anchor1" id="anchor1" align=top width=22 height=20 
                                                                  style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
-                                                                 onClick="thisSelect(document.userManagerForm.date_ticket,'anchor1','dd/MM/yyyy'); return false;">
+                                                                 onClick="thisSelect(document.userManagerForm.date_ticket,'anchor1','yyyy-MM-dd'); return false;">
                                                         </td>
                                                         <td width="33%">
                                                             <span class="span-text" id="destination_airport_lbl">Destination Airport</span><br class="br"/>
                                                             <input type="text" name="destination_airport" id="destination_airport_tb" value="{$destination_airport}" class="inputbox3 W150" style="display: none;">
-                                                            <select name="destination_airport" id="destination_airport_dd" class="combo1 W123">
+                                                            <select name="destination_airport" id="destination_airport_dd" class="combo1 W150">
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -505,9 +505,9 @@
                                         <!-- Other Attachment table ends here-->
                                         <div id="buttons-div" class="button-div">
                                             <label>Note: Once you submit the application you can not modify the application.</label>
-                                            <input type="button" value="SUBMIT" name="save" id="save" class="inputbox-blue margin-right50" onClick="doApplicationPreview();">  
-                                            <input type="button" value="SAVE"   name="save" id="save" class="inputbox-blue"  onClick="doFormSubmit('ticket-info');" />
-                                            <input type="button" value="CANCEL" name="cancel" id="cancel" class="inputbox-blue W57" onClick="doClearForm();">
+                                            <input type="button" value="S U B M I T" name="save" id="save" class="inputbox-blue margin-right50 W75" onClick="doApplicationPreview();">  
+                                            <input type="button" value="S A V E"   name="save" id="save" class="inputbox-blue W75"  onClick="doFormSubmit('ticket-info');" />
+                                            <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
                                             <input type="hidden" name="submitted" value="0">
                                             <input type="hidden" name="preview"   value="0">
                                         </div>
@@ -553,7 +553,7 @@
     
     toggleOptions();
     
-    loadCityByCountry();
+    loadCityByCountry("{$destination_airport}");
     
     $('#countrycode').val({$countrycode});
 </script>   

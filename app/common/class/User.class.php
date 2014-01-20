@@ -138,9 +138,12 @@ class User extends Entity
    */
    function loadUserDetails()
    {
-      $info['table'] = GUARDIAN_TBL . ' AS GT LEFT JOIN ' . APPLICATIONS_TBL . ' AS AT ON (GT.uid = AT.uid) LEFT JOIN '.TICKETS_TBL.' AS TT on(TT.uid=GT.uid)';
-      $info['where'] = "GT.uid = " . $this->uid;
-      $info['debug'] = false;
+      $info['table']  = GUARDIAN_TBL . ' AS GT LEFT JOIN ' . APPLICATIONS_TBL . ' AS AT ON (GT.uid = AT.uid) LEFT JOIN '.
+                        TICKETS_TBL.' AS TT on(TT.uid=GT.uid) LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country = CLT.id) LEFT JOIN ' . 
+                        CITY_LOOKUP_TBL . ' AS CILT ON (CLT.id=CILT.country)';
+      $info['where']  = "GT.uid = " . $this->uid;
+      $info['fields'] = array('*', 'CLT.name AS country_name', 'AT.country AS country');
+      $info['debug']  = false;
 
       $rows = select($info);
       
