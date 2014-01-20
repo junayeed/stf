@@ -21,6 +21,7 @@
    * Template Constant
    */
    define('APPLICATION_EDITOR_TEMPLATE',          TEMPLATE_DIR . '/application_manager.html');
+   define('APPLICATION_PREVIEW_TEMPLATE',         TEMPLATE_DIR . '/application_preview.html');
    define('APPLICATION_LIST_TEMPLATE',            TEMPLATE_DIR . '/application_list.html');
 
 

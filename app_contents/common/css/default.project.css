@@ -1325,15 +1325,17 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 #tabs a
 {
     float:left;
-    width:11.2em;
+    width: 11.84em;
+    font-size: 16px;
     text-decoration:none;
     color:white;
     background-color:#0CA3D2;
     padding:0.2em 0.6em;
     border-right:1px solid white;
     border-radius: 10px 10px 0px 0px;
+    text-align: center;
 }
-#tabs a:hover {background-color:#0CA3D2; color:#000; }
+#tabs a:hover {background-color:#0CA3D2; color:#FFF; text-decoration:underline;}
 #tabs li {display:inline;}
 
 .activetab
@@ -1350,4 +1352,31 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 
 input[readonly], input[readonly="readonly"] {
     background-color: F4F4F4;
+}
+
+#preview-table{
+    font-family: arial,tahoma;
+    font-size: 13px;
+    padding: 10px;
+    border: 1px solid #CCC;
+}
+
+#preview-table td{
+    padding: 8px 8px 5px 10px;
+    border: 0px solid #CCC;
+}
+
+#preview-heading{
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+@media print{
+  body{ background-color:#FFFFFF; background-image:none; color:#000000 }
+  #top-full{ display:none;}
+  #footer-full{ display:none;}
+  #button-div{ display:none;}
+  #contentarea{ width:100%;}
 }

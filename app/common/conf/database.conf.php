@@ -48,7 +48,7 @@
   define('APP_PROFILE_TBL',              DB_NAME . '.app_profile');
 
   define('COUNTRY_LOOKUP_TBL',           DB_NAME . '.country_lookup');
-  define('US_STATE_TBL',                 DB_NAME . '.us_states');
+  define('CITY_LOOKUP_TBL',              DB_NAME . '.city_lookup');
 
   define('DOCUMENT_TBL',                 DB_NAME . '.document');
 

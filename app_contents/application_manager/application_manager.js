@@ -14,81 +14,88 @@ RE_UK_POSTCODE   = new RegExp(/^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEH
 
 var duplicate_user   = false;
 var duplicate_email  = false;
-
+var OUTER_DELIM      = '###';
 var row_id           = 1;
 
-function setupForm(frm)
+function setupForm(frm, elemID)
 { 
     var grant       = $('#received_grant').val();
     var country_val = $('#country').val();
     
-    for(i=0; i<hasAttachmentsIDs.length; i++)
-        {
-            //if the doc id is found and file name is empty that means this field already has file
-            //if the doc is in NOT found and file name is also EMPTY that means there is no attachments
-            if (hasAttachmentsValues[i] == 0 && $('#'+hasAttachmentsIDs[i]).val() == '' )
-            {
-                //alert('Id == ' +hasAttachmentsIDs[i] + '\n Values == ' + hasAttachmentsValues[i] + '\nFile Name == ' + $('#'+hasAttachmentsIDs[i]).val()+'\n Set Req');
-                if (country_val === 'US' && hasAttachmentsValues[i] === 'i20')
-                {
-                    setRequiredField(hasAttachmentsIDs[i], 'file', hasAttachmentsIDs[i]);
-                    continue;
-                }
-                setRequiredField(hasAttachmentsIDs[i], 'file', hasAttachmentsIDs[i]);
-            }
-        }
+//    for(i=0; i<hasAttachmentsIDs.length; i++)
+//    {
+//        //if the doc id is found and file name is empty that means this field already has file
+//        //if the doc is in NOT found and file name is also EMPTY that means there is no attachments
+//        if (hasAttachmentsValues[i] == 0 && $('#'+hasAttachmentsIDs[i]).val() == '' )
+//        {
+//            //alert('Id == ' +hasAttachmentsIDs[i] + '\n Values == ' + hasAttachmentsValues[i] + '\nFile Name == ' + $('#'+hasAttachmentsIDs[i]).val()+'\n Set Req');
+//            if (country_val === 'US' && hasAttachmentsValues[i] === 'i20')
+//            {
+//                setRequiredField(hasAttachmentsIDs[i], 'file', hasAttachmentsIDs[i]);
+//                continue;
+//            }
+//            setRequiredField(hasAttachmentsIDs[i], 'file', hasAttachmentsIDs[i]);
+//        }
+//    }
         
        
     
     with (frm)
     {
-        /*** Personal Information start here ***/
-        //setRequiredField(photo,              'file',      'photo');
-        setRequiredField(first_name,         'textbox',   'first_name');
-        setRequiredField(last_name,          'textbox',   'last_name');
-        setRequiredField(email,              'textbox',   'email');
-        setRequiredField(permanent_address,  'textbox',   'permanent_address');
-        setRequiredField(present_phone,      'textbox',   'present_phone');
-        setRequiredField(present_address,    'textbox',   'present_address');
-        setRequiredField(cell_phone,         'textbox',   'cell_phone');
-        setRequiredField(gender,             'dropdown',  'gender');
-        
-        /*** Personal Information end here ***/
-        
-        /*** guardian Information start here ***/
-        setRequiredField(guardian_name,         'textbox',   'guardian_name');
-        setRequiredField(guardian_occupation,   'textbox',   'guardian_occupation');
-        setRequiredField(guardian_income,       'textbox',   'guardian_income');
-        //setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
-        /*** guardian Information end here ***/
-        
-        //var country = $('#country').val();
-        //alert('Another Country ::: ' + country);
-        /*** University Information start here ***/
-        setRequiredField(country,                'dropdown',  'country');
-        setRequiredField(university_name,        'textbox',   'university_name');
-        setRequiredField(university_contact,     'textbox',   'university_contact');
-        setRequiredField(subject_desc,           'textbox',   'subject_desc');
-        //setRequiredField(acceptance_letter,      'file',      'acceptance_letter');
-        //setRequiredField(scholarship_letter,     'file',      'scholarship_letter');
-        //setRequiredField(enroll_certification,   'file',      'enroll_certification');
-        //setRequiredField(enroll_certification,   'file',      'enroll_certification');
-        
-        if (country_val == 'US')
+        if (elemID === 'personal-information')
         {
-            //setRequiredField(i20,   'file',      'i20');
+            /*** Personal Information start here ***/
+            //setRequiredField(photo,              'file',      'photo');
+            setRequiredField(first_name,         'textbox',   'first_name');
+            setRequiredField(last_name,          'textbox',   'last_name');
+            setRequiredField(email,              'textbox',   'email');
+            setRequiredField(permanent_address,  'textbox',   'permanent_address');
+            setRequiredField(present_phone,      'textbox',   'present_phone');
+            setRequiredField(present_address,    'textbox',   'present_address');
+            setRequiredField(cell_phone,         'textbox',   'cell_phone');
+            setRequiredField(gender,             'dropdown',  'gender');
+
+            /*** Personal Information end here ***/
+
+            /*** guardian Information start here ***/
+            setRequiredField(guardian_name,         'textbox',   'guardian_name');
+            setRequiredField(guardian_occupation,   'textbox',   'guardian_occupation');
+            setRequiredField(guardian_income,       'textbox',   'guardian_income');
+            setRequiredField(tin,                   'textbox',   'tin');
+            //setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
+            /*** guardian Information end here ***/
         }
-        /*** University Information end here ***/
         
-        /*** Ticket Information start here ***/
-        setRequiredField(ticket_number,     'textbox',   'ticket_number');
-        setRequiredField(date_ticket,       'textbox',   'date_ticket');
-        setRequiredField(ticket_fare,       'textbox',   'ticket_fare');
-        setRequiredField(tax,               'textbox',   'tax');
-        setRequiredField(ticket_fare_usd,   'textbox',   'ticket_fare_usd');
-        setRequiredField(tax_usd,           'textbox',   'tax_usd');
-        //setRequiredField(ticket_doc,        'file',      'ticket_doc');
-        /*** Ticket Information start here ***/
+        else if (elemID === 'university-info')
+        {
+            /*** University Information start here ***/
+            setRequiredField(country,                'dropdown',  'country');
+            setRequiredField(university_name,        'textbox',   'university_name');
+            setRequiredField(university_contact,     'textbox',   'university_contact');
+            setRequiredField(subject_desc,           'textbox',   'subject_desc');
+            //setRequiredField(acceptance_letter,      'file',      'acceptance_letter');
+            //setRequiredField(scholarship_letter,     'file',      'scholarship_letter');
+            //setRequiredField(enroll_certification,   'file',      'enroll_certification');
+            //setRequiredField(enroll_certification,   'file',      'enroll_certification');
+        
+            if (country_val == 'US')
+            {
+                //setRequiredField(i20,   'file',      'i20');
+            }
+            /*** University Information end here ***/
+        }
+        else if (elemID === 'ticket-info')
+        {
+            /*** Ticket Information start here ***/
+            setRequiredField(ticket_number,     'textbox',   'ticket_number');
+            setRequiredField(date_ticket,       'textbox',   'date_ticket');
+            setRequiredField(ticket_fare,       'textbox',   'ticket_fare');
+            setRequiredField(tax,               'textbox',   'tax');
+            setRequiredField(ticket_fare_usd,   'textbox',   'ticket_fare_usd');
+            setRequiredField(tax_usd,           'textbox',   'tax_usd');
+            //setRequiredField(ticket_doc,        'file',      'ticket_doc');
+            /*** Ticket Information end here ***/
+        }
     }
 }
 
@@ -146,6 +153,16 @@ function doApplicationSubmit()
     }
 }
 
+function doApplicationPreview()
+{
+    var ok = true;
+    var frm = document.userManagerForm;
+    
+    frm.cmd.value = 'preview-app';
+    frm.preview.value = 1;
+    frm.submit();
+}
+
 function validateFileTypes()
 {
     var fileArray            = ['photo', 'guardian_income_tax', 'acceptance_letter', 'scholarship_letter', 'enroll_certification', 'i20', 'ticket_doc'];
@@ -194,16 +211,15 @@ function validateAcademicQualifications()
     return false;
 }
 
-function doFormSubmit()
+function doFormSubmit(elemID)
 {
-    
     requiredFields.length = 0;
 
     var errCnt = 0;
     var frm = document.userManagerForm;
 
-// Setup required fields
-    setupForm(frm);
+    // Setup required fields
+    setupForm(frm, elemID);
     
     // Validate form for required fields
     errCnt = validateForm(frm);
@@ -219,17 +235,40 @@ function doFormSubmit()
          alert(DUPLICATE_EMAIL);
          return false;
     }
+//    else
+//    {
+//        if(validateFields(frm))
+//        {
+//            return true;
+//        }
+//        else
+//            return false;
+//    }
     else
     {
-        if(validateFields(frm))
+        if (elemID === 'personal-info')
         {
-            return true;
+            frm.cmd.value = 'personal-info';
+            frm.next_tab.value = 'academic-info';
         }
-        else
-            return false;
+        else if (elemID === 'ticket-info')
+        {
+            frm.cmd.value = 'ticket-info';
+            frm.next_tab.value = 'ticket-info';
+        }
+        else if (elemID === 'academic-info')
+        {
+            frm.cmd.value = 'academic-info';
+            frm.next_tab.value = 'university-info';
+        }
+        else if(elemID === 'university-info')
+        {
+            frm.cmd.value = 'university-info';
+            frm.next_tab.value = 'ticket-info';
+        }
+
+        frm.submit();
     }
-    
-    return true;
 }
 
 function doUpperCase(obj) 
@@ -300,11 +339,12 @@ function doClearForm()
     location.href = 'http://'+document.domain+'/app/user_manager/user_manager.php';
 }
 
-function populateAcademicDetails(id, uid, degree, attachmentname, file_location, doc_id)
+function populateAcademicDetails(id, uid, degree, attachmentname, file_location, doc_id, result)
 {
     var elemID = row_id-1;
     
     $('#degree_'+elemID).val(degree);
+    $('#result_'+elemID).val(result);
     $('#aqid_'+elemID).val(id);
     $('#attachmentname_'+elemID).val(attachmentname);
     //$('#id_'+elemID).attr('href',file_location );
@@ -476,10 +516,10 @@ function showAttachment(elemID)
 
 function showTabs(thisField,currentTabId)
 {
-    
     hideAllTabs();
+    
     $('#'+currentTabId).show();
-    $('#'+thisField).css('background-color','RED');
+    $('#'+thisField).css({'background-color':'#FFFFFF', 'border-left':'1px solid', 'border-top':'1px solid', 'color':'#0CA3D2'});
 }
 
 function hideAllTabs()
@@ -489,9 +529,52 @@ function hideAllTabs()
     $('#university-info-content').hide();
     $('#ticket-info-content').hide();
     
-    $('#personal-info-tab').css('background-color','#0CA3D2');
-    $('#academic-info-tab').css('background-color','#0CA3D2');
-    $('#university-info-tab').css('background-color','#0CA3D2');
-    $('#ticket-tab').css('background-color','#0CA3D2');
+    $('#personal-info-tab').css({'background-color': '#0CA3D2', 'border-left':'0px', 'border-top':'0px', 'color':'white'});
+    $('#academic-info-tab').css({'background-color': '#0CA3D2', 'border-left':'0px', 'border-top':'0px', 'color':'white'});
+    $('#university-info-tab').css({'background-color': '#0CA3D2', 'border-left':'0px', 'border-top':'0px', 'color':'white'});
+    $('#ticket-info-tab').css({'background-color': '#0CA3D2', 'border-left':'0px', 'border-top':'0px', 'color':'white'});
      
+}
+
+function loadCityByCountry()
+{
+    var country = $('#country').val();
+    
+    $.ajax
+    (
+        {
+            url: 'application_manager.php?cmd=city',
+            data: "country=" + country,
+            dataType: 'json',
+            success: function(responseText)
+            {
+                var cityArray = responseText.split(OUTER_DELIM);
+                
+                if (responseText)
+                {
+                    $("#destination_airport_dd").removeAttr("disabled");
+                    $("#destination_airport_dd").show(); 
+                    $('#destination_airport_dd').empty(); 
+                    $('#destination_airport_dd').append($('<option>', { value: '', text : '' } ) );   
+                    $("#destination_airport_tb").hide();
+                    $("#destination_airport_tb").val(''); 
+                    $("#destination_airport_tb").attr("disabled", "disabled");
+                    
+                    for(var i=0; i<cityArray.length; i++)
+                    {
+                        //alert(cityArray[i]);
+                        $('#destination_airport_dd').append($('<option>', { value: cityArray[i], text : cityArray[i] } ) );   
+                    }
+                }
+                else
+                {
+                    $("#destination_airport_dd").val(''); 
+                    $("#destination_airport_dd").attr("disabled", "disabled"); 
+                    $("#destination_airport_dd").hide(); 
+                    $("#destination_airport_tb").show(); 
+                    $("#destination_airport_tb").removeAttr("disabled");
+                }
+            }    
+        }
+    );
 }

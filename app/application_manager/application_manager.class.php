@@ -24,21 +24,28 @@ class applicationManagerApp extends DefaultApplication
       
       switch ($cmd)
       {
-           case 'edit'       : $screen = $this->showEditor($msg);     break;
-           case 'new'        : $screen = $this->showNewEditor($msg);  break;
-           case 'add'        : $screen = $this->saveRecord();         break;
-           case 'delete'     : $screen = $this->deleteRecord();       break;
-           case 'list'       : $screen = $this->showList();           break;
-           case 'checkuser'  : $screen = $this->checkDuplicateUser(); break;
-           case 'checkemail' : $screen = $this->checkDuplicateEmail(); break;
-           case 'deletedoc'  : $screen = $this->deleteAcademicDoc();   break;
-           default           : $screen = $this->showEditor($msg);
+           case 'edit'            : $screen = $this->showEditor($msg);                    break;
+           case 'new'             : $screen = $this->showNewEditor($msg);                 break;
+           case 'personal-info'    : $screen = $this->saveRecord();                        break;
+           case 'ticket-info'      : $screen = $this->saveTicketFareDetails();             break;
+           case 'academic-info'    : $screen = $this->saveAcademicQualificationsDetails(); break;
+           case 'university-info'  : $screen = $this->saveApplicationDetails();            break;
+           case 'submit-app'       : $screen = $this->submitApplication();                 break;
+           case 'preview-app'      : $screen = $this->showEditor($msg);                 break;
+           
+           case 'delete'          : $screen = $this->deleteRecord();                      break;
+           case 'list'            : $screen = $this->showList();                          break;
+           case 'checkuser'       : $screen = $this->checkDuplicateUser();                break;
+           case 'checkemail'      : $screen = $this->checkDuplicateEmail();               break;
+           case 'deletedoc'       : $screen = $this->deleteAcademicDoc();                 break;
+           case 'city'            : $screen = $this->loadCityByCountry();                 break;
+           default                : $screen = $this->showEditor($msg);
       }
 
       // Set the current navigation item
       $this->setNavigation('user');
       
-      if ($cmd == 'checkuser' || $cmd == 'checkemail')
+      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd == 'city')
       {
           return;
       }
@@ -53,6 +60,33 @@ class applicationManagerApp extends DefaultApplication
       }
 
       return true;
+   }
+   
+   function loadCityByCountry()
+   {
+       $country = getUserField('country');
+       $retData = '';
+       
+       $info['table']  = CITY_LOOKUP_TBL;
+       $info['debug']  = false;
+       $info['fields'] = array('city'); 
+       $info['where']  = 'country = ' . q($country) . ' ORDER BY city';
+       
+       $result = select($info);
+       
+       if ( $result )
+       {
+           foreach($result as $value)
+           {
+               $retData[] = $value->city; 
+           }
+           
+           echo json_encode(implode('###', $retData));
+       }
+       else
+       {
+           echo json_encode('');
+       }
    }
    
    function deleteAcademicDoc()
@@ -131,7 +165,8 @@ class applicationManagerApp extends DefaultApplication
       
       return createPage(USER_EDITOR_TEMPLATE, $data);
    }
-
+   
+   
     /**
      * Shows User Editor
      * @param message
@@ -185,8 +220,124 @@ class applicationManagerApp extends DefaultApplication
         $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
         //dumpVar($data);
         $data['country_list']                = getCountryList();
+        $data['current_tab']                 = getUserField('next_tab') == '' ? 'personal-info' : getUserField('next_tab');
+        
+        setUserField('id',  $uid);
+        setUserField('cmd', 'edit');
 
-        return createPage(APPLICATION_EDITOR_TEMPLATE, $data);
+        if(getUserField('preview'))
+        {
+            return createPage(APPLICATION_PREVIEW_TEMPLATE, $data);
+        }   
+        else 
+        {
+            return createPage(APPLICATION_EDITOR_TEMPLATE, $data);
+        }
+        
+    }
+    
+    function saveApplicationDetails()
+    {
+        $data                           = getUserDataSet(APPLICATIONS_TBL);
+        $data['uid']                    = getFromSession('uid');
+        $data['sid']                    = getActiveSessionID();     
+        $data['acceptance_doc_id']      = saveAttachment($_FILES['acceptance_letter']);
+        $data['scholarship_doc_id']     = saveAttachment($_FILES['scholarship_letter']);
+        $data['enroll_doc_id']          = saveAttachment($_FILES['enroll_certification']);
+        $data['i20_doc_id']             = saveAttachment($_FILES['i20']);
+        $data['tofel_doc_id']           = saveAttachment($_FILES['tofel_doc']);
+        $data['ielts_doc_id']           = saveAttachment($_FILES['ielts_doc']);
+        $data['sat_doc_id']             = saveAttachment($_FILES['sat_doc']);
+        $data['gre_doc_id']             = saveAttachment($_FILES['gre_doc']);
+        $data['gmat_doc_id']            = saveAttachment($_FILES['gmat_doc']);
+        $data['others_doc_id']          = saveAttachment($_FILES['other_attachment']);
+        $data['application_status']     = getUserField('submitted') ? 'Pending' : 'Not Submitted';
+        $data['submit_date']            = getUserField('submitted') ? date('Y-m-d'): null;
+        $data['received_grant_amount']  = str_replace(',', '', $data['received_grant_amount']);
+        
+        
+        $info['table']  = APPLICATIONS_TBL;
+        $info['debug']  = false;
+        $info['data']   = $data;
+        
+        if ( isRecordExistsByUID($data['uid'], APPLICATIONS_TBL) )
+        {
+            $info['where']  = 'uid = ' . $data['uid'] . ' AND sid = ' . $data['sid']; 
+            
+            update($info);
+        } 
+        else
+        {
+            $info['data']['create_date']  = date('Y-m-d');
+            insert($info);
+        }
+        
+        return $this->showEditor($msg);
+    }
+    
+    function saveAcademicQualificationsDetails()
+    {
+        $uid = getFromSession('uid');
+        
+        $info['table']  = ACADEMIC_QUALIFICATIONS_TBL;
+        $info['debug']  = false;
+        
+        foreach( $_REQUEST as $key => $value)
+	{
+            if( preg_match('/degree_(\d+)/', $key, $matches))
+            {
+                $id      = $matches[1];
+                $aq_id   = $_REQUEST['aqid_' . $id];
+
+                $data['uid']             = $uid;
+                $data['degree']          = $_REQUEST['degree_' . $id];
+                $data['result']          = $_REQUEST['result_' . $id];
+                $data['attachmentname']  = $_REQUEST['attachmentname_' . $id];
+                $data['degree']          = $_REQUEST['degree_' . $id];
+                $data['doc_id']          = saveAttachment($_FILES['academicfiles_'.$id]);
+                
+                $info['data']  = $data;
+                if($aq_id)
+                {
+                    $info['where']  = "id = " . $aq_id;
+                    update($info);
+                }
+                else 
+                {
+                    insert($info);
+                }
+                
+            }
+        }
+        
+        return $this->showEditor($msg);
+    }
+    
+    function saveTicketFareDetails()
+    {
+        $uid = getFromSession('uid');
+         
+        $data                    = getUserDataSet(TICKETS_TBL);
+        $data['uid']             = $uid;
+        $data['ticket_doc_id']  = saveAttachment($_FILES['ticket_doc']);
+        $data['create_date']     = date('Y-m-d');
+        
+        $info['table']  = TICKETS_TBL;
+        $info['debug']  = false;
+        $info['data']   = $data;
+        
+        if ( isRecordExistsByUID($uid, TICKETS_TBL) )
+        {
+            $info['where'] = 'uid = ' . $uid; 
+            
+            update($info);
+        } 
+        else
+        {
+            insert($info);
+        }
+        
+        return $this->showEditor($msg);
     }
 
    /**
@@ -222,9 +373,6 @@ class applicationManagerApp extends DefaultApplication
          {
             $msg = '<div class="success">' . $this->getMessage(USER_UPDATE_SUCCESS_MSG) . '</div>';
             saveGuardianDetails($uid);
-            saveApplicationDetails($uid);
-            saveAcademicQualificationsDetails($uid);
-            saveTicketFareDetails($uid);
          }
          else
          {
@@ -357,6 +505,5 @@ class applicationManagerApp extends DefaultApplication
         
         return;
     }
-    
 }
 ?>
