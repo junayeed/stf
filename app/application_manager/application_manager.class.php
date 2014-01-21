@@ -28,6 +28,7 @@ class applicationManagerApp extends DefaultApplication
            case 'university-info'  : $screen = $this->saveApplicationDetails();            break;
            case 'submit-app'       : $screen = $this->submitApplication();                 break;
            case 'preview-app'      : $screen = $this->showEditor($msg);                    break;
+           case 'submit_app'       : $screen = $this->submitApplication();                 break;
            case 'delete'           : $screen = $this->deleteRecord();                      break;
            case 'list'             : $screen = $this->showList();                          break;
            case 'checkuser'        : $screen = $this->checkDuplicateUser();                break;
@@ -211,6 +212,21 @@ class applicationManagerApp extends DefaultApplication
         {
             return createPage(APPLICATION_EDITOR_TEMPLATE, $data);
         }
+    }
+    
+    function submitApplication()
+    {
+        $data['application_status']     = getUserField('submitted') ? 'Pending' : 'Not Submitted';
+        $data['submit_date']            = getUserField('submitted') ? date('Y-m-d'): null;
+        
+        $info['table']  = APPLICATIONS_TBL;
+        $info['debug']  = false;
+        $info['data']   = $data;
+        $info['where']  = 'uid = ' . getFromSession('uid');
+        
+        update($info);
+        
+        return $this->showEditor($msg);
     }
     
     function saveApplicationDetails()

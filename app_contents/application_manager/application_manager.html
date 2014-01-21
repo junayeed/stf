@@ -51,7 +51,7 @@
                                 <tr>
                                     <td width="100%">
                                         <!-- Personal Information Content Start here -->
-                                        <div id="personal-info-content">
+                                        <div id="personal-info-content" style="display:none;">
                                         <!-- Personal Information starts here -->
                                         <div class="main-content" id="personal-info" >
                                             <h4 class="header">Personal Information</h4>
@@ -171,14 +171,14 @@
                                         <!-- Guardian Information table ends here-->
                                         
                                         <div id="buttons-div" class="button-div">
-                                            <input type="button" value="N E X T"   name="save" id="save" class="inputbox-blue W57" onClick="doFormSubmit('personal-info');" />
-                                            <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
+                                            <input type="button" value="S A V E & N E X T"   name="save" id="save" class="inputbox-blue W150" onClick="doFormSubmit('personal-info');" />
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
                                         </div>
                                         </div>
                                         <!-- Personal Information Content End here -->
                                         
                                         <!-- Academic Info Content starts here-->
-                                        <div id="academic-info-content">
+                                        <div id="academic-info-content" style="display:none;">
                                         <!-- Academic Qualifications table starts here-->
                                         <div class="main-content" id="academic-info">
                                             <h4 class="header">Academic Qualifications</h4>
@@ -210,14 +210,14 @@
                                         <!-- Academic Qualification table ends here-->
                                         <div id="buttons-div" class="button-div">
                                             <input type="button" value="P R E V I O U S"   name="previous" id="previous" class="inputbox-blue W90" onclick="showTabs('personal-info-tab', 'personal-info-content')">
-                                            <input type="button" value="N E X T"   name="save" id="next" class="inputbox-blue W57" onclick="doFormSubmit('academic-info');">
-                                            <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
+                                            <input type="button" value="S A V E & N E X T"   name="save" id="next" class="inputbox-blue W150" onclick="doFormSubmit('academic-info');">
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
                                         </div>
                                         </div>
                                         <!-- Academic Info Content End here-->
                                          
                                         <!-- University Information Content starts here--> 
-                                        <div id="university-info-content"> 
+                                        <div id="university-info-content" style="display:none;"> 
                                         <!-- University Information table starts here-->
                                         <div class="main-content" id="unitersity-info1">
                                             <h4 class="header">University Information (where the applicant has been enrolled)</h4>
@@ -400,15 +400,15 @@
                                         <!-- Others Qualifications ENDS here-->
                                         <div id="buttons-div" class="button-div">
                                             <input type="button" value="P R E V I O U S"   name="previous" id="previous" class="inputbox-blue W90" onclick="showTabs('academic-info-tab', 'academic-info-content');" />
-                                            <input type="button" value="N E X T"   name="save" id="next" class="inputbox-blue W57" onClick="doFormSubmit('university-info');" />
+                                            <input type="button" value="S A V E & N E X T"   name="save" id="next" class="inputbox-blue W150" onClick="doFormSubmit('university-info');" />
                                             <!--<input type="button" value="N E X T"   name="save" id="next" class="inputbox-blue W57" onclick="showTabs('ticket-info-tab', 'ticket-info-content');" />-->
-                                            <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
                                         </div>
                                         </div>
                                         <!-- University Information Content starts here--> 
                                         
                                         <!-- Ticket Info Content starts here-->
-                                        <div id="ticket-info-content"> 
+                                        <div id="ticket-info-content" style="display:none;"> 
                                         <!-- Air Fare Information table starts here-->
                                         <div class="main-content" id="ticket-info1">
                                             <h4 class="header">Air Fare Details (Cost of one way ticket in BDT and USD)</h4>
@@ -504,10 +504,10 @@
                                         </div>
                                         <!-- Other Attachment table ends here-->
                                         <div id="buttons-div" class="button-div">
-                                            <label>Note: Once you submit the application you can not modify the application.</label>
+                                            <!--<label>Note: Once you submit the application you can not modify the application.</label>-->
                                             <input type="button" value="S U B M I T" name="save" id="save" class="inputbox-blue margin-right50 W75" onClick="doApplicationPreview();">  
                                             <input type="button" value="S A V E"   name="save" id="save" class="inputbox-blue W75"  onClick="doFormSubmit('ticket-info');" />
-                                            <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
                                             <input type="hidden" name="submitted" value="0">
                                             <input type="hidden" name="preview"   value="0">
                                         </div>

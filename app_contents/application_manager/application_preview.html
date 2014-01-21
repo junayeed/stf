@@ -8,6 +8,7 @@
     <div id="body-full">     <!-- body-full starts here-->
         <div class="wrap">   <!-- wrap class starts here-->
             <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
+                <form name="applicationPreviewForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
                 <div class="left">    <!-- left class starts here-->
                     <table id="preview-table" border="1">
                         <tr>
@@ -192,7 +193,7 @@
                              <td>:</td>
                             <td><b>{if $ticket_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
-                        <tr style="height: 50px;">
+                        <tr style="height: 80px;">
                             <td></td>
                             <td> </td>
                              <td></td>
@@ -203,17 +204,20 @@
                             <td align="center" style="border-top: 1px solid black;">Signature with Date</td>
                         </tr>
                         <tr>
-                            <td colspan="3"><b><u>Note</u></b>: Please print this document and signature it. Send the printed copy with the other documents.</td>
+                            <td colspan="3"><b><u>Note</u></b>: Please print this document and signature it. Send the printed signed copy with the other documents. Once you send the application you can not modify the application.</td>
                         </tr>
                     </table>
                     <div id="buttons-div" class="button-div">
                         <input type="button" value="P R I N T" name="Print" id="save" class="inputbox-blue margin-right50 W75" onClick="javascript:window.print();">  
-                        <input type="button" value="S E N D"   name="save" id="save" class="inputbox-blue W75"  onClick="doFormSubmit('ticket-info');" />
+                        <input type="button" value="S E N D"   name="save" id="save" class="inputbox-blue W75"  onClick="doApplicationSubmit();" />
                         <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
                         <input type="hidden" name="submitted" value="0">
                         <input type="hidden" name="preview"   value="0">
                     </div>
                 </div>
+                    
+                <input type="hidden" id="cmd" name="cmd" value="">
+                </form>
             </div>
             
         </div>

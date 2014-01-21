@@ -1377,6 +1377,6 @@ input[readonly], input[readonly="readonly"] {
   body{ background-color:#FFFFFF; background-image:none; color:#000000 }
   #top-full{ display:none;}
   #footer-full{ display:none;}
-  #button-div{ display:none;}
+  #buttons-div{ display:none;}
   #contentarea{ width:100%;}
 }

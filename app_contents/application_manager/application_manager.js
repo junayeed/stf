@@ -133,11 +133,12 @@ function validateFields(frm)
 function doApplicationSubmit()
 {
     var ok = true;
-    var frm = document.userManagerForm;
+    var frm = document.applicationPreviewForm;
     
-    if ( doConfirm("Are you sure to submit this applicaiton?" ) )
+    if ( doConfirm("Are you sure to send this applicaiton?" ) )
     {
         frm.submitted.value = 1;
+        frm.cmd.value = 'submit_app';
         frm.submit();
     }
     else
@@ -335,14 +336,17 @@ function doClearForm()
 function populateAcademicDetails(id, uid, degree, attachmentname, file_location, doc_id, result)
 {
     var elemID = row_id-1;
-    
+
     $('#degree_'+elemID).val(degree);
     $('#result_'+elemID).val(result);
     $('#aqid_'+elemID).val(id);
     $('#attachmentname_'+elemID).val(attachmentname);
-    //$('#id_'+elemID).attr('href',file_location );
+    $('#id_'+elemID).attr('href',file_location );
     $('#file_location_'+elemID).val(file_location);
-    $('#id_'+elemID).show();
+    if (doc_id > 0)
+    {
+        $('#id_'+elemID).show();
+    }
 }
 
 function addNewRow()
@@ -351,9 +355,9 @@ function addNewRow()
     var td_degree             = '<td width="47" class="prepand"> '+ getDegreeList() +'</td>';
     var td_result             = '<td width="63" class="prepand"><input type="text" name="result_'+row_id+'" id="result_'+row_id+'"    value="" class="inputbox3 W150" ></td>';  
     var td_attachment_name    = '<td width="63" class="prepand"><input type="text" name="attachmentname_'+row_id+'" id="attachmentname_'+row_id+'"    value="" class="inputbox3 W150" ></td>';  
-    var td_attachment         = '<td width="70" class="prepand"><input type="file" name="academicfiles_'+row_id+'" onchange=uploadFiles("academicfiles_'+row_id+'")   id="academicfiles_'+row_id+'"    value="" class="W175" /></td>';
+    var td_attachment         = '<td width="70" class="prepand"><input type="file" name="academicfiles_'+row_id+'" onchange=uploadFiles("academicfiles_'+row_id+'")   id="academicfiles_'+row_id+'" value="" class="W175" /></td>';
     var td_action             = '<td width="50" class="prepand" id="td_action_'+row_id+'"><a href="javascript: void(0);" onClick="deleteRow('+row_id+');"><img src="/app_contents/common/images/cross2.png"></a></td>';
-    var td_view               = '<td width="50" class="prepand" id="td_view_'+row_id+'"><a id="id_'+row_id +'" href="#" onClick="openFancyBox('+row_id+');"><img src="/app_contents/common/images/view22.png"></a></td>';
+    var td_view               = '<td width="50" class="prepand" id="td_view_'+row_id+'"><a id="id_'+row_id +'" href="" target="_new"><img src="/app_contents/common/images/view22.png"></a></td>';
     var hidden_field          = '<input type="hidden" id="aqid_'+row_id+'" name="aqid_'+row_id+'" value="" >\n\
                                  <input type="hidden" id="file_location_'+row_id+'" name="file_location_'+row_id+'" value="">';
      
