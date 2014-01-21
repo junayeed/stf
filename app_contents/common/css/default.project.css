@@ -27,7 +27,7 @@ body{
 
 .table-content
 {
-    border: 0px solid red;
+    border: 1px solid #F2F2F2;
     padding-left: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -158,6 +158,7 @@ table, table th, table td, cellpadding, cellspacing, border{
     color:#FFF; 
     background-color:#353477; 
     border:1px solid #353477;
+    cursor: pointer;
 }
 
 .inputbox-green
@@ -356,7 +357,7 @@ table, table th, table td, cellpadding, cellspacing, border{
     margin-top: 6px;
 }
 .left h3 span{ background-color:#FFF; padding-right:10px; }
-.left-body { width:760px; float:left; position:relative; }
+.left-body { width:760px; float:left; position:relative; text-align: center;}
 #academic_qualifications thead tr td{ font-family: 'Arial'; font-size:12px; font-weight:bold; color:#000; background-color:#f2f2f2; line-height:16px; }
 #academic_qualifications thead tr td span{ color:#083a81; }
 #academic_qualifications tbody tr td{ font-family: 'Arial'; font-size:12px; font-weight:normal; color:#000; padding-bottom:5px; }
@@ -1356,7 +1357,7 @@ input[readonly], input[readonly="readonly"] {
 
 #preview-table{
     font-family: arial,tahoma;
-    font-size: 13px;
+    font-size: 14px;
     padding: 10px;
     border: 1px solid #CCC;
 }

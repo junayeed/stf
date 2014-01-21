@@ -3,6 +3,10 @@
 <script src="/ext/Highcharts-3.0.7/js/modules/exporting.js"></script>
 <script language="JavaScript" src="/app_contents/common/js/charts.js"></script>
 
+<link rel="stylesheet" href="/ext/jvectormap/jquery-jvectormap-1.1.1.css" type="text/css" media="screen"/>
+<script src="\app_contents\common\js\jquery.js"></script>
+<script src="/ext/jvectormap/jquery-jvectormap-1.1.1.min.js"></script>
+<script src="/ext/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <script>
     var countryArray         = [];
     var companyTotalArray    = [];
@@ -15,54 +19,63 @@
     {/foreach}
 </script>
 <!-- body-full start here-->
+<body>
 <div id="body-full"> 
+    <form name="userHomeForm" action="{$SCRIPT_NAME}" method="POST">
     <div class="wrap">  <!--wrap class start here -->
         <div class="body-block">  <!-- body-block class starts here-->
             <div class="left">   <!-- left class starts here-->
                 <form name="userHomeForm" action="{$SCRIPT_NAME}" method="POST">
-                <div class="row padding2 prepand"> <!-- statistics row start here-->
-                    <div class="col-sm-3">
-                        <div class="box_stat box_pos">
-                            <h4>{$total_applicant}</h4>
-                            <small>Total Applicant(s)</small>
+                    <div class="row padding2 prepand"> <!-- statistics row start here-->
+                        <div class="col-sm-3">
+                            <div class="box_stat box_pos">
+                                <h4>{$total_applicant}</h4>
+                                <small>Total Applicant(s)</small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="box_stat box_pos">
-                            <h4>{$gender->female}</h4>
-                            <small>Total Female</small>
+                        <div class="col-sm-3">
+                            <div class="box_stat box_pos">
+                                <h4>{$gender->female}</h4>
+                                <small>Total Female</small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="box_stat box_pos">
-                            <h4>{$gender->male}</h4>
-                            <small>Total Male</small>
+                        <div class="col-sm-3">
+                            <div class="box_stat box_pos">
+                                <h4>{$gender->male}</h4>
+                                <small>Total Male</small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="box_stat box_pos">
-                            <h4>{$total_space}</h4>
-                            <small>Total Payout</small>
+                        <div class="col-sm-3">
+                            <div class="box_stat box_pos">
+                                <h4>{$total_space}</h4>
+                                <small>Total Payout</small>
+                            </div>
                         </div>
+                    </div> <!-- statistics row start here-->
+                               
+                    <h3><span>Map</span></h3>
+                    <div class="left-body">
+                        <div id="world-map" style="width: 760px; height: 400px"></div>
                     </div>
-                </div> <!-- summary row start here-->
-                </form>                
-                <h3><span>Gender Ratio</span></h3>
-        	<div class="left-body">  <!-- left-body class starts here -->
-                    <div id="container" style="width:100%; height: 40%;"></div>
-                </div>
-                
-                
-                <h3 class="prepand2"><span>Top 10 Countries</span></h3>
-        	<div class="left-body">  <!-- left-body class starts here -->
-                    <div id="top_customers" style="width:100%"></div>
-                </div>
-                
+                    
+                    <h3 class="prepand2"><span>Gender Ratio</span></h3>
+                    <div class="left-body">  <!-- left-body class starts here -->
+                        <div id="container" style="width:100%; height: 40%;"></div>
+                    </div>
+                    
+                    <h3 class="prepand2"><span>Top 10 Countries</span></h3>
+                    <div class="left-body">  <!-- left-body class starts here -->
+                        <div id="top_customers" style="width:100%"></div>
+                    </div>
+                </form> 
             </div>    <!-- left class ends here-->
         </div><!-- body-block class starts here-->
     </div>
 </div>
+</body>
 <script> 
     showPieCharts({$gender->male}, {$gender->female});
     showTop10Countries();
+    loadMap();
+    
 </script>

@@ -115,6 +115,7 @@ function validateFields(frm)
             alert(ERROR_NAME);
             return false;
         }
+        
         else if( !validateAcademicQualifications() )
         {
             alert('No academic qualification record found.\nPlease enter academic qualification information.');

@@ -155,3 +155,47 @@ function showPieCharts(male, female)
             }]
         });
 }
+
+var gdpData = {
+  "US": 100,
+  "AU": 30,
+  "CH": 2,
+  "IT": 10,
+  "BE": 12,
+  "DE": 25,
+  "SE": 30,
+  "CA": 50,
+  "UK": 50
+};
+
+function loadMap()
+{
+    $('#world-map').vectorMap
+    (
+        {
+            map: 'world_mill_en',
+            series: 
+            {
+                regions: 
+                [
+                    {
+                        values: gdpData,
+                        scale: ['#C8EEFF', '#0071A4'],
+                        normalizeFunction: 'polynomial'
+                    }
+                ]
+            },
+            onRegionLabelShow: function(e, el, code)
+            {
+                if (gdpData[code])
+                {
+                    el.html(el.html()+' (Applicants:'+gdpData[code]+')');
+                }
+                else
+                {
+                    el.html(el.html()+' (Applicants: 0)');
+                }
+            } 
+        }
+    );
+}
