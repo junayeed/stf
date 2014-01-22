@@ -53,6 +53,7 @@ function setupForm(frm, elemID)
             setRequiredField(present_phone,      'textbox',   'present_phone');
             setRequiredField(present_address,    'textbox',   'present_address');
             setRequiredField(cell_phone,         'textbox',   'cell_phone');
+            setRequiredField(passport,           'textbox',   'passport');
             setRequiredField(gender,             'dropdown',  'gender');
 
             /*** Personal Information end here ***/
@@ -61,7 +62,7 @@ function setupForm(frm, elemID)
             setRequiredField(guardian_name,         'textbox',   'guardian_name');
             setRequiredField(guardian_occupation,   'textbox',   'guardian_occupation');
             setRequiredField(guardian_income,       'textbox',   'guardian_income');
-            setRequiredField(tin,                   'textbox',   'tin');
+            //setRequiredField(tin,                   'textbox',   'tin');
             //setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
             /*** guardian Information end here ***/
         }
@@ -93,6 +94,16 @@ function setupForm(frm, elemID)
             setRequiredField(tax,               'textbox',   'tax');
             setRequiredField(ticket_fare_usd,   'textbox',   'ticket_fare_usd');
             setRequiredField(tax_usd,           'textbox',   'tax_usd');
+            
+            
+            if( !$('#destination_airport_tb').is(':disabled'))
+            {
+                setRequiredField(destination_airport_tb,   'textbox',  'destination_airport_tb');
+            }//
+            else
+            {
+                setRequiredField(destination_airport_dd,   'dropdown',  'destination_airport_dd');
+            }
             //setRequiredField(ticket_doc,        'file',      'ticket_doc');
             /*** Ticket Information end here ***/
         }
@@ -353,16 +364,16 @@ function populateAcademicDetails(id, uid, degree, attachmentname, file_location,
 function addNewRow()
 {
     var td_empty              = '<td width="4" class="prepand">&nbsp;</td>';
-    var td_degree             = '<td width="47" class="prepand"> '+ getDegreeList() +'</td>';
-    var td_result             = '<td width="63" class="prepand"><input type="text" name="result_'+row_id+'" id="result_'+row_id+'"    value="" class="inputbox3 W150" ></td>';  
-    var td_attachment_name    = '<td width="63" class="prepand"><input type="text" name="attachmentname_'+row_id+'" id="attachmentname_'+row_id+'"    value="" class="inputbox3 W150" ></td>';  
-    var td_attachment         = '<td width="70" class="prepand"><input type="file" name="academicfiles_'+row_id+'" onchange=uploadFiles("academicfiles_'+row_id+'")   id="academicfiles_'+row_id+'" value="" class="W175" /></td>';
-    var td_action             = '<td width="50" class="prepand" id="td_action_'+row_id+'"><a href="javascript: void(0);" onClick="deleteRow('+row_id+');"><img src="/app_contents/common/images/cross2.png"></a></td>';
-    var td_view               = '<td width="50" class="prepand" id="td_view_'+row_id+'"><a id="id_'+row_id +'" href="" target="_new"><img src="/app_contents/common/images/view22.png"></a></td>';
+    var td_degree             = '<td class="prepand"> '+ getDegreeList() +'</td>';
+    var td_result             = '<td class="prepand"><input type="text" name="result_'+row_id+'" id="result_'+row_id+'"    value="" class="inputbox3 W90" ></td>';  
+    var td_attachment_name    = '<td class="prepand"><input type="text" name="attachmentname_'+row_id+'" id="attachmentname_'+row_id+'"    value="" class="inputbox3 W150" ></td>';  
+    var td_attachment         = '<td class="prepand" align="center"><input type="file" name="academicfiles_'+row_id+'" onchange=uploadFiles("academicfiles_'+row_id+'")   id="academicfiles_'+row_id+'" value="" class="W175" /></td>';
+    var td_action             = '<td class="prepand" id="td_action_'+row_id+'"><a href="javascript: void(0);" onClick="deleteRow('+row_id+');"><img src="/app_contents/common/images/cross2.png"></a></td>';
+    var td_view               = '<td class="prepand" id="td_view_'+row_id+'"><a id="id_'+row_id +'" href="" target="_new"><img src="/app_contents/common/images/view22.png"></a></td>';
     var hidden_field          = '<input type="hidden" id="aqid_'+row_id+'" name="aqid_'+row_id+'" value="" >\n\
                                  <input type="hidden" id="file_location_'+row_id+'" name="file_location_'+row_id+'" value="">';
      
-    $('<tr id="tr_'+row_id+'" class="border">'+ td_empty+td_degree+td_result+td_attachment_name+td_view+td_attachment+td_action+hidden_field+'</tr>').prependTo("#academic_qualifications > tbody")
+    $('<tr id="tr_'+row_id+'" class="border">'+td_degree+td_result+td_attachment_name+td_view+td_attachment+td_action+hidden_field+'</tr>').prependTo("#academic_qualifications > tbody")
     $('#id_'+row_id).hide();
     row_id++;    
     
@@ -559,6 +570,7 @@ function loadCityByCountry(destination_airport)
                     $("#destination_airport_tb").hide();
                     $("#destination_airport_tb").val(''); 
                     $("#destination_airport_tb").attr("disabled", "disabled");
+                    $('#destination_airport_lbl').attr('id', 'destination_airport_dd_lbl');
                     
                     for(var i=0; i<cityArray.length; i++)
                     {
@@ -573,6 +585,7 @@ function loadCityByCountry(destination_airport)
                     $("#destination_airport_dd").hide(); 
                     $("#destination_airport_tb").show(); 
                     $("#destination_airport_tb").removeAttr("disabled");
+                    $('#destination_airport_lbl').attr('id', 'destination_airport_tb_lbl');
                 }
                 $("#destination_airport_dd").val(destination_airport); 
             }    

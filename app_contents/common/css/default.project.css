@@ -15,9 +15,9 @@ body{
     font-weight:normal; 
 }
 
-#top-full{ height: 69px; width:100%; float:left; position:relative; background:#0CA3D2 left bottom repeat-x; }
+#top-full{ height: 69px; width:100%; float:left; position:relative; background:#2A93FC left bottom repeat-x; }
 #body-full{ width:100%; float:left; position:relative; background-color:#FFF; }
-#footer-full{ width:100%; float:left; position:relative; background-color:#0CA3D2; }
+#footer-full{ width:100%; float:left; position:relative; background-color:#2A93FC; }
 
 .main-content
 {
@@ -830,7 +830,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 .hide { display: none;}
 
-#copy-address{border: 0px solid red; width: 25px; position: absolute; top: 264px;  left: 371px; cursor: pointer; }
+#copy-address{border: 0px solid red; width: 25px; position: absolute; top: 313px;  left: 202px; cursor: pointer; }
 
 .customers-body2 {width:140px;float:left;position:relative;}
 
@@ -974,7 +974,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 .box_stat h4 {
     font: 300 22px/24px 'Roboto',sans-serif;
     margin: 8px 0 2px;
-    color: #2F7ED8;
+    color: #2A93FC;
 }
 
 .box_stat small 
@@ -1380,4 +1380,12 @@ input[readonly], input[readonly="readonly"] {
   #footer-full{ display:none;}
   #buttons-div{ display:none;}
   #contentarea{ width:100%;}
+}
+
+.attach-file-text
+{
+    font-size: 12px;
+    line-height: 25px;
+    margin: 5px;
+    vertical-align: top;
 }

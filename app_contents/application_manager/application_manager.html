@@ -119,10 +119,14 @@
                                                                 <img src="/app_contents/common/images/copy26.png" width="20" onClick="copyAddress('present_address', 'permanent_address');">
                                                             </div>
                                                         </td>
-                                                        <td valign="top" colspan="2">
+                                                        <td valign="top">
                                                             <span class="span-text" id="cell_phone_lbl">Cell Phone</span><br class="br"/>
                                                             <input type="text" name="cell_phone" id="cell_phone" value="{$cell_phone|stripslashes}" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="passport_lbl">Passport No.</span><br class="br"/>
+                                                            <input type="text" name="passport" id="passport" value="{$passport|stripslashes}" class="inputbox3 W150"">
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -157,12 +161,12 @@
                                                     </tr>
                                                     <tr><td><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
-                                                        <td colspan="3">
+                                                        <td colspan="2">
                                                             <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement</span>   
                                                             <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
                                                         </td>
                                                         <td>
-                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>{/if}
+                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"> <span class="attach-file-text">{$guardian_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -189,13 +193,12 @@
                                                             <table width="99%" id="academic_qualifications" border="0">
                                                                 <thead>
                                                                     <tr>
-                                                                        <td width="4">&nbsp;</td>
-                                                                        <td width="47"><span>Exam/Degree</span></td>
-                                                                        <td width="47"><span>Result(Division/Grade)</span></td>
+                                                                        <td width="40"><span>Exam/Degree</span></td>
+                                                                        <td width="47"><span>Division/Grade</span></td>
                                                                         <td width="47"><span>Attachment Name</span></td>
-                                                                        <td width="47"><span> </span></td>
+                                                                        <td width="60"><span>Attachments</span></td>
                                                                         <td width="47"><span>Attachment</span></td>
-                                                                        <td width="50"><span>Action</span></td>
+                                                                        <td width="30"><span>Action</span></td>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody></tbody>
@@ -265,7 +268,7 @@
                                                         <td width="34%"><input type="file" name="acceptance_letter" id="acceptance_letter" class="W175"></td>
                                                         <td>
                                                             {if $acceptance_doc_id gt 0}
-                                                                <a href="{$acceptance_letter_file}" target="_new"><img src="/app_contents/common/images/view22.png"></a>
+                                                                <a href="{$acceptance_letter_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$acceptance_letter_file|basename|truncate:40}</span></a>
                                                             {/if}
                                                         </td>
                                                      </tr>
@@ -274,7 +277,7 @@
                                                          <td><input type="file" name="scholarship_letter" id="scholarship_letter" class="W175"></td>
                                                          <td>
                                                              {if $scholarship_doc_id gt 0}
-                                                                <a href="{$scholarship_letter_file}" target="_new"><img src="/app_contents/common/images/view22.png"></a>
+                                                                <a href="{$scholarship_letter_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$scholarship_letter_file|basename|truncate:40}</span></a>
                                                              {/if}
                                                          </td>
                                                     </tr>
@@ -295,7 +298,7 @@
                                                         </td>
                                                         <td>
                                                             {if $enroll_doc_id gt 0}
-                                                                <a href="{$enroll_certification_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
+                                                                <a href="{$enroll_certification_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$enroll_certification_file|basename|truncate:40}</span></a>
                                                             {/if}
                                                         </td>
                                                     </tr>
@@ -316,7 +319,7 @@
                                                         </td>
                                                         <td>
                                                             {if i20_doc_id gt 0}
-                                                            <a href="{$i20_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
+                                                            <a href="{$i20_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$i20_file|basename|truncate:40}</span></a>
                                                             {/if}
                                                         </td>
                                                     </tr>
@@ -359,39 +362,39 @@
                                                     </tr>
                                                 </table>
                                                 <table width="100%">
-                                                    <tr id="tofel_tr" style="display: {if $tofel_doc_id gt 0} inline {else} none {/if};">
+                                                    <tr id="tofel_tr" style="display: {if $tofel gt 0} inline {else} none {/if};">
                                                         <td id="tofel_td" width="25%"><span class="span-text" id="tofel_lbl">TOFEL Attachement: </span></td>
                                                         <td width="50%"><input type="file" name="tofel_doc" id="tofel_doc"></td>
                                                         <td>
-                                                            {if $tofel_doc_id gt 0}<a href="{$tofel_file}" target="_new"><img src="/app_contents/common/images/view22.png"></a>{/if}
+                                                            {if $tofel_doc_id gt 0}<a href="{$tofel_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$tofel_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
-                                                    <tr id="ielts_tr" style="display: {if $ielts_doc_id gt 0} inline {else} none {/if};">
+                                                    <tr id="ielts_tr" style="display: {if $ielts gt 0} inline {else} none {/if};">
                                                         <td id="ielts_td" width="25%"><span class="span-text" id="ielts_lbl">IELTS Attachement: </span></td>
                                                         <td width="50%"><input type="file" name="ielts_doc" id="ielts_doc"></td>
                                                         <td>
-                                                            {if $ielts_doc_id gt 0}<a href="{$ielts_file}" target="_new"><img src="/app_contents/common/images/view22.png"></a>{/if}
+                                                            {if $ielts_doc_id gt 0}<a href="{$ielts_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$ielts_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
-                                                    <tr id="sat_tr" style="display: {if $sat_doc_id gt 0} inline {else} none {/if};">
+                                                    <tr id="sat_tr" style="display: {if $sat gt 0} inline {else} none {/if};">
                                                         <td id="sat_td" width="25%"><span class="span-text" id="sat_lbl">SAT Attachement: </span></td>
                                                         <td width="50%"><input type="file" name="sat_doc" id="sat_doc"></td>
                                                         <td>
-                                                            {if $sat_doc_id gt 0}<a href="{$sat_file}" target="_new"><img src="/app_contents/common/images/view22.png"></a>{/if}
+                                                            {if $sat_doc_id gt 0}<a href="{$sat_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$sat_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
-                                                    <tr id="gre_tr" style="display: {if $gre_doc_id gt 0} inline {else} none {/if};">
+                                                    <tr id="gre_tr" style="display: {if $gre gt 0} inline {else} none {/if};">
                                                         <td id="gre_td" width="25%"><span class="span-text" id="gre_lbl">GRE Attachement: </span></td>
                                                         <td width="50%"><input type="file" name="gre_doc" id="gre_doc"></td>
                                                         <td>
-                                                            {if $gre_doc_id gt 0}<a href="{$gre_file}" target="_new"><img src="/app_contents/common/images/view22.png"></a>{/if}
+                                                            {if $gre_doc_id gt 0}<a href="{$gre_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$gre_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
-                                                    <tr id="gmat_tr" style="display: {if $gmat_doc_id gt 0} inline {else} none {/if};">
+                                                    <tr id="gmat_tr" style="display: {if $gmat gt 0} inline {else} none {/if};">
                                                         <td id="gmat_td" width="25%"><span class="span-text" id="gmat_lbl">GMAT Attachement: </span></td>
                                                         <td width="50%"><input type="file" name="gmat_doc" id="gmat_doc"></td>
                                                         <td>
-                                                            {if $gmat_doc_id gt 0}<a href="{$gmat_file}" target="_new"><img src="/app_contents/common/images/view22.png"></a>{/if}
+                                                            {if $gmat_doc_id gt 0}<a href="{$gmat_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$gmat_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -475,7 +478,7 @@
                                                         </td>
                                                         <td colspan="2">
                                                             {if $ticket_doc_id}
-                                                                <a href="{$ticket_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>
+                                                                <a href="{$ticket_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$ticket_file|basename|truncate:40}</span></a>
                                                             {/if}
                                                         </td>
                                                     </tr>
@@ -491,12 +494,12 @@
                                             <div class="table-content">
                                                 <table width="100%">
                                                     <tr>
-                                                        <td colspan="3">
+                                                        <td width="20%">
                                                             <span class="span-text" id="other_attachment_lbl">Attachment</span>   
                                                             <input type="file" name="other_attachment" id="other_attachment" class="W200">
                                                         </td>
                                                         <td>
-                                                            {if $others_doc_id}<a href="{$others_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"></a>{/if}
+                                                            {if $others_doc_id}<a href="{$others_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$others_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
                                                 </table>  

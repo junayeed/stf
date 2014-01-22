@@ -330,6 +330,7 @@ class applicationManagerApp extends DefaultApplication
         $data                    = getUserDataSet(TICKETS_TBL);
         $data['uid']             = $uid;
         $data['ticket_doc_id']   = saveAttachment($_FILES['ticket_doc']);
+        $data['others_doc_id']   = saveAttachment($_FILES['other_attachment']);
         $data['create_date']     = date('Y-m-d');
         
         $info['table']  = TICKETS_TBL;

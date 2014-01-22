@@ -39,7 +39,7 @@ function showTop10Countries()
                     showInLegend: false,  
                     name: 'Total Amount',
                     //data: [71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5]
-                    data: companyTotalArray
+                    data: countryTotalArray
                 }
             ]
         }
@@ -156,17 +156,6 @@ function showPieCharts(male, female)
         });
 }
 
-var gdpData = {
-  "US": 100,
-  "AU": 30,
-  "CH": 2,
-  "IT": 10,
-  "BE": 12,
-  "DE": 25,
-  "SE": 30,
-  "CA": 50,
-  "UK": 50
-};
 
 function loadMap()
 {
@@ -180,7 +169,7 @@ function loadMap()
                 [
                     {
                         values: gdpData,
-                        scale: ['#C8EEFF', '#0071A4'],
+                        scale: ['#C8EEFF', '#2A93FC'],
                         normalizeFunction: 'polynomial'
                     }
                 ]

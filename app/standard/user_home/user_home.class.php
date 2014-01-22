@@ -106,8 +106,8 @@
         {
             $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country = CLT.id)';
             $info['debug']  = false;
-            $info['fields'] = array('CLT.name as country , COUNT(AT.country) as total');
-            $info['where']  = 'application_status != ' . q('Not Submitted') . '  group by country order by country desc limit 10';
+            $info['fields'] = array('CLT.id as country , COUNT(AT.country) as total');
+            $info['where']  = 'application_status != ' . q('Not Submitted') . '  group by country order by country';
             
             $result = select($info);
             
@@ -115,7 +115,7 @@
             {
                 $retData[$value->country] = $value->total;
             }
-
+            
             return $retData;
         }
     }
