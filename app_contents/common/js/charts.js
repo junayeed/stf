@@ -46,55 +46,6 @@ function showTop10Countries()
     );   
 }
 
-function showYearWiseCharts()
-{
-    $('#container').highcharts
-    (
-        {
-            chart: { type: 'column'},
-            title: { text: 'Yearly Sale' },
-            //subtitle: { text: 'By total purchase' },
-            xAxis: { categories: monthArray },
-            yAxis: 
-            {
-                min: 0,
-                title: { text: '' }
-            },
-            tooltip: 
-            {
-                headerFormat: '<span style="font-size:11px; font-weight: bold">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0; font-size:11px;">Amount: </td>' +
-                             '<td style="padding:0; font-size:11px;">{point.y:.2f}</td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: 
-            {
-                column: 
-                {
-                    pointPadding: 0, // previous value was 0.2
-                    borderWidth: 0
-                }
-            },
-            credits: 
-            {
-                enabled: false
-            },
-            series: 
-            [
-                {
-                    showInLegend: false,  
-                    name: 'Total Amount',
-                    //data: [71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5]
-                    data: monthlyTotalArray
-                }
-            ]
-        }
-    );   
-}
-
-
 function showPieCharts(male, female) 
 {
     // Radialize the colors
@@ -131,6 +82,7 @@ function showPieCharts(male, female)
             {
                 pie: 
                 {
+                    size:'80%',
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: 
@@ -138,7 +90,8 @@ function showPieCharts(male, female)
                         enabled: true,
                         color: '#000000',
                         connectorColor: '#000000',
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        distance: 5,
+                        format: '<b>{point.name}</b><br>{point.percentage:.1f} %'
                         
                     }
                 }
@@ -168,7 +121,7 @@ function loadMap()
                 regions: 
                 [
                     {
-                        values: gdpData,
+                        values: countryData,
                         scale: ['#C8EEFF', '#2A93FC'],
                         normalizeFunction: 'polynomial'
                     }
@@ -176,9 +129,9 @@ function loadMap()
             },
             onRegionLabelShow: function(e, el, code)
             {
-                if (gdpData[code])
+                if (countryData[code])
                 {
-                    el.html(el.html()+' (Applicants:'+gdpData[code]+')');
+                    el.html(el.html()+' (Applicants:'+countryData[code]+')');
                 }
                 else
                 {

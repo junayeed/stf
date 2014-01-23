@@ -27,7 +27,7 @@ body{
 
 .table-content
 {
-    border: 1px solid #F2F2F2;
+    border: 0px solid #F2F2F2;
     padding-left: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -337,15 +337,15 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Body Block <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
-.body-block{width:930px; padding:22px 0px 72px 0px; float:left; position:relative;}
+.body-block{width:940px; padding:22px 0px 72px 0px; float:left; position:relative; }
 		
 .main-body{ width:930px; float:left; position:relative; }
 		
 /* -------------------- Start Left --------------------- */
 
-.left{  float:left; position:relative; border: 0px solid red;}
+.left{  float:left; position:relative; border: 0px solid red; width: 760px;}
 .left h3{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#000; background:url(../images/line.gif) left 5px repeat-x; margin-bottom:8px; }
-.left-full {width: 930px;}
+.left-full {width: 940px;}
 .line3 
 {
     background: url("../images/line3.gif") repeat-x scroll center 5px transparent;
@@ -357,7 +357,7 @@ table, table th, table td, cellpadding, cellspacing, border{
     margin-top: 6px;
 }
 .left h3 span{ background-color:#FFF; padding-right:10px; }
-.left-body { width:760px; float:left; position:relative; text-align: center;}
+.left-body { width:890px; float:left; position:relative; text-align: center; border: 0px solid pink;}
 #academic_qualifications thead tr td{ font-family: 'Arial'; font-size:12px; font-weight:bold; color:#000; background-color:#f2f2f2; line-height:16px; }
 #academic_qualifications thead tr td span{ color:#083a81; }
 #academic_qualifications tbody tr td{ font-family: 'Arial'; font-size:12px; font-weight:normal; color:#000; padding-bottom:5px; }
@@ -416,7 +416,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 		
 .customers-search-body
 {
-    width: 912px;
+    width: 920px;
     padding: 5px 5px 8px 15px;
     background-color:#e5e5e5;
     float:left;
@@ -491,12 +491,8 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Customer <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
-.customer-left-body{
-					 width:760px;
-					 float:left;
-					 position:relative;
-					}
-		
+.customer-left-body{width:920px; float:left; position:relative; }
+.customer-left-body h6 {width:930px; float:right; position:relative; text-align: right; font-size:9px;}		
 .customer-left-body thead tr td{ font-family: 'Arial'; font-size:12px; font-weight:bold; color:#375f98; background-color:#f2f2f2; line-height:28px; }
 	
 .customer-left-body tbody tr td{ font-family: 'Arial'; font-size:12px; font-weight:normal; color:#000; padding-top:4px; padding-bottom:4px; }

@@ -74,6 +74,7 @@
             $data['total_applicant'] = $this->getTotalApplicants();
             $data['gender']          = $this->getTotalGender();
             $data['country_list']    = $this->getTotalApplicantsByCountry();
+            $data['top_10']          = $this->getTop10Country();
             
             return createPage(DASHBOARD_TEMPLATE, $data);
         }
@@ -106,8 +107,8 @@
         {
             $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country = CLT.id)';
             $info['debug']  = false;
-            $info['fields'] = array('CLT.id as country , COUNT(AT.country) as total');
-            $info['where']  = 'application_status != ' . q('Not Submitted') . '  group by country order by country';
+            $info['fields'] = array('CLT.id as country , COUNT(AT.country) as total', 'CLT.name AS country_name');
+            $info['where']  = 'application_status != ' . q('Not Submitted') . '  GROUP BY country ORDER BY total DESC';
             
             $result = select($info);
             
@@ -115,7 +116,23 @@
             {
                 $retData[$value->country] = $value->total;
             }
+            //dumpVar($retData);
+            return $retData;
+        }
+        
+        function getTop10Country()
+        {
+            $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country = CLT.id)';
+            $info['debug']  = false;
+            $info['fields'] = array('CLT.name as country , COUNT(AT.country) as total');
+            $info['where']  = 'application_status != ' . q('Not Submitted') . '  GROUP BY country ORDER BY country LIMIT 10';
             
+            $result = select($info);
+            
+            foreach($result as $key => $value)
+            {
+                $retData[$value->country] = $value->total;
+            }
             return $retData;
         }
     }

@@ -10,13 +10,15 @@
 <script>
     var countryArray         = [];
     var countryTotalArray    = [];
-    var gdpData = [];
+    var countryData = [];
     
     {foreach from=$country_list key=key item=item} 
-        //gdpData.add("{$key}":{$item}); 
-        
-        gdpData["{$key}"]={$item};
-        countryTotalArray.push({$item});
+        countryData["{$key}"]={$item};
+    {/foreach}
+    
+    {foreach from=$top_10 key=key item=item} 
+       countryArray.push("{$key}");
+       countryTotalArray.push({$item});
     {/foreach}
 </script>
 <!-- body-full start here-->
@@ -54,20 +56,18 @@
                         </div>
                     </div> <!-- statistics row start here-->
                                
-                    <h3><span>Map</span></h3>
                     <div class="left-body">
-                        <div id="world-map" style="width: 880px; height: 450px"></div>
+                        <div id="world-map" style="width: 890px; height: 450px"></div>
                     </div>
                     
-                    <h3 class="prepand2"><span>Gender Ratio</span></h3>
-                    <div class="left-body">  <!-- left-body class starts here -->
-                        <div id="container" style="width:100%; height: 40%;"></div>
+                    <div class="left-body" style="margin-top: 30px;">  <!-- left-body class starts here -->
+                        <div style="width: 38%; float:left;">
+                            <div id="container" style="width:100%; height: 40%;"></div>
+                        </div>
+                        <div style="width: 60%; float:left;">
+                            <div id="top_customers" style="width:100%"></div>
+                        </div>
                     </div>
-                    
-<!--                    <h3 class="prepand2"><span>Top 10 Countries</span></h3>
-                    <div class="left-body">   left-body class starts here 
-                        <div id="top_customers" style="width:100%"></div>
-                    </div>-->
                 </form> 
             </div>    <!-- left class ends here-->
         </div><!-- body-block class starts here-->
@@ -76,7 +76,7 @@
 </body>
 <script> 
     showPieCharts({$gender->male}, {$gender->female});
-    //showTop10Countries();
+    showTop10Countries();
     loadMap();
     
 </script>

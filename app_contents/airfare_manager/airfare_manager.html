@@ -23,6 +23,7 @@
                             <table width="760" cellpadding="0" cellspacing="0" border="0">
                                 <thead>
                                     <tr>
+                                        <td width="50">Airport</td>
                                         <td width="50">Country</td>
                                         <td width="50">Air Fare</td>
                                         <td width="90">Source</td>
@@ -31,6 +32,7 @@
                                 <tbody>
                                 {foreach from=$country_list item=item}
                                     <tr>
+                                        <td class="border">{$item->destination_airport}</td>
                                         <td class="border">{$item->country_name}</td>
                                         <td class="border"><input type="text" name="local_fare_{$item->country}" id="local_fare_{$item->country}" value="{$item->local_fare}" class="inputbox3 W127" onkeypress="return isNumberKey(event);"></td>
                                         <td class="border"><input type="text" name="source_{$item->country}" id="source_{$item->country}" value="{$item->source}" class="inputbox3 W200"></td> 
