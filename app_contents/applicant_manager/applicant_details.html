@@ -23,10 +23,10 @@
     
     <div id="tabs">
         <ul class="ui-tabs">
-            <li><a href="#"  id="tab1_{$app_id}" onclick="showTabs(1,{$app_id})" style="background-color:#0CA3D2 !important; " >Personal Details</a></li>
-            <li><a href="#" id="tab2_{$app_id}" onclick="showTabs(2,{$app_id})">Education Info</a></li>
-            <li><a href="#" id="tab3_{$app_id}" onclick="showTabs(3,{$app_id})">Ticket Info</a></li>
-            <li><a href="#" id="tab4_{$app_id}" onclick="showTabs(4,{$app_id})">Attachment</a></li>
+            <li><a href="#" id="tab1_{$app_id}" onclick="showTabs(1,{$app_id})" style="background-color:#0CA3D2 !important;" class="W8">Personal Details</a></li>
+            <li><a href="#" id="tab2_{$app_id}" onclick="showTabs(2,{$app_id})" class="W8">Education Info</a></li>
+            <li><a href="#" id="tab3_{$app_id}" onclick="showTabs(3,{$app_id})" class="W8">Ticket Info</a></li>
+            <li><a href="#" id="tab4_{$app_id}" onclick="showTabs(4,{$app_id})" class="W8">Attachment</a></li>
         </ul>
     </div> 
     <div id="tabs-content">
@@ -69,6 +69,10 @@
                         <td>Income</td>
                         <td>{$guardian_income}</td>
                     </tr>
+                    <tr>
+                        <td>TIN</td>
+                        <td>{$tin}</td>
+                    </tr>
                 </table>
         </div>
         <div id="tabs-2_{$app_id}" style="display: none">
@@ -104,6 +108,10 @@
                     <tr>
                         <td>Ticket Date</td>
                         <td>{$date_ticket|date_format:'%d/%m/%Y'}</td>
+                    </tr>
+                    <tr>
+                        <td>Destination Airport</td>
+                        <td>{$destination_airport}</td>
                     </tr>
                     <tr>
                         <td>Ticket Fare (BDT)</td>

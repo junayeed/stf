@@ -345,7 +345,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 .left{  float:left; position:relative; border: 0px solid red; width: 760px;}
 .left h3{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#000; background:url(../images/line.gif) left 5px repeat-x; margin-bottom:8px; }
-.left-full {width: 940px;}
+.left-full {width: 890px; border: 0px solid red;}
 .line3 
 {
     background: url("../images/line3.gif") repeat-x scroll center 5px transparent;
@@ -950,7 +950,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 
 /*   statistics row */
 
-.col-sm-3 { width: 20%; }
+.col-sm-3 { width: 17%; }
 
 .box_stat 
 {
@@ -968,7 +968,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 }
 
 .box_stat h4 {
-    font: 300 22px/24px 'Roboto',sans-serif;
+    font: 300 24px/27px 'Roboto',sans-serif;
     margin: 8px 0 2px;
     color: #2A93FC;
 }
@@ -977,7 +977,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 {
     color: #999999;
     display: block;
-    font-size: 11px;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .row:before, .row:after {
@@ -1093,8 +1094,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 }
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
     min-height: 1px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 13px;
+    padding-right: 14px;
     position: relative;
 }
 .col-md-6 {
@@ -1319,6 +1320,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     border-bottom: 1px solid #CCCCCC;
    
 }
+
+.W8 {width: 8.1em !important;}
 #tabs a
 {
     float:left;

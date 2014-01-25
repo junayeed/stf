@@ -75,8 +75,23 @@
             $data['gender']          = $this->getTotalGender();
             $data['country_list']    = $this->getTotalApplicantsByCountry();
             $data['top_10']          = $this->getTop10Country();
+            //$data['country_count']   = count($data['country_list']);
+            $data['active_session']  = getActiveSessionYear();
+            $data['total_accepted']  = $this->getTotalAcceptedApplicant();
             
             return createPage(DASHBOARD_TEMPLATE, $data);
+        }
+        
+        function getTotalAcceptedApplicant()
+        {
+            $info['table']  = APPLICATIONS_TBL;
+            $info['debug']  = false;
+            $info['where']  = 'application_status = ' . q('Accepted') . ' AND sid = ' . getActiveSessionID();
+            $info['fields'] = array('COUNT(id) AS total_accepted');
+            
+            $result = select($info);
+            
+            return $result[0]->total_accepted;
         }
         
         function getTotalApplicants()
@@ -84,7 +99,7 @@
             $info['table']  = APPLICATIONS_TBL;
             $info['debug']  = false;
             $info['fields'] = array('COUNT(id) AS total_applicant');
-            $info['where']  = 'application_status != ' . q('Not Submitted');
+            $info['where']  = 'application_status != ' . q('Not Submitted') . ' AND sid = ' . getActiveSessionID();
             
             $result = select($info);
             
@@ -96,7 +111,7 @@
             $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid = UT.uid)';
             $info['debug']  = false;
             $info['fields'] = array('SUM(IF(gender = "male", 1,0)) AS `male`', 'SUM(IF(gender = "female", 1,0)) AS `female`', 'COUNT(gender) AS `total`');
-            $info['where']  = 'application_status != ' . q('Not Submitted');
+            $info['where']  = 'application_status != ' . q('Not Submitted') . ' AND sid = ' . getActiveSessionID();
             
             $result = select($info);
             

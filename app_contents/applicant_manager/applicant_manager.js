@@ -535,8 +535,7 @@ function doApplicantSearch()
     
     $('#applicantFrame').attr('src', source+'&applicant_name='+applicant_name+'&email='+email+'&country='+country+
                                             '&application_status='+application_status+'&gender='+gender+'&guardian_income_max='+guardian_income_max+
-                                            '&guardian_income_min='+guardian_income_min+'&degree='+degree_list+'&session_year='+session_year+
-                                            '&received_grant='+received_grant);
+                                            '&guardian_income_min='+guardian_income_min+'&degree='+degree_list+'&session_year='+session_year);//'&received_grant='+received_grant);
 }
 
 function showApplicantInfo(elemID)
@@ -553,19 +552,37 @@ function showApplicantInfo(elemID)
                 dataType: 'html',                                        //data format      
                 success: function(response)                          //on recieve of reply
                 {
-                        //alert(response);
-                        $('#std_details_'+elemID).html(response);
-                        $.fancybox.open({
+                    //alert(response);
+                    $('#std_details_'+elemID).html(response);
+                    //parent.$.fancybox.open
+                    $.fancybox.open
+                    (
+                        {
                             'href'          : '#std_details_'+elemID,
                             'titleShow'     : false,
                             'transitionIn'  : 'elastic',
-                            'transitionOut' : 'elastic'
-                        });
+                            'transitionOut' : 'elastic',
+                            'autoDimensions': false,
+                            'autoSize'      : false,
+                            'width'         : 620,
+                            'height'        : 500
+                        },
+                        {
+                            helpers : 
+                            {
+                                overlay : 
+                                {
+                                    css : 
+                                    {
+                                        'background' : 'rgba(238,238,238,0.55)'
+                                    }
+                                }
+                            }
+                        }
+                    );
                 }    
             }
         );
-    
-   
 }
 
 function showTabs(tabID,appID)
