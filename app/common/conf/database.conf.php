@@ -49,6 +49,7 @@
 
   define('COUNTRY_LOOKUP_TBL',           DB_NAME . '.country_lookup');
   define('CITY_LOOKUP_TBL',              DB_NAME . '.city_lookup');
+  define('INT_CALLING_CODE_LOOKUP_TBL',  DB_NAME . '.int_calling_code_lookup');
 
   define('DOCUMENT_TBL',                 DB_NAME . '.document');
 

@@ -251,8 +251,8 @@ input[type=submit]:active {
 }
 
 .header{
-    background-color: #0B96C2;
-    background-image: linear-gradient(to bottom, #0B96C2, #0CAAC2);
+    background-color: #2A93FC;
+    background-image: linear-gradient(to bottom, #0B96C2, #2A93FC);
     background-repeat: repeat-x;
     border-color: #252525;
     height: 100px;
@@ -278,8 +278,15 @@ h2{
     color: white;
     padding-left: 20px;
     padding-bottom: 5px;
-    
 }
+
+h4{
+    font-size: 12px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+h4 a{color: #2A93FC; text-decoration: none}
 
 .contain-body{
     padding: 10px;
@@ -304,4 +311,5 @@ h2{
 #rigistrationContent table td{
     font-family: arial;
     font-size: 14px;
+    border: 0px solid orchid;
 }

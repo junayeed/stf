@@ -10,11 +10,10 @@
             <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                 <form name="applicationPreviewForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
                 <div class="left">    <!-- left class starts here-->
-                    <table id="preview-table" border="1">
+                    <table id="preview-table" border="1" width="890">
                         <tr>
                             <td>
                                 <label id="">Application ID:</label> {$app_id}<br><br>
-                                
                             </td>
                             <td colspan="2" align="right"><img src="{$file}?{$smarty.now}" width="150" height="150"></td>
                         </tr>
@@ -120,11 +119,13 @@
                              <td>:</td>
                             <td><b>{if $enroll_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
+                        {if $country eq 'US'}
                         <tr>
                             <td>I-20</td>
                              <td>:</td>
                             <td><b>{if $i20_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
                         </tr>
+                        {/if}
                         {if $tofel}
                         <tr>
                             <td>TOFEL</td>
@@ -204,13 +205,20 @@
                             <td align="center" style="border-top: 1px solid black;">Signature with Date</td>
                         </tr>
                         <tr>
-                            <td colspan="3"><b><u>Note</u></b>: Please print this document and signature it. Send the printed signed copy with the other documents. Once you send the application you can not modify the application.</td>
+                            <td colspan="3"><b><u>Instruction:</u></b> 
+                                <ul>
+                                    <li style="margin-left: 20px;">Check all the information carefully.</li>
+                                    <li style="margin-left: 20px;">Print this document and sign it.</li> 
+                                    <li style="margin-left: 20px;">Send the printed signed copy with the other documents.</li>
+                                    <li style="margin-left: 20px;">Once you submit the application you can not modify the application.</li>
+                                </ul>
+                            </td>
                         </tr>
                     </table>
-                    <div id="buttons-div" class="button-div">
+                    <div id="buttons-div" class="button-div W871" >
                         <input type="button" value="P R I N T" name="Print" id="save" class="inputbox-blue margin-right50 W75" onClick="javascript:window.print();">  
-                        <input type="button" value="S E N D"   name="save" id="save" class="inputbox-blue W75"  onClick="doApplicationSubmit();" />
-                        <input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">
+                        <input type="button" value="S U B M I T" name="save" id="save" class="inputbox-blue W75"  onClick="doApplicationSubmit();" />
+                        <input type="button" value="B A C K" name="back" id="back" class="inputbox-blue W75" onclick="location.href='/app/application_manager/application_manager.php?cmd=edit'" >
                         <input type="hidden" name="submitted" value="0">
                         <input type="hidden" name="preview"   value="0">
                     </div>

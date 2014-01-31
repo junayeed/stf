@@ -204,6 +204,25 @@
         return $retData;
     }
     
+    function getIntCallingCodeList()
+    {
+        $info['table']   = INT_CALLING_CODE_LOOKUP_TBL;
+        $info['debug']   = false;
+        $info['where']   = '1 ORDER BY country ASC';
+
+        $result = select($info);       
+        
+        if ($result)
+        {
+            foreach($result as $key => $value)
+            {
+                $retData[$value->prefix_code] = $value->country . ' ('. $value->prefix_code . ')';
+            }
+        }
+        
+        return $retData;
+    }
+    
     function getFileLocation($file_id = 0,$uid)
     {
         if ($file_id == 0)

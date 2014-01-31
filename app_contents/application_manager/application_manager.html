@@ -97,10 +97,16 @@
                                                     <tr><td><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td>
-                                                            <span class="span-text" id="present_address_lbl">Present Address</span><br class="br"/>
-                                                            <textarea id="present_address" name="present_address" class="textarea W185 H60">{$present_address|stripslashes}</textarea>
+                                                            <span class="span-text" id="present_address_lbl">Current Address (Overseas)</span><br class="br"/>
+                                                            <textarea id="present_address" name="present_address" class="textarea W185 H70">{$present_address|stripslashes}</textarea>
                                                         </td>
                                                         <td valign="top">
+                                                            <span class="span-text" id="country_code_lbl">Country Code</span><br class="br"/>
+                                                            <select name="country_code" id="country_code" class="combo1 W165">
+                                                                <option value="">-- Select Country Code --</option>
+                                                                {html_options options=$calling_code_list}
+                                                            </select>
+                                                            <div style="height: 10px;"></div>
                                                             <span class="span-text" id="present_phone_lbl">Present Phone</span><br class="br"/>
                                                             <input type="text" name="present_phone" id="present_phone" value="{$present_phone|stripslashes}" 
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
@@ -113,11 +119,11 @@
                                                     <tr><td><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
                                                         <td>
-                                                            <span class="span-text" id="permanent_address_lbl">Permanent Address</span><br class="br"/>
-                                                            <textarea id="permanent_address" name="permanent_address" class="textarea W185 H60">{$permanent_address|stripslashes}</textarea>
-                                                            <div id="copy-address">
+                                                            <span class="span-text" id="permanent_address_lbl">Address in Bangladesh</span><br class="br"/>
+                                                            <textarea id="permanent_address" name="permanent_address" class="textarea W185 H70">{$permanent_address|stripslashes}</textarea>
+<!--                                                            <div id="copy-address">
                                                                 <img src="/app_contents/common/images/copy26.png" width="20" onClick="copyAddress('present_address', 'permanent_address');">
-                                                            </div>
+                                                            </div>-->
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text" id="cell_phone_lbl">Cell Phone</span><br class="br"/>
@@ -126,7 +132,13 @@
                                                         </td>
                                                         <td valign="top">
                                                             <span class="span-text" id="passport_lbl">Passport No.</span><br class="br"/>
-                                                            <input type="text" name="passport" id="passport" value="{$passport|stripslashes}" class="inputbox3 W150"">
+                                                            <input type="text" name="passport" id="passport" value="{$passport|stripslashes}" class="inputbox3 W150""><br class="br"/>
+                                                            <div style="height: 10px;"></div>
+                                                            <span class="span-text prepand" id="passport_expire_date_lbl">Passport Expire Date</span><br class="br"/>
+                                                            <input type="text" name="passport_expire_date" id="passport_expire_date" value="{$passport_expire_date|date_format:'%Y-%m-%d'}" class="inputbox3 W123 DISABLE" readonly>
+                                                            <img name="anchor1" id="anchor1" align=top width=22 height=20 
+                                                                 style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
+                                                                 onClick="thisSelect(document.userManagerForm.passport_expire_date,'anchor1','yyyy-MM-dd'); return false;">
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -193,12 +205,12 @@
                                                             <table width="99%" id="academic_qualifications" border="0">
                                                                 <thead>
                                                                     <tr>
-                                                                        <td width="40"><span>Exam/Degree</span></td>
-                                                                        <td width="47"><span>Division/Grade</span></td>
-                                                                        <td width="47"><span>Attachment Name</span></td>
-                                                                        <td width="60"><span>Attachments</span></td>
-                                                                        <td width="47"><span>Attachment</span></td>
-                                                                        <td width="30"><span>Action</span></td>
+                                                                        <td width="110"><span>Exam/Degree</span></td>
+                                                                        <td width="90"><span>Division/Grade</span></td>
+                                                                        <td width="170"><span>Attachment Name</span></td>
+                                                                        <td width="75"><span>Attachments</span></td>
+                                                                        <td width="225"><span>Attachment</span></td>
+                                                                        <td width="35"><span>Action</span></td>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody></tbody>
@@ -434,6 +446,7 @@
                                                             <input type="text" name="destination_airport" id="destination_airport_tb" value="{$destination_airport}" class="inputbox3 W150" style="display: none;">
                                                             <select name="destination_airport" id="destination_airport_dd" class="combo1 W150">
                                                             </select>
+                                                            <input type="checkbox" id="list" onchange="toggleDestinationAirport();"><label class="font2"> Not in the list</label>
                                                         </td>
                                                     </tr>
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
@@ -547,7 +560,8 @@
     {/foreach}
     {foreach from=$academic_qualifications item=item}
         addNewRow(0);
-        populateAcademicDetails("{$item->id}", "{$item->uid}", "{$item->degree}", "{$item->attachmentname}","{$item->file_location}", "{$item->doc_id}", "{$item->result}");
+        populateAcademicDetails("{$item->id}", "{$item->uid}", "{$item->degree}", "{$item->attachmentname_c}","{$item->certificate_file}", 
+                                "{$item->doc_id_c}", "{$item->result}", "{$item->attachmentname_t}","{$item->transcript_file}", "{$item->doc_id_t}");
     {/foreach}
     //getMonthList();
     //getYearList();

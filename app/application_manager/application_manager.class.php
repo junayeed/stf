@@ -20,6 +20,7 @@ class applicationManagerApp extends DefaultApplication
       
       switch ($cmd)
       {
+           case 'faq'              : $screen = $this->showFAQEditor();                     break;
            case 'edit'             : $screen = $this->showEditor($msg);                    break;
            case 'new'              : $screen = $this->showNewEditor($msg);                 break;
            case 'personal-info'    : $screen = $this->saveRecord();                        break;
@@ -125,25 +126,26 @@ class applicationManagerApp extends DefaultApplication
        }
    }
    
-   function checkDuplicateEmail()
-   {
-       $email = getUserField('email');
-       
-       $info['table'] = USER_TBL;
-       $info['debug'] = false;
-       $info['where'] = 'email = ' . q($email);
-       
-       $result = select($info);
-       
-       if ( !empty($result) )
-       {
+    function checkDuplicateEmail()
+    {
+        $email = getUserField('email');
+
+        $info['table'] = USER_TBL;
+        $info['debug'] = false;
+        $info['where'] = 'email = ' . q($email);
+
+        $result = select($info);
+
+        if ( !empty($result) )
+        {
            echo json_encode('1');
-       }
-       else
-       {
+        }
+        else
+        {
            echo json_encode('');
-       }       
-   }
+        }       
+    }
+    
    
     /**
      * Shows User Editor
@@ -198,6 +200,7 @@ class applicationManagerApp extends DefaultApplication
         $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
         //dumpVar($data);
         $data['country_list']                = getCountryList();
+        $data['calling_code_list']           = getIntCallingCodeList();
         $data['current_tab']                 = getUserField('next_tab') == '' ? 'personal-info' : getUserField('next_tab');
         $data['session_year']                = getActiveSessionYear();
         
@@ -281,6 +284,8 @@ class applicationManagerApp extends DefaultApplication
     {
         $uid = getFromSession('uid');
         
+        //dumpVar($_REQUEST);
+        
         $info['table']  = ACADEMIC_QUALIFICATIONS_TBL;
         $info['debug']  = false;
         
@@ -291,12 +296,14 @@ class applicationManagerApp extends DefaultApplication
                 $id      = $matches[1];
                 $aq_id   = $_REQUEST['aqid_' . $id];
 
-                $data['uid']             = $uid;
-                $data['degree']          = $_REQUEST['degree_' . $id];
-                $data['result']          = $_REQUEST['result_' . $id];
-                $data['attachmentname']  = $_REQUEST['attachmentname_' . $id];
-                $data['degree']          = $_REQUEST['degree_' . $id];
-                $data['doc_id']          = saveAttachment($_FILES['academicfiles_'.$id]);
+                $data['uid']               = $uid;
+                $data['degree']            = $_REQUEST['degree_' . $id];
+                $data['result']            = $_REQUEST['result_' . $id];
+                $data['attachmentname_c']  = $_REQUEST['attachmentname_c_' . $id];
+                $data['attachmentname_t']  = $_REQUEST['attachmentname_t_' . $id];
+                $data['degree']            = $_REQUEST['degree_' . $id];
+                $data['doc_id_c']          = saveAttachment($_FILES['academicfiles_c_'.$id]);
+                $data['doc_id_t']          = saveAttachment($_FILES['academicfiles_t_'.$id]);
                 
                 $info['data']  = $data;
                 if($aq_id)

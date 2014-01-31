@@ -791,12 +791,15 @@ table, table th, table td, cellpadding, cellspacing, border{
     text-decoration:line-through;
 }
 
+.W890 { width: 890px; }
+.W871 { width: 871px; }
 .W525 { width: 525px; }
 .W500 { width: 500px; }
 .W300 { width: 300px; }
 .W200 { width: 200px; }
 .W185 { width: 185px; }
 .W175 { width: 175px; }
+.W165 { width: 165px; }
 .W150 { width: 150px; }
 .W127 { width: 127px; }
 .W123 { width: 123px; }
@@ -819,6 +822,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 
 .H120 { height: 120px; }
 .H90 { height: 90px; }
+.H70 { height: 70px; }
 .H60 { height: 60px; }
 .H50 { height: 50px; }
 .H35 { height: 35px; }

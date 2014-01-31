@@ -24,7 +24,6 @@
    define('APPLICATION_PREVIEW_TEMPLATE',         TEMPLATE_DIR . '/application_preview.html');
    define('APPLICATION_LIST_TEMPLATE',            TEMPLATE_DIR . '/application_list.html');
 
-
    /**#@+
    * Application Constant
    */

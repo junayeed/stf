@@ -16,50 +16,48 @@
     <body>
         <div id="container" class="container">
             <div id="header" class="header">
-                <table width="100%">
-                  <tr>
-                      <td width="75%">
-                        <h1>Sweden Bangladesh Trust Fund</h1>
-                        <h2>Economic Relations Division (ERD)</h2>
-                      </td>
-                      <td style="text-align: right">
-                          <div class="login">
-                            <form name="loginForm" onSubmit="return dologinFormSubmit();" action="{$SCRIPT_NAME}" method="POST">
-                                <p><input type="text" name="loginid" id="loginid" value="" placeholder="Username">
-                                <input type="password" name="password_login" id="password_login" value="" placeholder="Password">
-                                <input type="submit" name="commit" value="Login"></p>
-                            </form>
-                          </div>
-                      </td>
-                  </tr>
+                <table width="100%" border="0">
+                    <tr>
+                        <td width="55%">
+                            <h1>Bangladesh Sweden Trust Fund</h1>
+                            <h2>Economic Relations Division (ERD)</h2>
+                        </td>
+                        <td width="25%"><h2>Already registered? Login here</h2></td>
+                        <td style="text-align: right" width="20%">
+                            <div class="login">
+                                <form name="loginForm" onSubmit="return dologinFormSubmit();" action="{$SCRIPT_NAME}" method="POST">
+                                    <p><input type="text" name="loginid" id="loginid" value="" placeholder="Username">
+                                    <input type="password" name="password_login" id="password_login" value="" placeholder="Password">
+                                    <input type="submit" name="commit" value="Login"></p>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                 </table>   
             </div>
             <div id="contain-body">
-                 <table width="100%">
-                   <tr>
-                       <td width="69%" style="vertical-align: top">
-                           <div id="contain-body" class="contain-body">
-                              <h4>Sweden-Bangladesh Trust Fund</h4>
-<p>
-    <img style="width:120px;position: relative; margin: 0px 10px 10px 0px; border: 0px solid #d2d1d1; float: left;" src="/app_contents/common/images/Flag-Pins-Bangladesh-Sweden.jpg">"Sweden-Bangladesh Trust Fund" was constituted in 1984 with the assistance of the Government of Sweden. The main objective of this trust fund is to promote human resource development of the country by providing travel grant/financial assistance to students travel abroad for higher studies. Sweden-Bangladesh Trust Fund is providing 75% of one way air travel fare to the eligible candidates. Any Bangladeshi national having SSC/HSC (or equivalent) from Bangladesh is eligible to apply for assistance from this fund subject to following conditions:
-</p>
-
-<p>(a) The students must be a citizen of Bangladesh:</p>
-
-    <ul>
-        <li>The students who have traveled abroad for higher studies at Under Graduate/ Graduate/Post Graduate/Ph.D/ Doctoral level with scholarship (full/partial) but unable to arrange travel expenditure due to financial constraints.</li>
-    <li>Those Bangladeshi students who have been enrolled at foreign universities/ educational institutions under scholarship programme during last academic year (specifically October-September session)</li>
-    <li>Those students who have not got travel grant/air ticket from Sweden-Bangladesh Trust Fund or any other source earlier.</li>
-    <li>Those who have not got third division/class/equivalent GPA in any public examinations.</li>
-    </ul>
- <p> 
-   (b) Preference will be given to those subjects which will play an important role for socio-economic development of the country.
-</p>
-                           </div>  
-                       </td>
-                       <td>
-                           <div class="registration">
-                                <h1>Not Register Yet?</h1>
+                <table width="100%">
+                    <tr>
+                        <td width="69%" style="vertical-align: top">
+                            <div id="contain-body" class="contain-body">
+                                <h4>Bangladesh-Sweden Trust Fund</h4>
+                                <p>
+                                    <img style="width:120px;position: relative; margin: 0px 10px 10px 0px; border: 0px solid #d2d1d1; float: left;" src="/app_contents/common/images/Flag-Pins-Bangladesh-Sweden.jpg">"Bangladesh-Sweden Trust Fund" was constituted in 1984 with the assistance of the Government of Sweden. The main objective of this trust fund is to promote human resource development of the country by providing travel grant/financial assistance to students travel abroad for higher studies. Bangladesh-Sweden Trust Fund is providing fund for one way air travel fare to the eligible candidates. Any Bangladeshi national having SSC/HSC (or equivalent) from Bangladesh is eligible to apply for assistance from this fund subject to following conditions:
+                                </p>
+                                <p>(a) The students must be a citizen of Bangladesh:</p>
+                                <ul>
+                                    <li>The students who have traveled abroad for higher studies at Under Graduate/ Graduate/Post Graduate/Ph.D/ Doctoral level with scholarship (full/partial) but unable to arrange travel expenditure due to financial constraints.</li>
+                                    <li>Those Bangladeshi students who have been enrolled at foreign universities/ educational institutions under scholarship programme during last academic year (specifically October-September session)</li>
+                                    <li>Those students who have not got travel grant/air ticket from Bangladesh-Sweden Trust Fund or any other source earlier.</li>
+                                    <li>Those who have not got third division/class/equivalent GPA in any public examinations.</li>
+                                </ul>
+                                <p>(b) Preference will be given to those subjects which will play an important role for socio-economic development of the country.</p>
+                            </div>  
+                            <p><h4>For further information visit <a href="#" onclick="location.href='/app_contents/standard/login/faq.html'">FAQ</a> section.</h4></p>
+                        </td>
+                        <td>
+                            <div class="registration">
+                                <h1>Not Register Yet? &nbsp;Register here</h1>
                                 <form name="registrationForm" onSubmit="return doRegistrationFormSubmit();" action="/app/standard/registration/registration.php" method="POST">
                                     <div id="rigistrationContent">
                                         <table width="100%">
@@ -102,13 +100,11 @@
                                     </div>
                                 </form>
                             </div>
-                       </td>                       
-                   </tr>
-                 </table>  
+                        </td>                       
+                    </tr>
+                </table>  
             </div>
         </div>    
-        
-
         <div class="login-help">
             <p>Copy right @ ERD, 2014</p>
         </div>
