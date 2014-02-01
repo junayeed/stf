@@ -37,9 +37,6 @@ var ERROR_GROUP_TYPE   = "Select a type of the group";
 var ERROR_GROUP_STATUS = "Select status of the group";
 var ERROR_GROUP_USER   = "Select user of the group";
 
-//Product Manager
-var DUPLICATE_PRODUCT_CODE = "The Product Code already exist."
-
-
-// Customer Manager
-var DUPLICATE_COMPANY_NAME    = "This company name & address already exist.";
+var DUPLICATE_PRODUCT_CODE        = "The Product Code already exist."
+var DUPLICATE_DEGREE_ERROR_MSG    = "Duplicate Degree name found. Please check Degree name.";
+var ATTACHMENT_MISSING_ERROR_MSG  = "Some attachments are missing. Please enter attachment.";

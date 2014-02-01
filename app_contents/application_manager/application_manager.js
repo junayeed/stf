@@ -12,14 +12,18 @@ RE_PHONE         = new RegExp(/^((\d\d\d)|(\(\d\d\d\)))?\s*[\.-]?\s*(\d\d\d)\s*[
 RE_ZIP           = new RegExp(/^[0-9]{5}(([\-\ ])?[0-9]{4})?$/);
 RE_UK_POSTCODE   = new RegExp(/^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {0,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR ?0AA)$/);
 
-var degreeArray = ["", "S.S.C","O Levels", "Dakhil","H.S.C.", "A Levels", "Alim", "IB", "Bachelor", "Kamil","Masters", "Fazil","Ph.D"];
-
-var duplicate_user   = false;
-var duplicate_email  = false;
+var degreeArray      = ["", "S.S.C","O Levels", "Dakhil","H.S.C.", "A Levels", "Alim", "IB", "Bachelor", "Kamil","Masters", "Fazil","Ph.D"];
+var duplicate_user   = false;  // for duplicate user. will update on AJAX call from checkUserName
+var duplicate_email  = false;  // for duplicate email. will update on AJAX call from isEmailExists()
+var duplicate_degree = false;  // for duplicate degree name in the Degree dropdown. 
 var OUTER_DELIM      = '###';
-var row_id           = 1;
+var row_id           = 1;      // global variable for Academic qualifications. 
 var noAcademicValue  = false;
 
+
+/**
+ * Set up the form for validation of empty value
+ */
 function setupForm(frm, elemID)
 { 
     var grant       = $('#received_grant').val();
@@ -45,10 +49,11 @@ function setupForm(frm, elemID)
     
     with (frm)
     {
+        // for personal information tab
         if (elemID === 'personal-info')
         {
             /*** Personal Information start here ***/
-            setRequiredField(photo,                'file',      'photo');
+            //setRequiredField(photo,                'file',      'photo');
             setRequiredField(first_name,           'textbox',   'first_name');
             setRequiredField(last_name,            'textbox',   'last_name');
             setRequiredField(email,                'textbox',   'email');
@@ -67,11 +72,11 @@ function setupForm(frm, elemID)
             setRequiredField(guardian_name,         'textbox',   'guardian_name');
             setRequiredField(guardian_occupation,   'textbox',   'guardian_occupation');
             setRequiredField(guardian_income,       'textbox',   'guardian_income');
-            setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
+            //setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
             //setRequiredField(tin,                   'textbox',   'tin');
             /*** guardian Information end here ***/
         }
-        
+        // for university information tab
         else if (elemID === 'university-info')
         {
             /*** University Information start here ***/
@@ -79,10 +84,9 @@ function setupForm(frm, elemID)
             setRequiredField(university_name,        'textbox',   'university_name');
             setRequiredField(university_contact,     'textbox',   'university_contact');
             setRequiredField(subject_desc,           'textbox',   'subject_desc');
-            setRequiredField(acceptance_letter,      'file',      'acceptance_letter');
-            setRequiredField(scholarship_letter,     'file',      'scholarship_letter');
-            setRequiredField(enroll_certification,   'file',      'enroll_certification');
-            setRequiredField(enroll_certification,   'file',      'enroll_certification');
+            //setRequiredField(acceptance_letter,      'file',      'acceptance_letter');
+            //setRequiredField(scholarship_letter,     'file',      'scholarship_letter');
+            //setRequiredField(enroll_certification,   'file',      'enroll_certification');
         
             if (country_val == 'US')
             {
@@ -90,6 +94,7 @@ function setupForm(frm, elemID)
             }
             /*** University Information end here ***/
         }
+        // for Ticket information tab
         else if (elemID === 'ticket-info')
         {
             /*** Ticket Information start here ***/
@@ -99,7 +104,7 @@ function setupForm(frm, elemID)
             setRequiredField(tax,               'textbox',   'tax');
             setRequiredField(ticket_fare_usd,   'textbox',   'ticket_fare_usd');
             setRequiredField(tax_usd,           'textbox',   'tax_usd');
-            setRequiredField(ticket_doc,        'file',      'ticket_doc');
+            //setRequiredField(ticket_doc,        'file',      'ticket_doc');
             
             if( !$('#destination_airport_tb').is(':disabled'))
             {
@@ -109,7 +114,6 @@ function setupForm(frm, elemID)
             {
                 setRequiredField(destination_airport_dd,   'dropdown',  'destination_airport_dd');
             }
-            
             /*** Ticket Information end here ***/
         }
     }
@@ -147,6 +151,9 @@ function validateFields(frm)
     }
 }
 
+/**
+ * Submit application with the confirmation from Applicant
+ */
 function doApplicationSubmit()
 {
     var ok = true;
@@ -164,6 +171,9 @@ function doApplicationSubmit()
     }
 }
 
+/**
+ * Submit the application for preview
+ */
 function doApplicationPreview()
 {
     var ok = true;
@@ -174,6 +184,9 @@ function doApplicationPreview()
     frm.submit();
 }
 
+/**
+ * Validate the file type by the file extension
+ */
 function validateFileTypes()
 {
     var fileArray            = ['photo', 'guardian_income_tax', 'acceptance_letter', 'scholarship_letter', 'enroll_certification', 'i20', 'ticket_doc'];
@@ -212,23 +225,43 @@ function validateFileTypes()
     return true;
 }
 
+/**
+ * Validate whethere the academic qualifications informations are there empty or not
+ */
+
 function validateAcademicQualifications()
 {
     var elemArray  = ['degree_', 'result_','attachmentname_c_', 'attachmentname_t_', 'academicfiles_c_', 'academicfiles_t_'];
     
-    if( $("#academic_qualifications > tbody").find("tr").length > 0 )
+    noAcademicValue = false;
+    
+    if( $("#academic_qualifications > tbody").find("tr").length > 0 )  // checking whether the table has any row
     {
         for(var i=1; i<row_id; i++)
         {
             for(var j=0; j<elemArray.length; j++)
             {    
+                //alert('Elem = ' + elemArray[j]+i + '\nValue = '+$('#'+elemArray[j]+i).val()+'\nnoAcademicValue = ' + noAcademicValue);
+
                 if( !$('#'+elemArray[j]+i).val() )
                 {
+                    // change the border color for FILE tag
                     if (elemArray[j] === 'academicfiles_c_' ||  elemArray[j] === 'academicfiles_t_')
                     {
-                        $('#'+elemArray[j]+i).css({"border-color": "red", "border":"1px", "border-style":"solid"});
+                        if ( !$('#id_c_'+i).attr('href') )
+                        {
+                            $('#'+elemArray[j]+i).css({"border-color": "red", "border":"1px", "border-style":"solid"});
+                        }
+                        else if ( !$('#id_t_'+i).attr('href') )
+                        {
+                            $('#'+elemArray[j]+i).css({"border-color": "red", "border":"1px", "border-style":"solid"});
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
-                    
+
                     highlightColumn(elemArray[j]+i);
                     noAcademicValue = true;
                 }
@@ -244,7 +277,111 @@ function validateAcademicQualifications()
         }
     }
     
+    //alert(noAcademicValue)
     if (noAcademicValue)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function validateOtherQualifications()
+{
+    othersQualificationArray = ['tofel', 'ielts', 'sat', 'gre', 'gmat'];
+    
+    for (var i=0; i < othersQualificationArray.length; i++)
+    {
+        //alert($('#'+othersQualificationArray[i]).val())
+        if ( $('#'+othersQualificationArray[i]).val() > 0 )
+        {
+            //alert($('#'+othersQualificationArray[i]+'_doc').val());
+            if ( !$('#'+othersQualificationArray[i]+'_doc').val() )
+            {
+                $('#'+othersQualificationArray[i]+'_doc').css({"border":"1px", "border-style":"solid", "border-color": "red"});
+                $('#'+othersQualificationArray[i]+'_lbl').css({"color":"red"});
+            }
+        }
+    }
+}
+
+function validateTicketAttachment()
+{
+    //alert('HREF == ' + $('#ticket').attr('href') + '\nVal == ' + $('#ticket_doc').val())
+    if ( !$('#ticket').attr('href') && !$('#ticket_doc').val() )
+    {
+        $('#ticket_doc').css({"border":"1px", "border-style":"solid", "border-color": "red"});
+        $('#ticket_doc_lbl').css({"color":"red"});
+        return false;
+    }
+    else
+    {
+        $('#ticket_doc').css({"border":"0px", "border-style":"solid", "border-color": "red"});
+        $('#ticket_doc_lbl').css({"color":"#083A81"});
+        return true;
+    }
+}
+
+function validateUniversityAttachment()
+{
+    var elemArray    = ['acceptance_letter', 'scholarship_letter', 'enroll_certification'];
+    var noAttachment = false
+    
+    for (var i=0; i<elemArray.length; i++)
+    {
+        alert('Elem = '+elemArray[i] + '\nHREF = ' +$('#'+elemArray[i]+'_file').attr('href') + '\nValue = ' + $('#'+elemArray[i]).val());
+        if ( !$('#'+elemArray[i]+'_file').attr('href') && !$('#'+elemArray[i]).val() )
+        {
+            $('#'+elemArray[i]).css({"border":"1px", "border-style":"solid", "border-color": "red"});
+            $('#'+elemArray[i]+'_lbl').css({"color":"red"});
+            noAttachment = true;
+        }
+        else
+        {
+            $('#'+elemArray[i]).css({"border":"0px", "border-style":"solid", "border-color": "red"});
+            $('#'+elemArray[i]+'_lbl').css({"color":"#083A81"});
+        }
+    }
+    if ( noAttachment )
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function validatePersonalAttachment()
+{
+    var noAttachment = false;
+    
+    if ( !$('#photo').val() && !$('#photo_file').attr('src'))
+    {
+        $('#photo').css({"border":"1px", "border-style":"solid", "border-color": "red"});
+        $('#photo_lbl').css({"color":"red"});
+        noAttachment = true;    
+    }
+    else 
+    {
+        $('#photo').css({"border":"0px", "border-style":"solid", "border-color": "red"});
+        $('#photo_lbl').css({"color":"#083A81"});
+    }
+    if ( !$('#guardian_income_tax').val() && !$('#guardian_income_tax_file').attr('href'))
+    {
+        $('#guardian_income_tax').css({"border":"1px", "border-style":"solid", "border-color": "red"});
+        $('#guardian_income_tax_lbl').css({"color":"red"});
+        noAttachment = true;    
+    }
+    else 
+    {
+        $('#guardian_income_tax').css({"border":"0px", "border-style":"solid", "border-color": "red"});
+        $('#guardian_income_tax_lbl').css({"color":"#083A81"});
+    }
+
+if ( noAttachment )
     {
         return false;
     }
@@ -270,17 +407,16 @@ function validateFields(frm)
             alert(ERROR_NAME);
             return false;
         }
-        
-        else if( !validateAcademicQualifications() )
-        {
-            alert('No academic qualification record found.\nPlease enter academic qualification information.');
-            return false;
-        }
-        else if( !validateFileTypes() )
-        {
-            alert('Some of the file format is not supported.\nPlease enter a valid file.\nSuported file formats are: jpeg ,jpg, png, gif');
-            return false;
-        }
+//        else if ( !validateOtherQualifications() )
+//        {
+//            alert('Attachements are missing.');
+//            return false;
+//        }
+//        else if( !validateFileTypes() )
+//        {
+//            alert('Some of the file format is not supported.\nPlease enter a valid file.\nSuported file formats are: jpeg ,jpg, png, gif');
+//            return false;
+//        }
 
         return true;
     }
@@ -304,11 +440,53 @@ function doFormSubmit(elemID)
         alert(MISSING_REQUIRED_FIELDS);
         return false;
     }
-    else
+    else if (elemID === 'personal-info')
     {
-        // if validateFields() returns true then submit the form
-        if(validateFields(frm))
+        if ( !validatePersonalAttachment() )
         {
+            alert(ATTACHMENT_MISSING_ERROR_MSG);
+            return false;
+        }
+    }
+    else if (elemID === 'academic-info')   // validate academic qualification since this is dynamic part
+    {
+        if (duplicate_degree)  // check for duplicate degree/exam name
+        {
+            alert(DUPLICATE_DEGREE_ERROR_MSG);
+            return false;
+        }
+        else if( !validateAcademicQualifications() )  // validate the fields.
+        {
+            alert('No academic qualification record found.\nPlease enter academic qualification information.');
+            return false;
+        }
+    }
+    else if ( elemID === 'ticket-info')
+    {
+        if ( !validateTicketAttachment() )
+        {
+            alert(ATTACHMENT_MISSING_ERROR_MSG);
+            return false;
+        }
+    }
+    else if ( elemID === 'university-info' )
+    {
+        if ( !validateUniversityAttachment() )
+        {
+            alert(ATTACHMENT_MISSING_ERROR_MSG);
+            return ;
+        }
+        if ( !validateOtherQualifications() )
+        {
+            alert(ATTACHMENT_MISSING_ERROR_MSG);
+            return ;
+        }
+    }
+    //else
+    //{
+        // if validateFields() returns true then submit the form
+        //if(validateFields(frm))
+        //{
             //return true;
             if (elemID === 'personal-info')
             {
@@ -332,8 +510,8 @@ function doFormSubmit(elemID)
             }
 
             frm.submit();
-        }
-    }
+        //}
+    //}
 }
 
 function doUpperCase(obj) 
@@ -434,9 +612,9 @@ function addNewRow()
     var td_degree             = '<td class="prepand"> '+ getDegreeList() +'</td>';
     var td_result             = '<td class="prepand"><input type="text" name="result_'+row_id+'" id="result_'+row_id+'"    value="" class="inputbox3 W90" ></td>';  
     var td_attachmentname_c   = '<td class="prepand"><input type="text" name="attachmentname_c_'+row_id+'" id="attachmentname_c_'+row_id+'" value="" class="inputbox3 W165" placeholder="Certificate"></td>';  
-    var td_attachmentname_t   = '<td class="prepand"><input type="text" name="attachmentname_t_'+row_id+'" id="attachmentname_t_'+row_id+'" value="" class="inputbox3 W165" placeholder="Result/Grade Sheet/Transcript"></td>';  
-    var td_attachment_c       = '<td class="prepand" align="left"><input type="file" name="academicfiles_c_'+row_id+'" onchange=uploadFiles("academicfiles_c_'+row_id+'")   id="academicfiles_c_'+row_id+'" value="" class="W175" /></td>';
-    var td_attachment_t       = '<td class="prepand" align="left"><input type="file" name="academicfiles_t_'+row_id+'" onchange=uploadFiles("academicfiles_t_'+row_id+'")   id="academicfiles_t_'+row_id+'" value="" class="W175" /></td>';
+    var td_attachmentname_t   = '<td class="prepand"><input type="text" name="attachmentname_t_'+row_id+'" id="attachmentname_t_'+row_id+'" value="" class="inputbox3 W165" placeholder="Result/Grade Sheet or Transcript"></td>';  
+    var td_attachment_c       = '<td class="prepand" align="left"><input type="file" name="academicfiles_c_'+row_id+'" onchange=uploadFiles("academicfiles_c_'+row_id+'")   id="academicfiles_c_'+row_id+'" value="" class="W200" /></td>';
+    var td_attachment_t       = '<td class="prepand" align="left"><input type="file" name="academicfiles_t_'+row_id+'" onchange=uploadFiles("academicfiles_t_'+row_id+'")   id="academicfiles_t_'+row_id+'" value="" class="W200" /></td>';
     var td_action             = '<td class="prepand" id="td_action_'+row_id+'" align="center"><a href="javascript: void(0);" onClick="deleteRow('+row_id+');"><img src="/app_contents/common/images/cross2.png"></a></td>';
     var td_view_c             = '<td class="prepand" id="td_view_'+row_id+'" align="center"><a id="id_c_'+row_id +'" href="" target="_new"><img src="/app_contents/common/images/view22.png"></a></td>';
     var td_view_t             = '<td class="prepand" id="td_view_'+row_id+'" align="center"><a id="id_t_'+row_id +'" href="" target="_new"><img src="/app_contents/common/images/view22.png"></a></td>';
@@ -467,7 +645,27 @@ function getDegreeList()
 
 function checkDegree(elem)
 {
-    alert(elem.value);
+    duplicate_degree = false;
+    
+    for (var i = 1; i < row_id; i++)  
+    {
+        //alert($('#degree_'+i).val() + "\nElem ID = "+ elem.id);
+        if ('degree_'+i == elem.id)
+        {
+            continue;
+        }
+        else if ( $('#degree_'+i).val() && $('#degree_'+i).val() == elem.value)
+        {
+            alert(DUPLICATE_DEGREE_ERROR_MSG);
+            duplicate_degree = true;
+            highlightColumn('degree_'+i);
+            highlightColumn(elem.id);
+        }
+        else
+        {
+            resetColumn('degree_'+i);
+        }
+    }
 }
 
 function deleteRow(elemID)
@@ -563,13 +761,13 @@ function toggleOptions()
     
     if (country === 'US')
     {
-        $('#others-qualifications').hide();
+        //$('#others-qualifications').hide();
         $('#i-20').show();
     }
     else
     {
         $('#i-20').hide();
-        $('#others-qualifications').show();
+        //$('#others-qualifications').show();
     }
 }
 

@@ -4,10 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
 <link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
 
-<!-- Add Uploadify main JS and CSS files -->
-<script src="/ext/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="/ext/uploadify/uploadify.css">
-
 <script language="JavaScript">
     function thisSelect(inputobj, linkname, format) 
     {ldelim}
@@ -27,17 +23,17 @@
         <div id="body-full">     <!-- body-full starts here-->
             <div class="wrap">   <!-- wrap class starts here-->
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
-                    <div class="left">    <!-- left class starts here-->
+                    <div class="left-full">    <!-- left class starts here-->
                         {if $application_status eq 'Not Submitted' || $application_status eq ''}
                         
                         {if $cmd eq 'new' || $cmd eq 'edit'}
                         <input type="hidden" id="cmd" name="cmd" value="personal-info">
-                        <div class="left">   <!-- left class starts here-->
+                        <div class="left-full">   <!-- left class starts here-->
                             {$message}
                             <table width="850" cellpadding="0" cellspacing="0" border="1">
                                 <tr>
                                     <td width="470" class="prepand2" colspan="2">
-                                        <h3><span>Application Details</span></h3><br>
+                                        <!--<h3><span>Application Details</span></h3><br>-->
                                         <div id="tabs">
                                             <ul class="ui-tabs">
                                                 <li><a href="#" id="personal-info-tab" onclick="showTabs(this.id,'personal-info-content')">Personal Details</a></li>
@@ -81,7 +77,7 @@
                                                                     <td align="left">
                                                                         <span class="span-text" id="photo_lbl">Applicant's Picture</span><br class="br"/><br class="br"/>
                                                                     {if $photo_id neq 0}
-                                                                        <img src="{$file}?{$smarty.now}" width="150" height="150">
+                                                                        <img src="{$file}?{$smarty.now}" width="150" height="150" id="photo_file">
                                                                     {else}
                                                                         <img style="border:1px solid #CCC" src="/app_contents/common/images/default.png" id="photoImage" width="150" height="150">
                                                                     {/if}
@@ -104,7 +100,7 @@
                                                             <span class="span-text" id="country_code_lbl">Country Code</span><br class="br"/>
                                                             <select name="country_code" id="country_code" class="combo1 W165">
                                                                 <option value="">-- Select Country Code --</option>
-                                                                {html_options options=$calling_code_list}
+                                                                {html_options options=$calling_code_list selected=$country_code}
                                                             </select>
                                                             <div style="height: 10px;"></div>
                                                             <span class="span-text" id="present_phone_lbl">Present Phone</span><br class="br"/>
@@ -178,7 +174,7 @@
                                                             <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
                                                         </td>
                                                         <td>
-                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"> <span class="attach-file-text">{$guardian_file|basename|truncate:40}</span></a>{/if}
+                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new" id="guardian_income_tax_file"><img src="/app_contents/common/images/view22.png" class="padding-left10"> <span class="attach-file-text">{$guardian_file|basename|truncate:40}</span></a>{/if}
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -223,6 +219,7 @@
                                             </div>
                                         </div>
                                         <!-- Academic Qualification table ends here-->
+                                        
                                         <div id="buttons-div" class="button-div">
                                             <input type="button" value="P R E V I O U S"   name="previous" id="previous" class="inputbox-blue W90" onclick="showTabs('personal-info-tab', 'personal-info-content')">
                                             <input type="button" value="S A V E  &  N E X T"   name="save" id="next" class="inputbox-blue W150" onclick="doFormSubmit('academic-info');">
@@ -255,14 +252,14 @@
                                                     <tr>
                                                         <td colspan="3">
                                                             <span class="span-text" id="university_contact_lbl">Name of the institution's contact person along with address, telephone number(s) and email</span><br class="br"/>
-                                                            <textarea name="university_contact" id="university_contact" class="textarea W525">{$university_contact}</textarea>
+                                                            <textarea name="university_contact" id="university_contact" class="textarea W583">{$university_contact}</textarea>
                                                         </td>
                                                     </tr>
                                                     <tr><td><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
                                                         <td colspan="3">
                                                             <span class="span-text" id="subject_desc_lbl">Field of Study including Major (Ex. MBA with major in HRM)</span><br class="br"/>
-                                                            <textarea name="subject_desc" id="subject_desc" class="textarea W525 H90">{$subject_desc}</textarea>
+                                                            <textarea name="subject_desc" id="subject_desc" class="textarea W583 H90">{$subject_desc}</textarea>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -274,13 +271,13 @@
                                         <div class="main-content" id="unitersity-info2">
                                             <h4 class="header">Acceptance Letter and Followship/Scholarship Award issue by the enrolling educational institute (to be enclosed)</h4>
                                             <div class="table-content">
-                                            <table  width="100%">
+                                                <table  width="100%">
                                                     <tr>
                                                         <td width="34%"><span class="span-text" id="acceptance_letter_lbl">Acceptance Letter: </span> </td>
                                                         <td width="34%"><input type="file" name="acceptance_letter" id="acceptance_letter" class="W175"></td>
                                                         <td>
                                                             {if $acceptance_doc_id gt 0}
-                                                                <a href="{$acceptance_letter_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$acceptance_letter_file|basename|truncate:40}</span></a>
+                                                                <a href="{$acceptance_letter_file}" target="_new" id="acceptance_letter_file"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$acceptance_letter_file|basename|truncate:40}</span></a>
                                                             {/if}
                                                         </td>
                                                      </tr>
@@ -289,7 +286,7 @@
                                                          <td><input type="file" name="scholarship_letter" id="scholarship_letter" class="W175"></td>
                                                          <td>
                                                              {if $scholarship_doc_id gt 0}
-                                                                <a href="{$scholarship_letter_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$scholarship_letter_file|basename|truncate:40}</span></a>
+                                                                <a href="{$scholarship_letter_file}" target="_new" id="scholarship_letter_file"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$scholarship_letter_file|basename|truncate:40}</span></a>
                                                              {/if}
                                                          </td>
                                                     </tr>
@@ -310,7 +307,7 @@
                                                         </td>
                                                         <td>
                                                             {if $enroll_doc_id gt 0}
-                                                                <a href="{$enroll_certification_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$enroll_certification_file|basename|truncate:40}</span></a>
+                                                                <a href="{$enroll_certification_file}" target="_new" id="enroll_certification_file"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$enroll_certification_file|basename|truncate:40}</span></a>
                                                             {/if}
                                                         </td>
                                                     </tr>
@@ -373,46 +370,80 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table width="100%">
-                                                    <tr id="tofel_tr" style="display: {if $tofel gt 0} inline {else} none {/if};">
-                                                        <td id="tofel_td" width="25%"><span class="span-text" id="tofel_lbl">TOFEL Attachement: </span></td>
-                                                        <td width="50%"><input type="file" name="tofel_doc" id="tofel_doc"></td>
-                                                        <td>
-                                                            {if $tofel_doc_id gt 0}<a href="{$tofel_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$tofel_file|basename|truncate:40}</span></a>{/if}
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="ielts_tr" style="display: {if $ielts gt 0} inline {else} none {/if};">
-                                                        <td id="ielts_td" width="25%"><span class="span-text" id="ielts_lbl">IELTS Attachement: </span></td>
-                                                        <td width="50%"><input type="file" name="ielts_doc" id="ielts_doc"></td>
-                                                        <td>
-                                                            {if $ielts_doc_id gt 0}<a href="{$ielts_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$ielts_file|basename|truncate:40}</span></a>{/if}
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="sat_tr" style="display: {if $sat gt 0} inline {else} none {/if};">
-                                                        <td id="sat_td" width="25%"><span class="span-text" id="sat_lbl">SAT Attachement: </span></td>
-                                                        <td width="50%"><input type="file" name="sat_doc" id="sat_doc"></td>
-                                                        <td>
-                                                            {if $sat_doc_id gt 0}<a href="{$sat_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$sat_file|basename|truncate:40}</span></a>{/if}
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="gre_tr" style="display: {if $gre gt 0} inline {else} none {/if};">
-                                                        <td id="gre_td" width="25%"><span class="span-text" id="gre_lbl">GRE Attachement: </span></td>
-                                                        <td width="50%"><input type="file" name="gre_doc" id="gre_doc"></td>
-                                                        <td>
-                                                            {if $gre_doc_id gt 0}<a href="{$gre_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$gre_file|basename|truncate:40}</span></a>{/if}
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="gmat_tr" style="display: {if $gmat gt 0} inline {else} none {/if};">
-                                                        <td id="gmat_td" width="25%"><span class="span-text" id="gmat_lbl">GMAT Attachement: </span></td>
-                                                        <td width="50%"><input type="file" name="gmat_doc" id="gmat_doc"></td>
-                                                        <td>
-                                                            {if $gmat_doc_id gt 0}<a href="{$gmat_file}" target="_new"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$gmat_file|basename|truncate:40}</span></a>{/if}
-                                                        </td>
-                                                    </tr>
-                                                </table>  
                                             </div>
+                                            <table width="100%" border="0" id="tofel_tr" style="display: {if $tofel gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="tofel_td" width="30%"><span class="span-text" id="tofel_lbl">TOFEL Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="tofel_doc" id="tofel_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $tofel_doc_id gt 0}
+                                                            <a href="{$tofel_file}" target="_new">
+                                                                <img src="/app_contents/common/images/view22.png" />
+                                                                <span class="attach-file-text">{$tofel_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="ielts_tr" style="display: {if $ielts gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="ielts_td" width="30%"><span class="span-text" id="ielts_lbl">IELTS Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="ielts_doc" id="ielts_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $ielts_doc_id gt 0}
+                                                            <a href="{$ielts_file}" target="_new">
+                                                                <img src="/app_contents/common/images/view22.png" />
+                                                                <span class="attach-file-text">{$ielts_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="sat_tr" style="display: {if $sat gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="sat_td" width="30%"><span class="span-text" id="sat_lbl">SAT Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="sat_doc" id="sat_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $sat_doc_id gt 0}
+                                                            <a href="{$sat_file}" target="_new">
+                                                                <img src="/app_contents/common/images/view22.png">
+                                                                <span class="attach-file-text">{$sat_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="gre_tr" style="display: {if $gre gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="gre_td" width="30%"><span class="span-text" id="gre_lbl">GRE Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="gre_doc" id="gre_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $gre_doc_id gt 0}
+                                                            <a href="{$gre_file}" target="_new">
+                                                                <img src="/app_contents/common/images/view22.png">
+                                                                <span class="attach-file-text">{$gre_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="gmat_tr" style="display: {if $gmat gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="gmat_td" width="30%"><span class="span-text" id="gmat_lbl">GMAT Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="gmat_doc" id="gmat_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $gmat_doc_id gt 0}
+                                                            <a href="{$gmat_file}" target="_new">
+                                                                <img src="/app_contents/common/images/view22.png">
+                                                                <span class="attach-file-text">{$gmat_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>  
                                         </div>
                                         <!-- Others Qualifications ENDS here-->
+                                        
                                         <div id="buttons-div" class="button-div">
                                             <input type="button" value="P R E V I O U S"   name="previous" id="previous" class="inputbox-blue W90" onclick="showTabs('academic-info-tab', 'academic-info-content');" />
                                             <input type="button" value="S A V E  &  N E X T"   name="save" id="next" class="inputbox-blue W150" onClick="doFormSubmit('university-info');" />
@@ -485,13 +516,11 @@
                                                     </tr>
                                                     <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
                                                     <tr>
-                                                        <td width="33%">
-                                                            <span class="span-text" id="ticket_doc_lbl">Attachement of Ticket</span><br class="br"/>
-                                                            <input type="file" name="ticket_doc" id="ticket_doc" class="W185">
-                                                        </td>
-                                                        <td colspan="2">
+                                                        <td width="33%"><span class="span-text" id="ticket_doc_lbl">Attachment of Ticket</span></td>
+                                                        <td width="33%"><input type="file" name="ticket_doc" id="ticket_doc" class="W185"></td>
+                                                        <td>
                                                             {if $ticket_doc_id}
-                                                                <a href="{$ticket_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$ticket_file|basename|truncate:40}</span></a>
+                                                                <a href="{$ticket_file}" target="_new" id="ticket"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$ticket_file|basename|truncate:40}</span></a>
                                                             {/if}
                                                         </td>
                                                     </tr>
