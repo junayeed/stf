@@ -564,6 +564,7 @@ function showApplicantInfo(elemID)
                             'transitionOut' : 'elastic',
                             'autoDimensions': false,
                             'autoSize'      : false,
+                            'topRatio'      : 0.1,
                             'width'         : 620,
                             'height'        : 500
                         },

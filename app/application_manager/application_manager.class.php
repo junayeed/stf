@@ -242,6 +242,11 @@ class applicationManagerApp extends DefaultApplication
         $data['scholarship_doc_id']     = saveAttachment($_FILES['scholarship_letter']);
         $data['enroll_doc_id']          = saveAttachment($_FILES['enroll_certification']);
         $data['i20_doc_id']             = saveAttachment($_FILES['i20']);
+        $data['tofel']                  = $data['tofel'] ? $data['tofel'] : 0;
+        $data['ielts']                  = $data['ielts'] ? $data['ielts'] : 0;
+        $data['sat']                    = $data['sat'] ? $data['sat'] : 0;
+        $data['gre']                    = $data['gre'] ? $data['gre'] : 0;
+        $data['gmat']                   = $data['gmat'] ? $data['gmat'] : 0;
         $data['tofel_doc_id']           = saveAttachment($_FILES['tofel_doc']);
         $data['ielts_doc_id']           = saveAttachment($_FILES['ielts_doc']);
         $data['sat_doc_id']             = saveAttachment($_FILES['sat_doc']);

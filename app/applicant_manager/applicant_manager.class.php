@@ -150,7 +150,6 @@ class applicantManagerApp extends DefaultApplication
        }
    }
    
-   
    function viewApplication()
    {
        $id = getUserField('id');
@@ -170,7 +169,8 @@ class applicantManagerApp extends DefaultApplication
        $data[0]->enroll_file              = getFileLocation($data[0]->enroll_doc_id,$data[0]->uid);
        $data[0]->i20_file                 = getFileLocation($data[0]->i20_doc_id,$data[0]->uid);
        $data[0]->app_id                   = $id;
-       //dumpvar($data[0]);
+       $data[0]->academic_qualifications  = getAcademicQualificationList($data[0]->uid);
+       dumpvar($data[0]);
        
        $std_details = createPage(APPLICANT_DETAILS_TEMPLATE, $data[0]);
        

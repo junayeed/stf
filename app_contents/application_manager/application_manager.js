@@ -290,20 +290,37 @@ function validateAcademicQualifications()
 
 function validateOtherQualifications()
 {
-    othersQualificationArray = ['tofel', 'ielts', 'sat', 'gre', 'gmat'];
+    var othersQualificationArray = ['tofel', 'ielts', 'sat', 'gre', 'gmat'];
+    var noAttachment = false
+    
     
     for (var i=0; i < othersQualificationArray.length; i++)
     {
-        //alert($('#'+othersQualificationArray[i]).val())
+        //alert(othersQualificationArray[i])
         if ( $('#'+othersQualificationArray[i]).val() > 0 )
         {
-            //alert($('#'+othersQualificationArray[i]+'_doc').val());
-            if ( !$('#'+othersQualificationArray[i]+'_doc').val() )
+            //alert('Val == ' + $('#'+othersQualificationArray[i]+'_doc').val() + '\nHref == '+ $('#'+othersQualificationArray[i]+'_file').attr('href'));
+            if ( !$('#'+othersQualificationArray[i]+'_doc').val() && !$('#'+othersQualificationArray[i]+'_file').attr('href'))
             {
                 $('#'+othersQualificationArray[i]+'_doc').css({"border":"1px", "border-style":"solid", "border-color": "red"});
                 $('#'+othersQualificationArray[i]+'_lbl').css({"color":"red"});
+                noAttachment = true
+            }
+            else
+            {
+                $('#'+othersQualificationArray[i]+'_doc').css({"border":"0px", "border-style":"solid", "border-color": "red"});
+                $('#'+othersQualificationArray[i]+'_lbl').css({"color":"#083A81"});
             }
         }
+    }
+    
+    if ( noAttachment )
+    {
+        return false;
+    }
+    else
+    {
+        return true;
     }
 }
 
@@ -331,7 +348,7 @@ function validateUniversityAttachment()
     
     for (var i=0; i<elemArray.length; i++)
     {
-        alert('Elem = '+elemArray[i] + '\nHREF = ' +$('#'+elemArray[i]+'_file').attr('href') + '\nValue = ' + $('#'+elemArray[i]).val());
+        //alert('Elem = '+elemArray[i] + '\nHREF = ' +$('#'+elemArray[i]+'_file').attr('href') + '\nValue = ' + $('#'+elemArray[i]).val());
         if ( !$('#'+elemArray[i]+'_file').attr('href') && !$('#'+elemArray[i]).val() )
         {
             $('#'+elemArray[i]).css({"border":"1px", "border-style":"solid", "border-color": "red"});

@@ -377,7 +377,7 @@
                                                     <td width="30%"><input type="file" name="tofel_doc" id="tofel_doc" class="W200"></td>
                                                     <td width="40%">&nbsp;
                                                         {if $tofel_doc_id gt 0}
-                                                            <a href="{$tofel_file}" target="_new">
+                                                            <a href="{$tofel_file}" target="_new" id="tofel_file">
                                                                 <img src="/app_contents/common/images/view22.png" />
                                                                 <span class="attach-file-text">{$tofel_file|basename|truncate:40}</span>
                                                             </a>
@@ -391,7 +391,7 @@
                                                     <td width="30%"><input type="file" name="ielts_doc" id="ielts_doc" class="W200"></td>
                                                     <td width="40%">&nbsp;
                                                         {if $ielts_doc_id gt 0}
-                                                            <a href="{$ielts_file}" target="_new">
+                                                            <a href="{$ielts_file}" target="_new" id="ielts_file">
                                                                 <img src="/app_contents/common/images/view22.png" />
                                                                 <span class="attach-file-text">{$ielts_file|basename|truncate:40}</span>
                                                             </a>
@@ -405,7 +405,7 @@
                                                     <td width="30%"><input type="file" name="sat_doc" id="sat_doc" class="W200"></td>
                                                     <td width="40%">&nbsp;
                                                         {if $sat_doc_id gt 0}
-                                                            <a href="{$sat_file}" target="_new">
+                                                            <a href="{$sat_file}" target="_new" id="sat_file">
                                                                 <img src="/app_contents/common/images/view22.png">
                                                                 <span class="attach-file-text">{$sat_file|basename|truncate:40}</span>
                                                             </a>
@@ -419,7 +419,7 @@
                                                     <td width="30%"><input type="file" name="gre_doc" id="gre_doc" class="W200"></td>
                                                     <td width="40%">&nbsp;
                                                         {if $gre_doc_id gt 0}
-                                                            <a href="{$gre_file}" target="_new">
+                                                            <a href="{$gre_file}" target="_new" id="gre_file">
                                                                 <img src="/app_contents/common/images/view22.png">
                                                                 <span class="attach-file-text">{$gre_file|basename|truncate:40}</span>
                                                             </a>
@@ -433,7 +433,7 @@
                                                     <td width="30%"><input type="file" name="gmat_doc" id="gmat_doc" class="W200"></td>
                                                     <td width="40%">&nbsp;
                                                         {if $gmat_doc_id gt 0}
-                                                            <a href="{$gmat_file}" target="_new">
+                                                            <a href="{$gmat_file}" target="_new" id="gmat_file">
                                                                 <img src="/app_contents/common/images/view22.png">
                                                                 <span class="attach-file-text">{$gmat_file|basename|truncate:40}</span>
                                                             </a>

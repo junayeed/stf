@@ -32,45 +32,49 @@
     <div id="tabs-content">
         <div id="tabs-1_{$app_id}" style="display: inline">
            
-                <h3 class="h3">Present Address:</h3>
+                <h3 class="h3">Current Address (Overseas)</h3>
                 <table width="100%">
                     <tr>
-                        <td width="20%">Address</td>
-                        <td width="80%">{$present_address}</td>
+                        <td width="35%"><strong>Address</strong></td>
+                        <td width="65%">{$present_address}</td>
                     </tr>
                     <tr>
-                        <td>Phone</td>
-                        <td>{$present_phone}</td>
+                        <td><strong>Present Phone (with country code</strong>)</td>
+                        <td>{$country_code} {$present_phone}</td>
                     </tr>
                 </table>
-                <h3 class="h3">Permanent Address</h3>
+                <h3 class="h3">Address in Bangladesh</h3>
                 <table width="100%">
                     <tr>
-                        <td width="20%">Address</td>
+                        <td width="20%"><strong>Address</strong></td>
                         <td width="80%">{$permanent_address}</td>
                     </tr>
                     <tr>
-                        <td>Phone</td>
-                        <td>{$permanent_phone}</td>
+                        <td><strong>Cell Phone</strong></td>
+                        <td>{$cell_phone}</td>
                     </tr>
                 </table>
-                
-                 <h3 class="h3">Guardian Information</h3>
+                <h3 class="h3">Passport Information</h3>
                 <table width="100%">
                     <tr>
-                        <td width="20%">Name</td>
-                        <td width="80%">{$guardian_name}</td>
+                        <td width="20%"><strong>Passport No.</strong></td>
+                        <td width="30%">{$passport}</td>
+                        <td width="20%"><strong>Expire Date</strong></td>
+                        <td width="30%">{$passport_expire_date}</td>
+                    </tr>
+                </table>
+                <h3 class="h3">Guardian Information</h3>
+                <table width="100%">
+                    <tr>
+                        <td width="20%"><strong>Name</strong></td>
+                        <td width="30%">{$guardian_name}</td>
+                        <td width="20%"><strong>Occupation</strong></td>
+                        <td width="30%">{$guardian_occupation}</td>
                     </tr>
                     <tr>
-                        <td>Occupation</td>
-                        <td>{$guardian_occupation}</td>
-                    </tr>
-                    <tr>
-                        <td>Income</td>
+                        <td><strong>Income</strong></td>
                         <td>{$guardian_income}</td>
-                    </tr>
-                    <tr>
-                        <td>TIN</td>
+                        <td><strong>TIN</strong></td>
                         <td>{$tin}</td>
                     </tr>
                 </table>
@@ -100,75 +104,78 @@
         <div id="tabs-3_{$app_id}" style="display: none">
             <br>
             <h3 class="h3">Ticket Information</h3>
-                <table width="100%">
-                    <tr>
-                        <td width="20%">Ticket Number</td>
-                        <td width="80%">{$ticket_number}</td>
-                    </tr>
-                    <tr>
-                        <td>Ticket Date</td>
-                        <td>{$date_ticket|date_format:'%d/%m/%Y'}</td>
-                    </tr>
-                    <tr>
-                        <td>Destination Airport</td>
-                        <td>{$destination_airport}</td>
-                    </tr>
-                    <tr>
-                        <td>Ticket Fare (BDT)</td>
-                        <td>{$ticket_fare|number_format:2:",":"."}</td>
-                    </tr>
-                    <tr>
-                        <td>Tax (BDT)</td>
-                        <td>{$tax|number_format:2:",":"."}</td>
-                    </tr>
-                    <tr>
-                        <td>Total (BDT)</td>
-                        <td>{$total|number_format:2:",":"."}</td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Ticket Fare (USD)</td>
-                        <td>{$ticket_fare_usd|number_format:2:",":"."}</td>
-                    </tr>
-                    <tr>
-                        <td>Tax (USD)</td>
-                        <td>{$tax_usd|number_format:2:",":"."}</td>
-                    </tr>
-                    <tr>
-                        <td>Total (USD)</td>
-                        <td>{$total_usd|number_format:2:",":"."}</td>
-                    </tr>
-                    
-                </table>
+            <table width="100%">
+                <tr style="height: 50px;">
+                    <td width="18%"><strong>Ticket Number</strong></td>
+                    <td width="18%">{$ticket_number}</td>
+                    <td width="12%"><strong>Ticket Date</strong></td>
+                    <td width="10%">{$date_ticket|date_format:'%d/%m/%Y'}</td>
+                    <td width="19%"><strong>Destination Airport</strong></td>
+                    <td width="15%">{$destination_airport}</td>
+                </tr>
+                <tr style="height: 50px;">
+                    <td><strong>Ticket Fare (BDT)</strong></td>
+                    <td>{$ticket_fare|number_format:2:",":"."}</td>
+                    <td><strong>Tax (BDT)</strong></td>
+                    <td>{$tax|number_format:2:",":"."}</td>
+                    <td><strong>Total (BDT)</strong></td>
+                    <td>{$total|number_format:2:",":"."}</td>
+                </tr>
+                <tr style="height: 50px;">
+                    <td><strong>Ticket Fare (USD)</strong></td>
+                    <td>{$ticket_fare_usd|number_format:2:",":"."}</td>
+                    <td><strong>Tax (USD)</strong></td>
+                    <td>{$tax_usd|number_format:2:",":"."}</td>
+                    <td><strong>Total (USD)</strong></td>
+                    <td>{$total_usd|number_format:2:",":"."}</td>
+                </tr>
+            </table>
         </div> 
         
         <div id="tabs-4_{$app_id}" style="display: none">
             <br>
-                <h3 class="h3">Attachment</h3>
+                <h3 class="h3">Attached Documents</h3>
                 <table width="100%">
                     <tr>
+                        
                         <td width="25%" style="text-align: center">
+                            {if $guardian_doc_id gt 0}
                             <a  href="{$income_tax_doc}" target="_blank">
                                 <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Income Tax" />
                             </a>
+                            {else}
+                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                            {/if}
                             <p>Income Tax<p>
                         </td>
                         <td width="25%" style="text-align: center">
+                            {if $ticket_doc_id gt 0}
                             <a  href="{$ticket_doc}" target="_blank">
                                 <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Ticket" />
                             </a>
+                            {else}
+                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                            {/if}
                             <p>Ticket<p>
                         </td>
                         <td width="25%" style="text-align: center">
+                            {if $acceptance_doc_id gt 0}
                             <a  href="{$acceptance_letter_file}" target="_blank">
                                 <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Acceptance Letter" />
                             </a>
+                            {else}
+                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                            {/if}
                             <p>Acceptance Letter<p>
                         </td>
                         <td width="25%" style="text-align: center">
+                            {if $scholarship_doc_id gt 0}
                             <a  href="{$scholarship_letter_file}" target="_blank">
                                 <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Scholarship Letter" />
                             </a>
+                            {else}
+                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                            {/if}
                             <p>Scholarship Letter<p>
                         </td>
                     </tr>
@@ -176,16 +183,26 @@
                 <table width="100%">
                     <tr>
                         <td width="25%" style="text-align: center">
+                            {if $enroll_doc_id gt 0}
                             <a  href="{$enroll_file}" target="_blank">
                                 <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Enroll" />
                             </a>
-                            <p>Enroll<p>
+                            {else}
+                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                            {/if}
+                            <p>Enrollment Certificate<p>
                         </td>
                         <td width="25%" style="text-align: center">
-                            <a  href="{$i20_file}" target="_blank">
-                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="I20" />
-                            </a>
-                            <p>I20<p>
+                            {if $country eq 'US'}
+                                {if $i20_doc_id gt 0}
+                                    <a  href="{$i20_file}" target="_blank">
+                                        <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="I20" />
+                                    </a>
+                                {else}
+                                    <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                                {/if}
+                                <p>I20<p>
+                            {/if}
                         </td>
                         <td width="25%" style="text-align: center"></td>
                         <td width="25%" style="text-align: center"></td>
