@@ -177,11 +177,12 @@ function doApplicationSubmit()
 function doApplicationPreview()
 {
     var ok = true;
+    //alert('Preview');
     var frm = document.userManagerForm;
     
-    frm.cmd.value = 'preview-app';
+    //frm.cmd.value = 'preview-app';
     frm.preview.value = 1;
-    frm.submit();
+    //frm.submit();
 }
 
 /**

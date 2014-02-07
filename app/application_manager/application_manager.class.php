@@ -209,6 +209,7 @@ class applicationManagerApp extends DefaultApplication
 
         if(getUserField('preview'))
         {
+            
             return createPage(APPLICATION_PREVIEW_TEMPLATE, $data);
         }   
         else 
