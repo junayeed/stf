@@ -8,6 +8,7 @@
    require_once($_SERVER['DOCUMENT_ROOT'] .'/app/common/conf/main.conf.php');
    require_once(LOCAL_CONFIG_DIR          .'/dp.conf.php');
    require_once(LOCAL_LIB_DIR             .'/dp.lib.php');
+   require_once(EXT_DIR                   .'/excel/PHPExcel.php');
 
    // Instantiate the application manager class
    $thisApp  = new applicantManagerApp();

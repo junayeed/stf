@@ -521,7 +521,6 @@ function doApplicantSearch()
     var guardian_income_min   = $('#guardian_income_min').val();
     var guardian_income_max   = $('#guardian_income_max').val();
     var session_year          = $('#session_year').val();
-    var received_grant        = $('#received_grant').val();
     var degree_list           = '';
     
     $("input[name='degree']").each( function () 
@@ -533,6 +532,11 @@ function doApplicantSearch()
        }
     });
     
+    var export_to_url = '?cmd=excel&applicant_name='+applicant_name+'&email='+email+'&country='+country+'&gender='+gender+'&degree='+degree_list+
+                        '&application_status='+application_status+'&guardian_income_min='+guardian_income_min+
+                        '&guardian_income_max='+guardian_income_max+'&session_year='+session_year;
+    
+    $('#export_to').attr('href', export_to_url);
     $('#applicantFrame').attr('src', source+'&applicant_name='+applicant_name+'&email='+email+'&country='+country+
                                             '&application_status='+application_status+'&gender='+gender+'&guardian_income_max='+guardian_income_max+
                                             '&guardian_income_min='+guardian_income_min+'&degree='+degree_list+'&session_year='+session_year);//'&received_grant='+received_grant);

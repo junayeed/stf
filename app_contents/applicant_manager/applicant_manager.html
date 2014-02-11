@@ -27,8 +27,22 @@
             <div class="wrap">   <!-- wrap class starts here-->
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left">    <!-- left class starts here-->
-                        <h3 ><span>Available Applicant(s)</span></h3>
-                        <iframe id="applicantFrame"  src="{$SCRIPT_NAME}?cmd=list" scrolling="no" height="750px" width="760px" frameborder="0" onload='resizeIframe(this);'></iframe>
+                        <div class="order-left">    <!-- order-left class starts here-->                
+                            <table width="760" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td width="671"><h3><span>Available Applicant(s)</span></h3></td>
+                                    <td width="45" class="font2" align="right">export to</td>
+                                    <!--<td width="21" align="right"><a href="#"><img src="/app_contents/common/images/pdf.png" alt="PDF" /></a></td>-->
+                                    <td width="8">&nbsp;</td>
+                                    <td width="35" valign="bottom">
+                                        <a id="export_to" href="?cmd=excel" target="_new">
+                                        <img src="/app_contents/common/images/cross3.png" alt="Excel" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                    </div>    <!-- order-left class ends here-->    
+                    <iframe id="applicantFrame"  src="{$SCRIPT_NAME}?cmd=list" scrolling="no" height="750px" width="760px" frameborder="0" onload='resizeIframe(this);'></iframe>
                     </div>  <!-- left class ends here-->
                     <div class="right">  <!-- right class starts here-->
                         <div class="right-body">  <!-- right-body class starts here-->

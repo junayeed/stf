@@ -29,6 +29,7 @@ class applicantManagerApp extends DefaultApplication
            case 'add'                : $screen = $this->saveRecord();          break;
            case 'delete'             : $screen = $this->deleteRecord();        break;
            case 'list'               : $screen = $this->showList();            break;
+           case 'excel'              : $screen = $this->showList();            break;
            case 'checkuser'          : $screen = $this->checkDuplicateUser();  break;
            case 'checkemail'         : $screen = $this->checkDuplicateEmail(); break;
            case 'deletedoc'          : $screen = $this->deleteAcademicDoc();   break;
@@ -50,7 +51,7 @@ class applicantManagerApp extends DefaultApplication
           return;
       }
 
-      if ($cmd == 'list')
+      if ($cmd == 'list' || $cmd == 'excel')
       {
          echo $screen;
       }
@@ -397,7 +398,7 @@ class applicantManagerApp extends DefaultApplication
         $data['guardian_income_max']   = getUserField('guardian_income_max');
         $data['guardian_income_min']   = getUserField('guardian_income_min');
         $data['session_year']          = getUserField('session_year') ? getUserField('session_year') : getActiveSessionYear();
-        $data['received_grant']        = getUserField('received_grant');
+        $data['cmd']                   = getUserField('cmd');
         
         $filterClause = '1';
 
@@ -445,19 +446,17 @@ class applicantManagerApp extends DefaultApplication
         {
             $filterClause .= ' AND ST.session_year = ' . q($data['session_year']);
         }
-        if($data['received_grant'])
-        {
-            $filterClause .= ' AND AT.received_grant = ' . q($data['received_grant']);
-        }
         
 
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
                           ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
-                          SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id)';
-        $info['debug']  = false;
-        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 
-                                'CLT.name AS country_name', 'UT.uid','TT.ticket_fare');
+                          SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id) LEFT JOIN ' . USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id)';
+        $info['debug']  = true;
+        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.email', 'UT.gender','AT.id', 'AT.submit_date', 
+                                'AT.application_status', 'CLT.name AS country_name', 'UT.uid','TT.ticket_fare', 'GT.guardian_name', 'GT.guardian_occupation',
+                                'IF(GT.guardian_doc_id = 0, \'(Income Certificate not attached)\', \'(Income Certificate attached)\') AS guardian_doc',
+                                'UAT.present_address', 'UAT.present_phone');
         $info['where']  = $filterClause .  ' ORDER BY AT.country';
 
         $result = select($info);
@@ -471,8 +470,15 @@ class applicantManagerApp extends DefaultApplication
         }
         
         $data['list'] = $retData;
-        //dumpVar($data['list']);
-        //echo_br('Count = ' . count($result));
+        //dumpVar($data);
+        
+        if ($data['cmd'] == 'excel' || $data['cmd'] == 'pdf')
+        {    
+            //header('Content-Type: text/plain; charset=utf-8');
+            //$screen = createPage(PDF_TEMPLATE, $data);
+            MakeExcelorPDF($data);
+            return;
+        }
         
         echo createPage(APPLICANT_LIST_TEMPLATE, $data);
     }
