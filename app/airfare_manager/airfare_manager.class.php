@@ -51,7 +51,10 @@ class airfareManagerApp extends DefaultApplication
     */
     function showEditor($msg)
     {
-        $session_year = getUserField('session_year');
+        $data['session_year_list']    = getSessionYearList();
+        $data['sid']                  = getActiveSessionID();
+        $session_year                 = getUserField('session_year');
+        $session_year                 = $session_year ? $session_year : array_search (getActiveSessionYear(), $data['session_year_list']);
 
         if (!empty($session_year))
         {
@@ -66,15 +69,14 @@ class airfareManagerApp extends DefaultApplication
             {
                 $airfareData[$key] = $value;	
             }
-
-            $data['country_list'] = array_merge(array(), $airfareData);
+            if ($airfareData)
+            {
+                $data['country_list'] = array_merge(array(), $airfareData);
+            }
         }
-        
-        //dumpvar($data);
         
         $data['message']              = $msg;
         $data['session_year']         = $session_year;
-        $data['session_year_list']    = getSessionYearList();
         
         return createPage(AIRFARE_EDITOR_TEMPLATE, $data);
     }
@@ -93,9 +95,9 @@ class airfareManagerApp extends DefaultApplication
         {
             foreach($result as $value)
             {
-                $retData[$value->country] = $value;
+                $retData[$value->destination_airport] = $value;
             }
-            
+            //dumpVar($retData);
             return $retData;
         }
         else
@@ -110,52 +112,29 @@ class airfareManagerApp extends DefaultApplication
     */
     function saveRecord()
     {
-        dumpVar($_REQUEST);
-        $ID  = getUserField('id');
-        
+        $sid            = getUserField('sid');
+        $info['table']  = AIRFARES_TBL;
+        $info['debug']  = false;
+        //dumpVar($_REQUEST);
         foreach( $_REQUEST as $key => $value)
 	{
-            if( preg_match('/local_fare_([A-Z]+)/', $key, $matches))
+            if( preg_match('/local_fare_([A-Za-z\s-_]+)/i', $key, $matches))
             {
+                //dumpVar($matches);
                 $id = $matches[1];
-                dumpVar($matches);
-                echo_br($id);
                 
-                $data['country']     = $id;
-                $data['local_fare']  = $_REQUEST['local_fare_' . $id];
-                $data['source']      = $_REQUEST['source_' . $id];
+                $data['destination_airport']  = $id;
+                $data['local_fare']           = $_REQUEST['local_fare_' . $id];
+                $data['country']              = $_REQUEST['country_' . $id];
+                $data['source']               = $_REQUEST['source_' . $id];
+                $data['sid']                  = $sid;
+                $data['create_date']          = date('Y-m-d');
+                
+                $info['data']        = $data;
+                insert($info);
             }
-            dumpVar($data);
         }
         
-        
-
-//        if($ID)
-//        {
-//            if(updateSession($ID))
-//            {
-//                $msg = $this->getMessage(SESSION_UPDATE_SUCCESS_MSG);
-//            }
-//            else
-//            {
-//                $msg = $this->getMessage(SESSION_UPDATE_ERROR_MSG);
-//            }
-//        }
-//        else
-//        {
-//            if(addSession())
-//            {
-//                $msg = $this->getMessage(SESSION_SAVE_SUCCESS_MSG);
-//            }
-//            else
-//            {
-//                $msg = $this->getMessage(SESSION_SAVE_ERROR_MSG);
-//            }
-//        }
-        
-        setUserField('id',  '');
-        setUserField('cmd', '');
-
         return $this->showEditor($msg);
     }
 

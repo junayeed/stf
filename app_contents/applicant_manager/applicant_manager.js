@@ -570,7 +570,7 @@ function showApplicantInfo(elemID)
                             'autoSize'      : false,
                             'topRatio'      : 0.1,
                             'width'         : 620,
-                            'height'        : 500
+                            'height'        : 580
                         },
                         {
                             helpers : 

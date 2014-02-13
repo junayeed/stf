@@ -254,6 +254,8 @@ table, table th, table td, cellpadding, cellspacing, border{
     line-height:15px !important; 
 }
 
+.STRONG {font-weight:bold;}
+
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> End Text <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
 
@@ -1184,7 +1186,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 }
 
 .accept-label{
-    background-color: green;
+    background-color: #5AB65A;
     color: #FFF;
     font-family: 'Arial';
     font-size: 10px;

@@ -332,10 +332,12 @@ class applicantManagerApp extends DefaultApplication
         $data['awarded_amount']                 = $data['totalTicketFare']*$data['scholarship_percentage'];
         
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
-                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid)';
-        $info['debug']  = false;
+                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
+                          AIRFARES_TBL . ' AS AFT ON (AT.destination_airport = AFT.destination_airport)';
+        $info['debug']  = true;
         $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 
-                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 'TT.total*'.$data['scholarship_percentage'].' AS grant_amount');
+                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 
+                                'TT.total*'.$data['scholarship_percentage'].' AS grant_amount', 'AFT.local_fare');
         $info['where']  = 'AT.application_status = ' . q('Accepted') . '  ORDER BY AT.country';
 
         $result = select($info);

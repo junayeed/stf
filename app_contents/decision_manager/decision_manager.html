@@ -84,7 +84,7 @@
                                             <td width="40" class="border">{$item->gender}</td>
                                             <td width="40" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
                                             <td width="70" class="border">{$item->total|number_format:'2'}</td>
-                                            <td width="70" class="border">{$item->collected_fare|number_format:'2'}</td>
+                                            <td width="70" class="border">{$item->local_fare|number_format:'2'}</td>
                                             <td width="70" class="border">{$item->base_fare|number_format:'2'}</td>
                                             <td width="70" class="border">
                                                 <input type="text" name="grant_amount_{$item->id}" id="grant_amount_{$item->id}" value="{$item->grant_amount|number_format:'2'}" 

@@ -171,7 +171,7 @@ class applicantManagerApp extends DefaultApplication
        $data[0]->i20_file                 = getFileLocation($data[0]->i20_doc_id,$data[0]->uid);
        $data[0]->app_id                   = $id;
        $data[0]->academic_qualifications  = getAcademicQualificationList($data[0]->uid);
-       dumpvar($data[0]);
+       //dumpvar($data[0]);
        
        $std_details = createPage(APPLICANT_DETAILS_TEMPLATE, $data[0]);
        
@@ -452,11 +452,13 @@ class applicantManagerApp extends DefaultApplication
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
                           ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
                           SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id) LEFT JOIN ' . USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id)';
-        $info['debug']  = true;
+        $info['debug']  = false;
         $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.email', 'UT.gender','AT.id', 'AT.submit_date', 
                                 'AT.application_status', 'CLT.name AS country_name', 'UT.uid','TT.ticket_fare', 'GT.guardian_name', 'GT.guardian_occupation',
                                 'IF(GT.guardian_doc_id = 0, \'(Income Certificate not attached)\', \'(Income Certificate attached)\') AS guardian_doc',
-                                'UAT.present_address', 'UAT.present_phone');
+                                'GT.guardian_income', 'UAT.present_address', 'UAT.present_phone', 'AT.university_name', 'AT.university_contact', 'AT.subject_desc',
+                                'IF(AT.acceptance_doc_id = 0, \'Acceptance Letter not attached\', \'Acceptance Letter attached\') AS acceptance_doc',
+                                'IF(AT.scholarship_doc_id = 0, \'Scholarship Letter not attached\', \'Scholarship Letter attached\') AS scholarship_doc');
         $info['where']  = $filterClause .  ' ORDER BY AT.country';
 
         $result = select($info);

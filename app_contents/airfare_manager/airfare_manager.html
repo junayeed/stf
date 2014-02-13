@@ -10,7 +10,7 @@
 <body>
     <form name="airfareForm" id="airfareForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">
         <!-- HIDDERN FIELDS -->
-        <input type="hidden" name="id" value="{$id}">
+        <input type="hidden" name="sid" value="{$sid}">
         <input type="hidden" name="cmd" value="add">
         <!-- HIDDEN FIELDS -->
 
@@ -34,8 +34,10 @@
                                     <tr>
                                         <td class="border">{$item->destination_airport}</td>
                                         <td class="border">{$item->country_name}</td>
-                                        <td class="border"><input type="text" name="local_fare_{$item->country}" id="local_fare_{$item->country}" value="{$item->local_fare}" class="inputbox3 W127" onkeypress="return isNumberKey(event);"></td>
-                                        <td class="border"><input type="text" name="source_{$item->country}" id="source_{$item->country}" value="{$item->source}" class="inputbox3 W200"></td> 
+                                        <td class="border"><input type="text" name="local_fare_{$item->destination_airport}" id="local_fare_{$item->destination_airport}" value="{$item->local_fare}" class="inputbox3 W127" onkeypress="return isNumberKey(event);"></td>
+                                        <td class="border"><input type="text" name="source_{$item->destination_airport}" id="source_{$item->destination_airport}" value="{$item->source}" class="inputbox3 W200"></td> 
+                                        <input type="hidden" name="destination_airport_{$item->destination_airport}" id="destination_airport_{$item->destination_airport}" value="{$item->destination_airport}">
+                                        <input type="hidden" name="country_{$item->destination_airport}" id="country_{$item->destination_airport}" value="{$item->country}">
                                     </tr>
                                 {/foreach}
                                 </tbody>

@@ -2,7 +2,7 @@
     function getAcademicQualificationList($uid)
     {
         $info['table']  = ACADEMIC_QUALIFICATIONS_TBL;
-        $info['debug']  = true;
+        $info['debug']  = false;
         $info['where']  = 'uid = ' . $uid;
         
         $result = select($info);
@@ -28,7 +28,7 @@
                              'F' => '', 
                              'G' => '', 
                              'H' => "Name of the University/Educational Institution abroad where the applicant has been enrolled\nField of Study\nE-mail, Address of caotact person", 
-                             'I' => "i) Acceptance letter\nFollowship/Scholarship Award Letter\nEnrolement Certificate\nCopy of the duly signed I-20 form if the enrolling education institute is located in USA or \nTOFEL/IELTS/SAT/GRE/GMAT", 
+                             'I' => "i) Acceptance letter\nFollowship/Scholarship Award Letter\nEnrolement Certificate\nii) Copy of the duly signed I-20 form if the enrolling education institute is located in USA or \nTOFEL/IELTS/SAT/GRE/GMAT", 
                              'J' => "Cost of one way Ticket (in US$ and BD Taka)\nPhotocopy of air Ticket attached.\n\nFare-\nTax-\nTotal-", 
                              'K' => "Air fare received from Bangladesh Biman", 
                              'L' => "75% of one way Air fare",
@@ -192,9 +192,10 @@
             {
                 $objSheet->getStyle('A'.$row.':L'.$row)->getFont()->setSize(10);
                 $objSheet->getCell('A'.$row)->setValue($sl_no);
-                $objSheet->getCell('B'.$row)->setValue($value->name . "\nS/o. " . $value->guardian_name . ", " . $value->guardian_occupation . "\n" . $value->present_address . "\nPh: " . $value->present_phone . "\n" . $value->email . "\n".$value->guardian_doc);
-                $objSheet->getCell('C'.$row)->setValue($value->name);
-                $objSheet->getCell('D'.$row)->setValue($value->name);
+                $objSheet->getCell('B'.$row)->setValue("i) " . $value->name . "\nii) S/o. " . $value->guardian_name . ", " . $value->guardian_occupation . "\niii) " . $value->present_address . "\nPh: " . $value->present_phone . "\n" . $value->email . "\niv) ".$value->guardian_income.$value->guardian_doc);
+                $objSheet->getCell('C'.$row)->setValue("i) ----"."\nii)" . $value->enroll_doc);
+                $objSheet->getCell('H'.$row)->setValue($value->university_name . "\n" . $value->subject_desc . "\n" . $value->university_contact);
+                $objSheet->getCell('I'.$row)->setValue("i)" . $value->acceptance_doc . "\n" . $value->scholarship_doc . "\nii)----");
                 $objSheet->getStyle('A'.$row.':M'.$row)->getAlignment()->setWrapText(true);
                 $objSheet->getStyle('A'.$row.':M'.$row)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
                 $objSheet->getStyle('A'.$row.':M'.$row)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);

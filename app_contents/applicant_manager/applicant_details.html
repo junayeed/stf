@@ -73,33 +73,63 @@
                     </tr>
                     <tr>
                         <td><strong>Income</strong></td>
-                        <td>{$guardian_income}</td>
+                        <td>BDT {$guardian_income|number_format:"2"}</td>
                         <td><strong>TIN</strong></td>
                         <td>{$tin}</td>
                     </tr>
                 </table>
         </div>
         <div id="tabs-2_{$app_id}" style="display: none">
-            <br>
-                <h3 class="h3">University Information</h3>
-                <table width="100%">
+                
+            <h3 class="h3">Academic Qualifications</h3>
+            <table width="100%">
+                <thead>
+                    <tr align="center">
+                        <td class="STRONG">Exam/Degree</td>
+                        <td class="STRONG">Division/Grade</td>
+                        <td class="STRONG">Attachment</td>
+                    </tr>
+                </thead>
+                {foreach from=$academic_qualifications key=key item=item}
                     <tr>
-                        <td width="20%">Country</td>
-                        <td width="80%">{$country}</td>
+                        <td>{$item->degree}</td>
+                        <td>{$item->result}</td>
+                        <td>
+                            {if $item->doc_id_t gt 0}
+                                <a href="{$item->file_t}" target="_new"><label class="accept-label">Attachment Submitted</label></a>
+                            {else}
+                                <label class="pending-label">Attachment not Submitted</label>
+                            {/if}
+                        </td>
                     </tr>
                     <tr>
-                        <td>Name</td>
-                        <td>{$university_name}</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            {if $item->doc_id_c gt 0}
+                                <a href="{$item->file_c}" target="_new"><label class="accept-label">Attachment Submitted</label></a>
+                            {else}
+                                <label class="pending-label">Attachment not submitted</label>
+                            {/if}
+                        </td>
                     </tr>
-                    <tr>
-                        <td>Contact</td>
-                        <td>{$university_contact}</td>
-                    </tr>
-                    <tr>
-                        <td>Subject</td>
-                        <td>{$subject_desc}</td>
-                    </tr>
-                </table>
+                {/foreach}
+            </table>
+            <h3 class="h3">University Information</h3>
+            <table width="100%">
+                <tr>
+                    <td class="STRONG" width="40%">University Name</td>
+                    <td>{$university_name}</td>
+                </tr>    
+                <tr>
+                    <td class="STRONG">Field of Study</td>
+                    <td>{$subject_desc}</td>
+                </tr>    
+                <tr>
+                    <td class="STRONG">Institution's contact person's details</td>
+                    <td>{$university_contact}</td>
+                </tr>    
+            </table>
         </div>
         <div id="tabs-3_{$app_id}" style="display: none">
             <br>
@@ -138,74 +168,89 @@
                 <table width="100%">
                     <tr>
                         
-                        <td width="25%" style="text-align: center">
+                        <td width="20%" style="text-align: center">
                             {if $guardian_doc_id gt 0}
-                            <a  href="{$income_tax_doc}" target="_blank">
-                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Income Tax" />
+                            <a href="{$income_tax_doc}" target="_blank">
+                                <img src="/app_contents/common/images/attachment_blue_32.png" alt="Income Tax" />
                             </a>
                             {else}
-                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                                <img src="/app_contents/common/images/warning.png" alt="No Attachment" />
                             {/if}
                             <p>Income Tax<p>
                         </td>
-                        <td width="25%" style="text-align: center">
+                        <td width="20%" style="text-align: center">
                             {if $ticket_doc_id gt 0}
                             <a  href="{$ticket_doc}" target="_blank">
-                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Ticket" />
+                                <img src="/app_contents/common/images/attachment_blue_32.png" alt="Ticket" />
                             </a>
                             {else}
-                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                                <img src="/app_contents/common/images/warning.png" alt="No Attachment" />
                             {/if}
                             <p>Ticket<p>
                         </td>
-                        <td width="25%" style="text-align: center">
+                        <td width="20%" style="text-align: center">
                             {if $acceptance_doc_id gt 0}
                             <a  href="{$acceptance_letter_file}" target="_blank">
-                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Acceptance Letter" />
+                                <img src="/app_contents/common/images/attachment_blue_32.png" alt="Acceptance Letter" />
                             </a>
                             {else}
-                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                                <img src="/app_contents/common/images/warning.png" alt="No Attachment" />
                             {/if}
                             <p>Acceptance Letter<p>
                         </td>
-                        <td width="25%" style="text-align: center">
+                        <td width="20%" style="text-align: center">
                             {if $scholarship_doc_id gt 0}
                             <a  href="{$scholarship_letter_file}" target="_blank">
-                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Scholarship Letter" />
+                                <img src="/app_contents/common/images/attachment_blue_32.png" alt="Scholarship Letter" />
                             </a>
                             {else}
-                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                                <img src="/app_contents/common/images/warning.png" alt="No Attachment" />
                             {/if}
                             <p>Scholarship Letter<p>
+                        </td>
+                        <td width="20%" style="text-align: center">
+                            {if $country eq 'US'}
+                                {if $i20_doc_id gt 0}
+                                    <a  href="{$i20_file}" target="_blank">
+                                        <img src="/app_contents/common/images/attachment_blue_32.png" alt="I20" />
+                                    </a>
+                                {else}
+                                    <img src="/app_contents/common/images/warning.png" alt="No Attachment" />
+                                {/if}
+                            {else}
+                                <img src="/app_contents/common/images/not_required_32.png" alt="No Attachment" />
+                            {/if}
+                            <p>I20<p>
                         </td>
                     </tr>
                 </table>
                 <table width="100%">
                     <tr>
-                        <td width="25%" style="text-align: center">
+                        <td width="20%" style="text-align: center">
                             {if $enroll_doc_id gt 0}
                             <a  href="{$enroll_file}" target="_blank">
-                                <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="Enroll" />
+                                <img src="/app_contents/common/images/attachment_blue_32.png" alt="Enroll" />
                             </a>
                             {else}
-                                <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                                <img src="/app_contents/common/images/warning.png" alt="No Attachment" />
                             {/if}
                             <p>Enrollment Certificate<p>
                         </td>
-                        <td width="25%" style="text-align: center">
+                        <td width="20%" style="text-align: center">
                             {if $country eq 'US'}
                                 {if $i20_doc_id gt 0}
                                     <a  href="{$i20_file}" target="_blank">
-                                        <img src="/app_contents/common/images/attachment_icon.jpg" width="50px" alt="I20" />
+                                        <img src="/app_contents/common/images/attachment_blue_32.png" alt="I20" />
                                     </a>
                                 {else}
-                                    <img src="/app_contents/common/images/warning.png" width="50px" alt="No Attachment" />
+                                    <img src="/app_contents/common/images/warning.png" alt="No Attachment" />
                                 {/if}
                                 <p>I20<p>
                             {/if}
                         </td>
-                        <td width="25%" style="text-align: center"></td>
-                        <td width="25%" style="text-align: center"></td>
+                        <td width="20%" style="text-align: center"></td>
+                        <td width="20%" style="text-align: center"></td>
+                        <td width="20%" style="text-align: center"></td>
                         
                     </tr>
                 </table>
