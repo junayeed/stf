@@ -805,6 +805,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 .W165 { width: 165px; }
 .W150 { width: 150px; }
 .W127 { width: 127px; }
+.W125 { width: 125px; }
 .W123 { width: 123px; }
 .W110 { width: 110px; }
 .W115 { width: 115px; }
@@ -813,6 +814,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 .W73 { width: 73px; }
 .W75 { width: 75px; }
 .W70 { width: 70px; }
+.W55 { width: 55px !important;}
 .W60 { width: 60px !important;}
 .W57 { width: 57px !important; }
 .W52 { width: 52px; }
@@ -1029,10 +1031,14 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 
 .info, .success, .warning, .error, .validation 
 {
-    border: 1px solid;
-    margin: 10px 0px;
-    padding:15px 10px 15px 50px;
     background-repeat: no-repeat;
+    border: 1px solid;
+    margin: 5px 60px 10px 80px; /* top right bottom left*/ 
+    padding:15px 10px 15px 50px;
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    width: 500px;
     background-position: 10px center;
 }
 
@@ -1174,6 +1180,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     font-size: 10px;
     font-weight: bold;
     padding: 5px;
+    display: inline-block;
+    text-align: center;
 }
 
 .pending-label{
@@ -1183,15 +1191,19 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     font-size: 10px;
     font-weight: bold;
     padding: 5px;
+    display: inline-block;
+    text-align: center;
 }
 
 .accept-label{
-    background-color: #5AB65A;
+    background-color: #008000;
     color: #FFF;
     font-family: 'Arial';
     font-size: 10px;
     font-weight: bold;
     padding: 5px;
+    display: inline-block;
+    text-align: center;
 }
 
 .student_details

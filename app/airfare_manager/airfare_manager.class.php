@@ -1,10 +1,4 @@
 <?php
-
-/**
- * File: airfare_manager.class.php
- *
- */
-
 /**
  * The airfareManagerApp application class
  */
@@ -84,13 +78,13 @@ class airfareManagerApp extends DefaultApplication
     function getCountryListBySession($session_year)
     {
         $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country = CLT.id) LEFT JOIN ' . 
-                          AIRFARES_TBL . ' AS AFT ON (AT.country = AFT.country) LEFT JOIN ' . CITY_LOOKUP_TBL . ' AS CILT ON (CLT.id = CILT.country)';
+                          AIRFARES_TBL . ' AS AFT ON (AT.country = AFT.country)';
         $info['debug']  = false;
-        $info['where']  = 'AT.sid = ' . $session_year .' AND AT.application_status = ' . q('Accepted');
-        $info['fields'] = array('DISTINCT(CLT.name) AS country_name', 'CLT.id AS country', 'AFT.source', 'AFT.local_fare', 'AT.destination_airport');
+        $info['where']  = 'AT.sid = ' . $session_year .' AND AT.application_status = ' . q('Accepted') ;
+        $info['fields'] = array('CLT.name AS country_name', 'CLT.id AS country', 'AFT.source', 'AFT.local_fare', 'AT.destination_airport');
         
         $result = select($info);
-        
+        dumpVar($result);
         if ($result)
         {
             foreach($result as $value)

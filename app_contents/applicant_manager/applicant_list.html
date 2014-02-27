@@ -52,7 +52,12 @@
                                 <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
                             </td>
                             <td width="50" class="border">{$item->gender}</td>
-                            <td width="72" class="border"> <label id="application_status_{$item->id}" {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status|upper} </label></td>
+                            <td width="72" class="border">
+                                <label id="application_status_{$item->id}" {if $item->application_status eq 'Pending'} class="pending-label W55" 
+                                                                           {elseif  $item->application_status eq 'Accepted'} class="accept-label W55" 
+                                                                           {else} class="reject-label W55" 
+                                                                           {/if}>{$item->application_status|upper} </label>
+                            </td>
                             <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
                             <td width="108" class="border">{$item->ticket_fare|number_format:'2'}</td>
                             <td width="70" class="border">
