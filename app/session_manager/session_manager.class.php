@@ -1,11 +1,6 @@
 <?php
 
 /**
- * File: session_manager.class.php
- *
- */
-
-/**
  * The sessionManagerApp application class
  */
 

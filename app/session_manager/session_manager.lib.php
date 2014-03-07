@@ -3,7 +3,7 @@
     function addsession()
     {
         $data                 = getUserDataSet(SESSIONS_TBL);
-        $data['session_year'] = getUserField('session_year1') . '-' . getUserField('session_year2');  
+        $data['session_year'] = getUserField('session_year');  
         $data['create_date']  = date('Y-m-d');
 
         $info['table']  = SESSIONS_TBL;
@@ -23,7 +23,7 @@
     function updateSession($ID)
     {
         $data                             = getUserDataSet(SESSIONS_TBL);
-        $data['session_year']             = getUserField('session_year1') . '-' . getUserField('session_year2'); 
+        $data['session_year']             = getUserField('session_year'); 
         $data['scholarship_bulk_amount']  = str_replace(',','', $data['scholarship_bulk_amount']);
         $data['awarded_amount']           = str_replace(',','', $data['awarded_amount']);
         

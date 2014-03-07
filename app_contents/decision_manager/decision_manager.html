@@ -26,33 +26,24 @@
             <div class="wrap">   <!-- wrap class starts here-->
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left-full">    <!-- left class starts here-->
-                        <div class="customers-search-body">
-                            <div class="company-name">
-                                <div class="font3 prepand" id="scholarship_bulk_amount_lbl">Scholarship Bulk Amount</div>
-                                <div class="prepand">
-                                    <input type="text" name="scholarship_bulk_amount" id="scholarship_bulk_amount" value="{$scholarship_bulk_amount|number_format:'1'}" 
-                                           class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="box_stat box_pos">
+                                    <h4>BDT {$scholarship_bulk_amount|number_format:'1'}</h4>
+                                    <small>Scholarship Amount</small>
                                 </div>
                             </div>
-                            <div class="company-name">
-                                <div class="font3 prepand" id="scholarship_percentage_lbl">Scholarship Percentage</div>
-                                <div class="prepand">
-                                    <div id="location_slider"></div>
-                                    <input type="text" name="scholarship_percentage" id="scholarship_percentage" value="{$scholarship_percentage*100|number_format:'2'}" 
-                                           class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
+                            <div class="col-md-3">
+                                <div class="box_stat box_pos">
+                                    <h4>{$scholarship_percentage*100|number_format:'1'}%</h4>
+                                    <small>of total amount</small>
                                 </div>
                             </div>
-                            <div class="company-name">
-                                <div class="font3 prepand" id="awarded_amount_lbl">Total Ticket Fare</div>
-                                <div class="prepand">
-                                    <input type="text" name="awarded_amount" id="awarded_amount" value="{$totalTicketFare|number_format:'1'}" 
-                                           class="inputbox-large W185" onkeypress="return isNumberKey(event)" />
+                            <div class="col-md-3">
+                                <div class="box_stat box_pos">
+                                    <h4>{$awarded_amount|number_format:'1'}</h4>
+                                    <small>total awarded amount</small>
                                 </div>
-                            </div>
-                            <div class="company-name">
-                                <input type="button" class="" id="Distribute" name="Distribute" value="Calculate" onclick="distributeScholarshipAmount();">
-                                 <input type="submit" class="" id="Distribute" name="saveall" value="Save All">
-                                 
                             </div>
                         </div>
                         <h3 style="clear: both;"><span>Accepted Applicant(s)</span></h3>
@@ -63,6 +54,7 @@
                                         <td width="160">Name</td>
                                         <td width="40">Gender</td>
                                         <td width="40">Status</td>
+                                        <td width="70">Destination Airport</td>
                                         <td width="70">Total Fare</td>
                                         <td width="70">Collected Fare (Local Sources)</td>
                                         <td width="70">Base Fare</td>
@@ -70,34 +62,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {foreach from=$list key=okey item=oitem}
+                                    {assign var=grand_total value="0"}
+                                    {foreach from=$list key=okey item=country_list}
                                         <tr class="">
                                             <td colspan="5"><div class="font">{$okey}</div></td>
                                         </tr>
                                         {assign var=country_total value="0"}
-                                        {foreach from=$oitem key=key item=item}
-                                        <script> AppIDs.push({$item->id}) </script>
-                                        <tr>
-                                            <td width="160" class="border">
-                                                <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
-                                            </td>
-                                            <td width="40" class="border">{$item->gender}</td>
-                                            <td width="40" class="border"> <label {if $item->application_status eq 'Pending'} class="pending-label" {elseif  $item->application_status eq 'Accepted'} class="accept-label" {else} class="reject-label" {/if}>{$item->application_status} </label></td>
-                                            <td width="70" class="border">{$item->total|number_format:'2'}</td>
-                                            <td width="70" class="border">{$item->local_fare|number_format:'2'}</td>
-                                            <td width="70" class="border">{$item->base_fare|number_format:'2'}</td>
-                                            <td width="70" class="border">
-                                                <input type="text" name="grant_amount_{$item->id}" id="grant_amount_{$item->id}" value="{$item->grant_amount|number_format:'2'}" 
-                                                       onkeypress="return isNumberKey(event)" class="inputbox3 W70">
-                                            </td>
-                                        </tr>
-                                        {assign var=country_total value=$country_total+$item->total}
+                                        {foreach from=$country_list key=city_key item=city_list}
+                                            {foreach from=$city_list key=key item=item}
+                                            <tr>
+                                                <td width="160" class="border">
+                                                    <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
+                                                </td>
+                                                <td width="40" class="border">{$item->gender}</td>
+                                                <td width="40" class="border"> <label class="accept-label">{$item->application_status} </label></td>
+                                                <td width="70" class="border">{$item->destination_airport}</td>
+                                                <td width="70" class="border">{$item->total|number_format:'2'}</td>
+                                                <td width="70" class="border">{$item->local_fare|number_format:'2'}</td>
+                                                <td width="70" class="border">{$item->base_fare|number_format:'2'}</td>
+                                                <td width="70" class="border">
+                                                    <input type="text" name="grant_amount_{$item->id}" id="grant_amount_{$item->id}" value="{$item->grant_amount|number_format:'2'}" 
+                                                           onkeypress="return isNumberKey(event)" class="inputbox3 W70 noborder">
+                                                </td>
+                                            </tr>
+                                            {assign var=country_total value=$country_total+$item->grant_amount}
+                                            {assign var=grand_total value=$grand_total+$item->grant_amount}
+                                            {/foreach}
                                         {/foreach}
                                         <tr>
-                                            <td colspan="4" class="border" align="right">Total ({$okey}): </td>
-                                            <td colspan="5" class="border">{$country_total|number_format:'2'}</td>
+                                            <td colspan="7" class="border" align="right"><span class="span-text">Total ({$okey}): </span></td>
+                                            <td class="border"><span class="span-text">{$country_total|number_format:'2'}</span></td>
                                         </tr>
                                     {/foreach}
+                                        <tr>
+                                            <td colspan="7" class="border" align="right"><span class="span-text">Grand Total: </span></td>
+                                            <td class="border"><span class="span-text">{$grand_total|number_format:'2'}</span></td>
+                                        </tr>
                                 </tbody>
                             </table>
                         </div>

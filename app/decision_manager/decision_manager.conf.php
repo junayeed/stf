@@ -31,6 +31,7 @@
    define('REL_DOCUMENT_DIR',              '/documents');
    define('IMG_WIDTH',                     170);
    define('IMG_HEIGHT',                    190);
+   define('MAX_THRESHOLD',                 0.75);
 
    /**#@+
    * Message Constant

@@ -83,7 +83,7 @@ class applicantManagerApp extends DefaultApplication
    function saveSessionInfo()
    {
        $info['table']  = SESSIONS_TBL;
-       $info['debug']  = true;
+       $info['debug']  = false;
        
        $info['data'] = getUserDataSet(SESSIONS_TBL);
        $info['where']           = 'id =1';  //need to change this hardcode
@@ -325,37 +325,71 @@ class applicantManagerApp extends DefaultApplication
    */
     function showList()
     {
-        
-        $data['scholarship_bulk_amount']        = currentSessionAmount(1);
+        $sid = getActiveSessionID();
+        $data['scholarship_bulk_amount']        = currentSessionAmount($sid);
         $data['totalTicketFare']                = getTotalTicketFare($sid);
-        $data['scholarship_percentage']         = ($data['scholarship_bulk_amount']/ $data['totalTicketFare']);
-        $data['awarded_amount']                 = $data['totalTicketFare']*$data['scholarship_percentage'];
+        //$data['scholarship_percentage']         = ($data['scholarship_bulk_amount'] / $data['totalTicketFare']);
+        $data['scholarship_percentage']         = getScheloarshipPercentage($data['scholarship_bulk_amount'], $data['totalTicketFare']);
+        $data['awarded_amount']                 = 0;
         
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
                           AIRFARES_TBL . ' AS AFT ON (AT.destination_airport = AFT.destination_airport)';
-        $info['debug']  = true;
-        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date', 'AT.application_status', 
-                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 
-                                'TT.total*'.$data['scholarship_percentage'].' AS grant_amount', 'AFT.local_fare');
-        $info['where']  = 'AT.application_status = ' . q('Accepted') . '  ORDER BY AT.country';
+        $info['debug']  = false;
+        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date',  
+                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 'AT.destination_airport','AT.application_status',
+                                'AFT.local_fare');
+        $info['where']  = 'AT.application_status = ' . q('Accepted') . ' ORDER BY AT.country';
 
-        $result = select($info);
+        $result = select($info); 
+        //dumpVar($result);
         
         if ($result)
         {
             foreach($result as $key=>$value)
             {
-                $retData[$value->country_name][] = $value; 
+                $retData[$value->country_name][$value->destination_airport][] = $value; 
             }
         }
         
+        //dumpVar($retData);
+        
+        foreach( $retData as $country_key => $country)
+        {
+            foreach($country as $city_key => $city_list)
+            {
+                $min  = $this->getMinValue($city_list);
+               //echo_br("Country = " . $country_key . " City = " . $city_key . " Min = " . $min);
+                foreach($city_list as $key => $value)
+                {
+                    $retData[$country_key][$city_key][$key]->base_fare = $value->local_fare < $min ? $value->local_fare : $min;
+                    $retData[$country_key][$city_key][$key]->grant_amount = $retData[$country_key][$city_key][$key]->base_fare * $data['scholarship_percentage'];
+                    $data['awarded_amount'] += $retData[$country_key][$city_key][$key]->grant_amount;
+                }
+            }
+        }
+        //dumpVar($retData);
         $data['list']            = $retData;
         $data['total_applicant'] = count($result);
         
         return $data;
         
         //echo createPage(DECISION_LIST_TEMPLATE, $data);
+    }
+    
+    function getMinValue($list)
+    {
+        $min = 9999999;
+        
+        foreach($list as $value)
+        {
+            if ( $value->ticket_fare < $min)
+            {
+                $min = $value->total;
+            }
+        }
+        
+        return $min;
     }
 }
 ?>

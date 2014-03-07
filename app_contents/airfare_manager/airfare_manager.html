@@ -31,14 +31,16 @@
                                 </thead>
                                 <tbody>
                                 {foreach from=$country_list item=item}
+                                    {foreach from=$item item=iItem}
                                     <tr>
-                                        <td class="border">{$item->destination_airport}</td>
-                                        <td class="border">{$item->country_name}</td>
-                                        <td class="border"><input type="text" name="local_fare_{$item->destination_airport}" id="local_fare_{$item->destination_airport}" value="{$item->local_fare}" class="inputbox3 W127" onkeypress="return isNumberKey(event);"></td>
-                                        <td class="border"><input type="text" name="source_{$item->destination_airport}" id="source_{$item->destination_airport}" value="{$item->source}" class="inputbox3 W200"></td> 
-                                        <input type="hidden" name="destination_airport_{$item->destination_airport}" id="destination_airport_{$item->destination_airport}" value="{$item->destination_airport}">
-                                        <input type="hidden" name="country_{$item->destination_airport}" id="country_{$item->destination_airport}" value="{$item->country}">
+                                        <td class="border">{$iItem->destination_airport}</td>
+                                        <td class="border">{$iItem->country_name}</td>
+                                        <td class="border"><input type="text" name="local_fare_{$iItem->destination_airport}" id="local_fare_{$iItem->destination_airport}" value="{$iItem->local_fare}" class="inputbox3 W127" onkeypress="return isNumberKey(event);"></td>
+                                        <td class="border"><input type="text" name="source_{$iItem->destination_airport}" id="source_{$iItem->destination_airport}" value="{$iItem->source}" class="inputbox3 W200"></td> 
+                                        <input type="hidden" name="destination_airport_{$iItem->destination_airport}" id="destination_airport_{$iItem->destination_airport}" value="{$iItem->destination_airport}">
+                                        <input type="hidden" name="country_{$iItem->destination_airport}" id="country_{$iItem->destination_airport}" value="{$iItem->country}">
                                     </tr>
+                                    {/foreach}
                                 {/foreach}
                                 </tbody>
                                 <tfoot>

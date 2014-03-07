@@ -77,19 +77,18 @@ class airfareManagerApp extends DefaultApplication
     
     function getCountryListBySession($session_year)
     {
-        $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country = CLT.id) LEFT JOIN ' . 
-                          AIRFARES_TBL . ' AS AFT ON (AT.country = AFT.country)';
+        $info['table']  =  APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . AIRFARES_TBL . ' AS AFT ON (AT.country=AFT.country AND AT.destination_airport = AFT.destination_airport) LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AFT.country=CLT.id)';
         $info['debug']  = false;
-        $info['where']  = 'AT.sid = ' . $session_year .' AND AT.application_status = ' . q('Accepted') ;
+        $info['where']  = 'AT.sid = ' . $session_year .' AND AT.application_status = ' . q('Accepted') . ' ORDER BY CLT.name';
         $info['fields'] = array('CLT.name AS country_name', 'CLT.id AS country', 'AFT.source', 'AFT.local_fare', 'AT.destination_airport');
         
         $result = select($info);
-        dumpVar($result);
+        //dumpVar($result);
         if ($result)
         {
             foreach($result as $value)
             {
-                $retData[$value->destination_airport] = $value;
+                $retData[$value->country_name][$value->destination_airport] = $value;
             }
             //dumpVar($retData);
             return $retData;
@@ -106,18 +105,21 @@ class airfareManagerApp extends DefaultApplication
     */
     function saveRecord()
     {
-        $sid            = getUserField('sid');
+        $sid = getUserField('sid');
+        
+        $this->deleteRecord($sid);
+        
         $info['table']  = AIRFARES_TBL;
         $info['debug']  = false;
         //dumpVar($_REQUEST);
+        
         foreach( $_REQUEST as $key => $value)
 	{
             if( preg_match('/local_fare_([A-Za-z\s-_]+)/i', $key, $matches))
             {
                 //dumpVar($matches);
                 $id = $matches[1];
-                
-                $data['destination_airport']  = $id;
+                $data['destination_airport']  = str_replace("_", " ", $id);
                 $data['local_fare']           = $_REQUEST['local_fare_' . $id];
                 $data['country']              = $_REQUEST['country_' . $id];
                 $data['source']               = $_REQUEST['source_' . $id];
@@ -130,6 +132,15 @@ class airfareManagerApp extends DefaultApplication
         }
         
         return $this->showEditor($msg);
+    }
+    
+    function deleteRecord($sid)
+    {
+        $info['table']  = AIRFARES_TBL;
+        $info['debug']  = false;
+        $info['where']  = 'sid = ' . $sid;
+        
+        delete($info);
     }
 
     /**
