@@ -269,7 +269,7 @@ class applicationManagerApp extends DefaultApplication
             
             if( update($info) )
             {
-                $msg = '<div class="success">University Information has been updated successfully.</div>';
+                $msg = '<div id="message_content" class="success">University Information has been updated successfully.</div>';
             }
         } 
         else
@@ -279,7 +279,7 @@ class applicationManagerApp extends DefaultApplication
             
             if ($result)
             {
-                $msg = '<div class="success">University Information has been updated successfully.</div>';
+                $msg = '<div id="message_content" class="success">University Information has been updated successfully.</div>';
             }
         }
         
@@ -317,7 +317,7 @@ class applicationManagerApp extends DefaultApplication
                     $info['where']  = "id = " . $aq_id;
                     if ( update($info) )
                     {
-                        $msg = '<div class="success">Academic Information has been updated successfully.</div>';
+                        $msg = '<div id="message_content" class="success">Academic Information has been updated successfully.</div>';
                     }
                 }
                 else 
@@ -326,7 +326,7 @@ class applicationManagerApp extends DefaultApplication
                     
                     if ($result)
                     {
-                        $msg = '<div class="success">Academic Information has been updated successfully.</div>';
+                        $msg = '<div id="message_content" class="success">Academic Information has been updated successfully.</div>';
                     }
                 }
                 
@@ -358,16 +358,18 @@ class applicationManagerApp extends DefaultApplication
             
             if ( update($info) )
             {
-                $msg = '<div class="success">Ticket Information has been updated successfully.</div>';
+                $msg = '<div id="message_content" class="success">Ticket Information has been updated successfully.</div>';
             }
         } 
         else
         {
+            updateDestinationAirport($uid);
+            
             $result = insert($info);
             
             if ( $result )
             {
-                $msg = '<div class="success">Ticket Information has been updated successfully.</div>';
+                $msg = '<div id="message_content" class="success">Ticket Information has been updated successfully.</div>';
             }
         }
         
@@ -405,12 +407,12 @@ class applicationManagerApp extends DefaultApplication
 
          if($thisUser->modifyUser($photoID, $uid))
          {
-            $msg = '<div class="success">' . $this->getMessage(USER_UPDATE_SUCCESS_MSG) . '</div>';
+            $msg = '<div id="message_content" class="success">' . $this->getMessage(USER_UPDATE_SUCCESS_MSG) . '</div>';
             saveGuardianDetails($uid);
          }
          else
          {
-            $msg = '<div class="error">' . $this->getMessage(USER_UPDATE_ERROR_MSG) . '</div>';
+            $msg = '<div id="message_content" class="error">' . $this->getMessage(USER_UPDATE_ERROR_MSG) . '</div>';
          }
       }
       else
@@ -419,12 +421,12 @@ class applicationManagerApp extends DefaultApplication
 
          if($thisUser->addUser($photoID))
          {
-            $msg = '<div class="success">' . $this->getMessage(USER_SAVE_SUCCESS_MSG) . '</div>';
+            $msg = '<div id="message_content" class="success">' . $this->getMessage(USER_SAVE_SUCCESS_MSG) . '</div>';
             
          }
          else
          {
-            $msg = '<div class="error">' . $this->getMessage(USER_SAVE_ERROR_MSG) . '</div>';
+            $msg = '<div id="message_content" class="error">' . $this->getMessage(USER_SAVE_ERROR_MSG) . '</div>';
          }
       }
       

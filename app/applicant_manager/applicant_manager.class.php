@@ -451,26 +451,40 @@ class applicantManagerApp extends DefaultApplication
         $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
                           ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
-                          SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id) LEFT JOIN ' . USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id)';
+                          SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id) LEFT JOIN ' . USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id) LEFT JOIN ' . 
+                          AIRFARES_TBL . ' AS AFT ON (AT.country = AFT.country AND AT.destination_airport = AFT.destination_airport)';
         $info['debug']  = false;
-        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.email', 'UT.gender','AT.id', 'AT.submit_date', 
+        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.email', 'UT.gender', 'AT.submit_date', 'UT.uid AS user_id', 
                                 'AT.application_status', 'CLT.name AS country_name', 'UT.uid','TT.ticket_fare', 'GT.guardian_name', 'GT.guardian_occupation',
                                 'IF(GT.guardian_doc_id = 0, \'(Income Certificate not attached)\', \'(Income Certificate attached)\') AS guardian_doc',
                                 'GT.guardian_income', 'UAT.present_address', 'UAT.present_phone', 'AT.university_name', 'AT.university_contact', 'AT.subject_desc',
                                 'IF(AT.acceptance_doc_id = 0, \'Acceptance Letter not attached\', \'Acceptance Letter attached\') AS acceptance_doc',
-                                'IF(AT.scholarship_doc_id = 0, \'Scholarship Letter not attached\', \'Scholarship Letter attached\') AS scholarship_doc');
+                                'IF(AT.scholarship_doc_id = 0, \'Scholarship Letter not attached\', \'Scholarship Letter attached\') AS scholarship_doc', 
+                                'IF(TT.ticket_doc_id = 0, \'Air Ticket not attached\', \'Air Ticket attached\') AS ticket_doc',
+                                'IF(AT.enroll_doc_id = 0, \'Certificate not Submitted\', \'Certificate Submitted\') AS enroll_doc', 'TT.ticket_fare', 'TT.tax',
+                                'TT.total', 'AT.destination_airport', 'AT.grant_amount', 'AFT.local_fare',
+                                'CONCAT("", IF(AT.tofel = 0, "", CONCAT("TOFEL-", AT.tofel, "\n")), 
+                                            IF(AT.ielts = 0, "", CONCAT("IELTS-", AT.ielts, "\n")),
+                                            IF(AT.sat = 0,   "", CONCAT("SAT-", AT.sat, "\n")),
+                                            IF(AT.gre = 0,   "", CONCAT("GRE-", AT.gre, "\n")),
+                                            IF(AT.gmat = 0,  "", CONCAT("GMAT-", AT.gmat, "\n"))
+                                        ) AS other_degree'
+                                );
         $info['where']  = $filterClause .  ' ORDER BY AT.country';
 
         $result = select($info);
-        
+        $count = 0;
+        //echo_br("Count ::: " . count($result));
+        //dumpvar($result);
         if ($result)
         {
             foreach($result as $key=>$value)
             {
-                $retData[$value->country_name][] = $value; 
+                $retData[$value->country_name][$count] = $value; 
+                $retData[$value->country_name][$count++]->academic_qualification = $this->getAcademicQualication($value->user_id);
             }
         }
-        
+        //dumpVar($retData);
         $data['list'] = $retData;
         //dumpVar($data);
         
@@ -483,6 +497,49 @@ class applicantManagerApp extends DefaultApplication
         }
         
         echo createPage(APPLICANT_LIST_TEMPLATE, $data);
+    }
+    
+    function getAcademicQualication($user_id)
+    {
+        $info['table']  = ACADEMIC_QUALIFICATIONS_TBL;
+        $info['debug']  = false;
+        $info['where']  = 'uid = ' . $user_id;
+        
+        $result = select($info);
+        
+        if ($result)
+        {
+            foreach( $result as $key => $value)
+            {
+                if ($value->degree == 'S.S.C' || $value->degree == 'O Levels' || $value->degree == 'Dakhil')
+                {
+                    $retData['a'] = $value->result;
+                }
+
+                if ($value->degree == 'H.S.C' || $value->degree == 'A Levels' || $value->degree == 'Alim' || $value->degree == 'IB')
+                {
+                    $retData['b'] = $value->result;
+                }
+
+                if ($value->degree == 'Bachelor' || $value->degree == 'Kamil')
+                {
+                    $retData['c'] = $value->result;
+                }
+
+                if ($value->degree == 'Masters' || $value->degree == 'Fazil')
+                {
+                    $retData['d'] = $value->result;
+                }
+
+                if ($value->degree == 'Ph.D')
+                {
+                    $retData['e'] = $value->result;
+                }
+            }
+        }
+        
+        
+        return $retData;
     }
 }
 ?>

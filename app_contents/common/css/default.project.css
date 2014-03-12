@@ -773,12 +773,7 @@ table, table th, table td, cellpadding, cellspacing, border{
     color: #083A81;
 }
 
-.DISABLE
-{
-    background-color: #EFEFEF;
-}
-
-.archive
+.FONT16 {font-size: 16px !important; }
 {
     font-family: 'Arial';
     font-size: 10px;
@@ -1042,8 +1037,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label
 {
     background-repeat: no-repeat;
     border: 1px solid;
-    margin: 5px 60px 10px 80px; /* top right bottom left*/ 
-    padding:15px 10px 15px 50px;
+    margin:  -20px 60px 10px 126px; /* top right bottom left*/ 
+    padding: 20px 14px 15px 65px;
     position: absolute;
     text-align: center;
     z-index: 1;
@@ -1121,7 +1116,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     position: relative;
 }
 .col-md-6 {
-    width: 800px;
+    width: 885px;
 }
 .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11 {
      float: left;

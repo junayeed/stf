@@ -84,7 +84,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><input type="file" name="photo" id="photo" class="W75"></td>
+                                                                    <td><input type="file" name="photo" id="photo" class="W125"></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -131,7 +131,11 @@
                                                             <input type="text" name="passport" id="passport" value="{$passport|stripslashes}" class="inputbox3 W150""><br class="br"/>
                                                             <div style="height: 10px;"></div>
                                                             <span class="span-text prepand" id="passport_expire_date_lbl">Passport Expire Date</span><br class="br"/>
+                                                            {if $passport_expire_date eq '0000-00-00'}
+                                                            <input type="text" name="passport_expire_date" id="passport_expire_date" value="" class="inputbox3 W123 DISABLE" readonly>
+                                                            {else}
                                                             <input type="text" name="passport_expire_date" id="passport_expire_date" value="{$passport_expire_date|date_format:'%Y-%m-%d'}" class="inputbox3 W123 DISABLE" readonly>
+                                                            {/if}
                                                             <img name="anchor1" id="anchor1" align=top width=22 height=20 
                                                                  style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
                                                                  onClick="thisSelect(document.userManagerForm.passport_expire_date,'anchor1','yyyy-MM-dd'); return false;">
@@ -167,14 +171,14 @@
                                                                    class="inputbox3 W150" onkeypress="return isNumberKey(event)">
                                                         </td>
                                                     </tr>
-                                                    <tr><td><div style=" height: 10px;"></div></td></tr>
+                                                    <tr><td colspan="4"><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
                                                         <td colspan="2">
-                                                            <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement</span>   
+                                                            <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement </span>   
                                                             <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
                                                         </td>
-                                                        <td>
-                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new" id="guardian_income_tax_file"><img src="/app_contents/common/images/view22.png" class="padding-left10"> <span class="attach-file-text">{$guardian_file|basename|truncate:40}</span></a>{/if}
+                                                        <td colspan="2">
+                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new" id="guardian_income_tax_file"><img src="/app_contents/common/images/view22.png" class="padding-left10"> <span class="attach-file-text">{$guardian_file|basename|truncate:35}</span></a>{/if}
                                                         </td>
                                                     </tr>
                                                 </table>  
@@ -603,4 +607,11 @@
     
     $('#countrycode').val({$countrycode});
 </script>   
+
+<script>
+    $(document).ready( function() 
+    {ldelim}
+        $('#message_content').delay(1500).fadeOut(1000);
+    {rdelim});
+</script>
 </body>

@@ -28,7 +28,7 @@
         $data['awarded_amount']           = str_replace(',','', $data['awarded_amount']);
         
         $info['table'] = SESSIONS_TBL;
-        $info['debug'] = true;
+        $info['debug'] = false;
         $info['where'] = 'id = ' . $ID;
         $info['data']  = $data;
 

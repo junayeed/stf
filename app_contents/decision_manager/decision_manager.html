@@ -4,8 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
 <link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
 
-
-
 <script language="JavaScript">
     function thisSelect(inputobj, linkname, format) 
     {ldelim}
@@ -20,7 +18,7 @@
 <body onLoad="showSliders();">
     <form name="applicantManagerForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{$uid}">
-        <input type="hidden" id="cmd" name="cmd" value="saveall">
+        <input type="hidden" id="cmd" name="cmd" value="add">
         
         <div id="body-full">     <!-- body-full starts here-->
             <div class="wrap">   <!-- wrap class starts here-->
@@ -46,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h3 style="clear: both;"><span>Accepted Applicant(s)</span></h3>
+                        <h3 style="clear: both;" class="prepand3"><span>Accepted Applicant(s)</span></h3>
                         <div class="customer-left-body"><h6>All Amounts are in BDT</h6>
                             <table width="940" cellpadding="0" cellspacing="0" border="0">
                                 <thead>
@@ -71,9 +69,7 @@
                                         {foreach from=$country_list key=city_key item=city_list}
                                             {foreach from=$city_list key=key item=item}
                                             <tr>
-                                                <td width="160" class="border">
-                                                    <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
-                                                </td>
+                                                <td width="160" class="border">{$item->name}</td>
                                                 <td width="40" class="border">{$item->gender}</td>
                                                 <td width="40" class="border"> <label class="accept-label">{$item->application_status} </label></td>
                                                 <td width="70" class="border">{$item->destination_airport}</td>
@@ -95,16 +91,16 @@
                                         </tr>
                                     {/foreach}
                                         <tr>
-                                            <td colspan="7" class="border" align="right"><span class="span-text">Grand Total: </span></td>
-                                            <td class="border"><span class="span-text">{$grand_total|number_format:'2'}</span></td>
+                                            <td colspan="7" class="border" align="right"><span class="span-text FONT16">Grand Total: </span></td>
+                                            <td class="border"><span class="span-text FONT16">{$grand_total|number_format:'2'}</span></td>
                                         </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>  <!-- left class ends here-->
+                    <input type="submit" name="Disburse" value="D I S B U R S E" class="inputbox-blue W125">
                 </div>           <!-- body-block ends here-->
             </div>               <!-- wrap class ends here-->
         </div>                   <!-- body-full ends here-->
-        
     </form>
 </body>
