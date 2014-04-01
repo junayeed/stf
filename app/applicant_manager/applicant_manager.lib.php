@@ -227,23 +227,12 @@
         $objSheet->getStyle('A'.$row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT); 
         $objSheet->getStyle('A'.$row.':L'.$row)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         */
-        // write the file
-//        header("Pragma: public");
-//        header("Expires: 0");
-//        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-//        header("Content-Type: application/force-download");
-//        header("Content-Type: application/octet-stream");
-//        header("Content-Type: application/download");
-//        header("Content-Disposition: attachment;filename=sheet1111.xls");
-//        header("Content-Transfer-Encoding: binary ");
-
-//        header('Content-Type: application/pdf');
-//        header('Content-Disposition: attachment;filename="sheet1111.pdf"');
-//        header('Cache-Control: max-age=0');
+        $objWriter->save($_SERVER['DOCUMENT_ROOT'].'/files/'.$filename);
+        
         header('Content-Disposition: attachment;filename="' . $filename. '"');
         header('Content-Type: application/pdf');
         header('Content-Type: text/plain; charset=utf-8');
-        $objWriter->save($_SERVER['DOCUMENT_ROOT'].'/files/'.$filename);
+        
         header ('Location: /files/'.$filename);
     }
 ?>

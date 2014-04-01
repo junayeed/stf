@@ -474,7 +474,6 @@ class applicantManagerApp extends DefaultApplication
 
         $result = select($info);
         $count = 0;
-        //echo_br("Count ::: " . count($result));
         //dumpvar($result);
         if ($result)
         {
