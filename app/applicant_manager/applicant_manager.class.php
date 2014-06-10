@@ -444,11 +444,11 @@ class applicantManagerApp extends DefaultApplication
         }
         if($data['session_year'])
         {
-            $filterClause .= ' AND ST.session_year = ' . q($data['session_year']);
+            //$filterClause .= ' AND ST.session_year = ' . q($data['session_year']);
         }
         
 
-        $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
+        $info['table']  = USER_TBL.' AS UT LEFT JOIN ' . APPLICATIONS_TBL . ' AS AT ON (AT.uid=UT.uid) LEFT JOIN ' . 
                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
                           ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
                           SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id) LEFT JOIN ' . USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id) LEFT JOIN ' . 

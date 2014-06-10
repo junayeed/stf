@@ -12,13 +12,16 @@ RE_PHONE         = new RegExp(/^((\d\d\d)|(\(\d\d\d\)))?\s*[\.-]?\s*(\d\d\d)\s*[
 RE_ZIP           = new RegExp(/^[0-9]{5}(([\-\ ])?[0-9]{4})?$/);
 RE_UK_POSTCODE   = new RegExp(/^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {0,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR ?0AA)$/);
 
-var degreeArray      = ["", "S.S.C","O Levels", "Dakhil","H.S.C.", "A Levels", "Alim", "IB", "Bachelor", "Kamil","Masters", "Fazil","Ph.D"];
-var duplicate_user   = false;  // for duplicate user. will update on AJAX call from checkUserName
-var duplicate_email  = false;  // for duplicate email. will update on AJAX call from isEmailExists()
-var duplicate_degree = false;  // for duplicate degree name in the Degree dropdown. 
-var OUTER_DELIM      = '###';
-var row_id           = 1;      // global variable for Academic qualifications. 
-var noAcademicValue  = false;
+var degreeArray        = ["", "S.S.C","O Levels", "Dakhil","H.S.C.", "A Levels", "Alim", "IB", "Bachelor", "Kamil","Masters", "Fazil","Ph.D"];
+var duplicate_user     = false;  // for duplicate user. will update on AJAX call from checkUserName
+var duplicate_passport = false;  // for duplicate passport. will update on AJAX call from isPassportExist
+var duplicate_user     = false;  // for duplicate user. will update on AJAX call from checkUserName
+var duplicate_email    = false;  // for duplicate email. will update on AJAX call from isEmailExists()
+var duplicate_degree   = false;  // for duplicate degree name in the Degree dropdown. 
+var OUTER_DELIM        = '###';
+var row_id             = 1;      // global variable for Academic qualifications. 
+var row_id_array       = [];
+var noAcademicValue    = false;
 
 
 /**
@@ -110,7 +113,7 @@ function setupForm(frm, elemID)
             {
                 setRequiredField(destination_airport_tb,   'textbox',  'destination_airport_tb');
             }//
-            else
+            if( !$('#destination_airport_dd').is(':disabled'))
             {
                 setRequiredField(destination_airport_dd,   'dropdown',  'destination_airport_dd');
             }
@@ -161,14 +164,12 @@ function doApplicationSubmit()
     
     if ( doConfirm("Are you sure to send this applicaiton?" ) )
     {
+        
         frm.submitted.value = 1;
         frm.cmd.value = 'submit_app';
-        frm.submit();
+        return true;
     }
-    else
-    {
-        
-    }
+    return false;
 }
 
 /**
@@ -191,7 +192,7 @@ function doApplicationPreview()
 function validateFileTypes()
 {
     var fileArray            = ['photo', 'guardian_income_tax', 'acceptance_letter', 'scholarship_letter', 'enroll_certification', 'i20', 'ticket_doc'];
-    var validFileExtensions  = [".jpg", ".jpeg", ".gif", ".png"];
+    var validFileExtensions  = [".jpg", ".jpeg", ".gif", ".png",".pdf",".bmp",".doc",".docx"];
     var isValidFile;
     
     for (var i=0; i<fileArray.length; i++)
@@ -226,6 +227,42 @@ function validateFileTypes()
     return true;
 }
 
+
+function validateFileType(filename)
+{
+    var validFileExtensions  = [".jpg", ".jpeg", ".gif", ".png",".pdf",".bmp",".doc",".docx"];
+    var isValidFile = false;
+    var sFileName = $('#'+filename).val();
+    
+    if(sFileName)
+    {    
+        for (var j = 0; j < validFileExtensions.length; j++) 
+        {
+            var sCurExtension = validFileExtensions[j];
+
+            if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) 
+            {
+                isValidFile = true;
+                break;
+            }
+        }
+        if (isValidFile)
+        {
+            $('#'+filename).css({"border":"0px", "border-style":"solid", "border-color": "red"});
+            resetColumn(filename);
+        }
+        else
+        {
+            alert('Invalid file extension/format.\nSupported file extension/format are: jpg,jpeg,bmp,pdf,gif,png,doc,docx');
+            highlightTableColumn(filename);
+
+            $('#'+filename).css({"border":"1px", "border-style":"solid", "border-color": "red"});
+            return false;
+        }
+    }
+    
+    return true;
+}
 /**
  * Validate whethere the academic qualifications informations are there empty or not
  */
@@ -240,39 +277,42 @@ function validateAcademicQualifications()
     {
         for(var i=1; i<row_id; i++)
         {
-            for(var j=0; j<elemArray.length; j++)
-            {    
-                //alert('Elem = ' + elemArray[j]+i + '\nValue = '+$('#'+elemArray[j]+i).val()+'\nnoAcademicValue = ' + noAcademicValue);
+            if(row_id_array[i])
+            {
+                for(var j=0; j<elemArray.length; j++)
+                {    
+                    //alert('Elem = ' + elemArray[j]+i + '\nValue = '+$('#'+elemArray[j]+i).val()+'\nnoAcademicValue = ' + noAcademicValue);
 
-                if( !$('#'+elemArray[j]+i).val() )
-                {
-                    // change the border color for FILE tag
-                    if (elemArray[j] === 'academicfiles_c_' ||  elemArray[j] === 'academicfiles_t_')
+                    if( !$('#'+elemArray[j]+i).val() )
                     {
-                        if ( !$('#id_c_'+i).attr('href') )
+                        // change the border color for FILE tag
+                        if (elemArray[j] === 'academicfiles_c_' ||  elemArray[j] === 'academicfiles_t_')
                         {
-                            $('#'+elemArray[j]+i).css({"border-color": "red", "border":"1px", "border-style":"solid"});
+                            if ( !$('#id_c_'+i).attr('href') )
+                            {
+                                $('#'+elemArray[j]+i).css({"border-color": "red", "border":"1px", "border-style":"solid"});
+                            }
+                            else if ( !$('#id_t_'+i).attr('href') )
+                            {
+                                $('#'+elemArray[j]+i).css({"border-color": "red", "border":"1px", "border-style":"solid"});
+                            }
+                            else
+                            {
+                                continue;
+                            }
                         }
-                        else if ( !$('#id_t_'+i).attr('href') )
-                        {
-                            $('#'+elemArray[j]+i).css({"border-color": "red", "border":"1px", "border-style":"solid"});
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
 
-                    highlightColumn(elemArray[j]+i);
-                    noAcademicValue = true;
-                }
-                else
-                {
-                    if (elemArray[j] === 'academicfiles_c_' ||  elemArray[j] === 'academicfiles_t_')
-                    {
-                        $('#'+elemArray[j]+i).css({"border-color": "white", "border":"0px", "border-style":"solid"});
+                        highlightColumn(elemArray[j]+i);
+                        noAcademicValue = true;
                     }
-                    resetColumn(elemArray[j]+i);
+                    else
+                    {
+                        if (elemArray[j] === 'academicfiles_c_' ||  elemArray[j] === 'academicfiles_t_')
+                        {
+                            $('#'+elemArray[j]+i).css({"border-color": "white", "border":"0px", "border-style":"solid"});
+                        }
+                        resetColumn(elemArray[j]+i);
+                    }
                 }
             }
         }
@@ -292,7 +332,7 @@ function validateAcademicQualifications()
 function validateOtherQualifications()
 {
     var othersQualificationArray = ['tofel', 'ielts', 'sat', 'gre', 'gmat'];
-    var noAttachment = false
+    var noAttachment = false;
     
     
     for (var i=0; i < othersQualificationArray.length; i++)
@@ -304,13 +344,13 @@ function validateOtherQualifications()
             if ( !$('#'+othersQualificationArray[i]+'_doc').val() && !$('#'+othersQualificationArray[i]+'_file').attr('href'))
             {
                 $('#'+othersQualificationArray[i]+'_doc').css({"border":"1px", "border-style":"solid", "border-color": "red"});
-                $('#'+othersQualificationArray[i]+'_lbl').css({"color":"red"});
+                $('#'+othersQualificationArray[i]+'_doc_lbl').css({"color":"red"});
                 noAttachment = true
             }
             else
             {
                 $('#'+othersQualificationArray[i]+'_doc').css({"border":"0px", "border-style":"solid", "border-color": "red"});
-                $('#'+othersQualificationArray[i]+'_lbl').css({"color":"#083A81"});
+                $('#'+othersQualificationArray[i]+'_doc_lbl').css({"color":"#083A81"});
             }
         }
     }
@@ -387,6 +427,8 @@ function validatePersonalAttachment()
         $('#photo').css({"border":"0px", "border-style":"solid", "border-color": "red"});
         $('#photo_lbl').css({"color":"#083A81"});
     }
+    
+    /*
     if ( !$('#guardian_income_tax').val() && !$('#guardian_income_tax_file').attr('href'))
     {
         $('#guardian_income_tax').css({"border":"1px", "border-style":"solid", "border-color": "red"});
@@ -398,8 +440,8 @@ function validatePersonalAttachment()
         $('#guardian_income_tax').css({"border":"0px", "border-style":"solid", "border-color": "red"});
         $('#guardian_income_tax_lbl').css({"color":"#083A81"});
     }
-
-if ( noAttachment )
+    */
+    if( noAttachment )
     {
         return false;
     }
@@ -407,6 +449,114 @@ if ( noAttachment )
     {
         return true;
     }
+}
+
+function checkPersonalFileType()
+{
+    //file extension check
+    if($('#photo').val())
+    {
+        var ok  = validateFileType('photo');
+        
+        if(!ok)
+        {
+            return false;
+        }
+    }  
+    
+    //file extension check
+    
+    if($('#guardian_income_tax').val())
+    {
+        var ok  = validateFileType('guardian_income_tax');
+        
+        if(!ok)
+        {
+            return false;
+        }
+    } 
+    
+    return true;
+}
+
+function validateTicketFileType()  
+{
+    //file extension check
+    if($('#ticket_doc').val())
+    {
+        var ok  = validateFileType('ticket_doc');
+        
+        if(!ok)
+        {
+            return false;
+        }
+    }  
+    
+    //file extension check
+    if($('#other_attachment').val())
+    {
+        var ok  = validateFileType('other_attachment');
+        
+        if(!ok)
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function checkUniversityFileType()
+{
+    if($('#acceptance_letter').val())
+    {
+        var ok  = validateFileType('acceptance_letter');
+        
+        if(!ok)
+        {
+            return false;
+        }
+    } 
+    if($('#acceptance_letter').val())
+    {
+        var ok  = validateFileType('scholarship_letter');
+        
+        if(!ok)
+        {
+            return false;
+        }
+    } 
+    if($('#acceptance_letter').val())
+    {
+        var ok  = validateFileType('enroll_certification');
+        
+        if(!ok)
+        {
+            return false;
+        }
+    } 
+    
+    return true;
+}
+
+function checkOthersQualificationFileType()
+{
+    var othersQualificationArray = ['tofel', 'ielts', 'sat', 'gre', 'gmat'];
+    
+    for (var i=0; i < othersQualificationArray.length; i++)
+    {
+        if($('#'+othersQualificationArray[i]+'_doc').val())
+        {
+            var ok  = validateFileType(othersQualificationArray[i]+'_doc');
+            
+            if(!ok)
+            {
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }
 
 function validateFields(frm)
@@ -452,6 +602,7 @@ function doFormSubmit(elemID)
     
     // Validate form for required fields
     errCnt = validateForm(frm);
+    
 
     if (errCnt)
     {
@@ -463,14 +614,30 @@ function doFormSubmit(elemID)
         if ( !validatePersonalAttachment() )
         {
             alert(ATTACHMENT_MISSING_ERROR_MSG);
+            
             return false;
         }
+        
+        if ( !checkPersonalFileType() )
+        {
+            return false;
+        }
+        
+        frm.preview.value = 0;
+        isPassportExists();
+        
+        if(duplicate_passport==true)
+        {
+            return false;
+        }    
     }
     else if (elemID === 'academic-info')   // validate academic qualification since this is dynamic part
     {
+        frm.preview.value = 0;
         if (duplicate_degree)  // check for duplicate degree/exam name
         {
             alert(DUPLICATE_DEGREE_ERROR_MSG);
+            
             return false;
         }
         else if( !validateAcademicQualifications() )  // validate the fields.
@@ -486,9 +653,15 @@ function doFormSubmit(elemID)
             alert(ATTACHMENT_MISSING_ERROR_MSG);
             return false;
         }
+        
+        if ( !validateTicketFileType() )
+        {
+            return false;    
+        }
     }
     else if ( elemID === 'university-info' )
     {
+        frm.preview.value = 0;
         if ( !validateUniversityAttachment() )
         {
             alert(ATTACHMENT_MISSING_ERROR_MSG);
@@ -498,6 +671,16 @@ function doFormSubmit(elemID)
         {
             alert(ATTACHMENT_MISSING_ERROR_MSG);
             return ;
+        }
+        
+        if ( !checkUniversityFileType() )
+        {
+            return false;
+        }
+        
+        if ( !checkOthersQualificationFileType() )
+        {
+            return false;
         }
     }
     //else
@@ -537,29 +720,30 @@ function doUpperCase(obj)
     obj.value=obj.value.toUpperCase();
 }
 
-function checkUserName()
+function isPassportExists()
 {
-    var username = $('#username').val();
+    var passport = $('#passport').val();
 
     $.ajax
     (
         {                                      
-            url: 'user_manager.php?cmd=checkuser',                    //the script to call to get data          
-            data: "username="+username,                               //you can insert url argumnets here to pass to api.php   //for example "id=5&parent=6"
+            url: 'application_manager.php?cmd=checkPassportNo',                    //the script to call to get data          
+            data: "passport="+passport,                               //you can insert url argumnets here to pass to api.php   //for example "id=5&parent=6"
             dataType: 'json',                                         //data format      
             success: function(responseText)                           //on recieve of reply
             {
+                //alert(responseText)
                 if ( responseText != '')
                 {
-                    highlightTableColumn('username');
-                    alert(DUPLICATE_USERNAME);
-                    duplicate_user = true;
+                    highlightTableColumn('passport');
+                    alert(DUPLICATE_PASSPORT);
+                    duplicate_passport = true;
                     return false;
                 }
                 else
                 {
-                    resetTableColumn('username');
-                    duplicate_user = false;
+                    resetTableColumn('passport');
+                    duplicate_passport = false;
                 }
             }
         } 
@@ -604,13 +788,16 @@ function populateAcademicDetails(id, uid, degree, attachmentname_c, file_locatio
 {
     var elemID = row_id-1;
 
+    var download_url_c = '/download.php?download='+file_location_c;
+    var download_url_t = '/download.php?download='+file_location_t;
+ 
     $('#degree_'+elemID).val(degree);
     $('#result_'+elemID).val(result);
     $('#aqid_'+elemID).val(id);
     $('#attachmentname_c_'+elemID).val(attachmentname_c);
     $('#attachmentname_t_'+elemID).val(attachmentname_t);
-    $('#id_c_'+elemID).attr('href',file_location_c );
-    $('#id_t_'+elemID).attr('href',file_location_t );
+    $('#id_c_'+elemID).attr('href',download_url_c );
+    $('#id_t_'+elemID).attr('href',download_url_t );
     $('#file_location_c_'+elemID).val(file_location_c);
     $('#file_location_t_'+elemID).val(file_location_t);
     
@@ -645,7 +832,9 @@ function addNewRow()
     
     $('#id_c_'+row_id).hide();
     $('#id_t_'+row_id).hide();
+    row_id_array[row_id] = 1;
     row_id++;    
+    
     
 }
 
@@ -704,7 +893,8 @@ function deleteRow(elemID)
                         {
                             $('#academic_qualifications > tbody > #tr_' + elemID).remove();
                         });
-                        row_id--;
+                        //row_id--;
+                        row_id_array[elemID] = 0;
                 }    
             }
         );
@@ -852,7 +1042,7 @@ function loadCityByCountry(destination_airport)
             success: function(responseText)
             {
                 var cityArray = responseText.split(OUTER_DELIM);
-                
+                //alert(responseText)
                 if (responseText)
                 {
                     $("#destination_airport_dd").removeAttr("disabled");
@@ -878,6 +1068,9 @@ function loadCityByCountry(destination_airport)
                     $("#destination_airport_tb").show(); 
                     $("#destination_airport_tb").removeAttr("disabled");
                     $('#destination_airport_lbl').attr('id', 'destination_airport_tb_lbl');
+                    $('#list').attr('checked', true);
+                    toggleDestinationAirport();
+                    $('#list').attr("disabled", "disabled");
                 }
                 $("#destination_airport_dd").val(destination_airport); 
             }    
@@ -898,6 +1091,8 @@ function toggleDestinationAirport()
     }
     else
     {
+        $('#destination_airport_tb_lbl').attr('id', 'destination_airport_dd_lbl');
+        $('#destination_airport_lbl').attr('id', 'destination_airport_dd_lbl');
         loadCityByCountry();
     }
 }

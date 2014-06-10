@@ -8,7 +8,7 @@
     <div id="body-full">     <!-- body-full starts here-->
         <div class="wrap">   <!-- wrap class starts here-->
             <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
-                <form name="applicationPreviewForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
+                <form name="applicationPreviewForm" action="{$SCRIPT_NAME}" onsubmit="return doApplicationSubmit();" method="POST" enctype="multipart/form-data">
                 <div class="left">    <!-- left class starts here-->
                     <table id="preview-table" border="1" width="890">
                         <tr>
@@ -79,7 +79,7 @@
                         <tr>
                             <td>Education Qualification</td>
                              <td>:</td>
-                            <td><b>Attached</b></td>
+                            <td><b>{if $academic_qualifications}Attached{else}<font color="RED">No Attachment</font>{/if}</b></td>
                         </tr>
                         <tr>
                             <td colspan="3">University Information (where the applicant has been enrolled)</td>
@@ -107,58 +107,58 @@
                         <tr>
                             <td>Acceptance Letter</td>
                              <td>:</td>
-                            <td><b>{if $acceptance_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                            <td><b>{if $acceptance_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b></td>
                         </tr>
                         <tr>
                             <td>Followship/Scholarship Award Letter</td>
                              <td>:</td>
-                            <td><b>{if $scholarship_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                            <td><b>{if $scholarship_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b></td>
                         </tr>
                         <tr>
                             <td >Certification from the enrolling educational institute to the effect that no travel expense has been not or would be reimbursed to the applicant (to be enclosed): </td>
                              <td>:</td>
-                            <td><b>{if $enroll_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                            <td><b>{if $enroll_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b></td>
                         </tr>
                         {if $country eq 'US'}
                         <tr>
                             <td>I-20</td>
                              <td>:</td>
-                            <td><b>{if $i20_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                            <td><b>{if $i20_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b></td>
                         </tr>
                         {/if}
                         {if $tofel}
                         <tr>
                             <td>TOFEL</td>
                              <td>:</td>
-                            <td>{$tofel} (<b>{if $tofel_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                            <td>{$tofel} (<b>{if $tofel_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b>)</td>
                         </tr>
                         {/if}
                         {if $ielts}
                         <tr>
                             <td>IELTS</td>
                              <td>:</td>
-                            <td>{$ielts} (<b>{if $ielts_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                            <td>{$ielts} (<b>{if $ielts_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b>)</td>
                         </tr>
                         {/if}
                         {if $sat}
                         <tr>
                             <td>SAT</td>
                              <td>:</td>
-                            <td>{$sat} (<b>{if $sat_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                            <td>{$sat} (<b>{if $sat_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b>)</td>
                         </tr>
                         {/if}
                         {if $gre}
                         <tr>
                             <td>GRE</td>
                              <td>:</td>
-                            <td>{$gre} (<b>{if $gre_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                            <td>{$gre} (<b>{if $gre_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b>)</td>
                         </tr>
                         {/if}
                         {if $gmat}
                         <tr>
                             <td>GMAT</td>
                              <td>:</td>
-                            <td>{$gmat} (<b>{if $gmat_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                            <td>{$gmat} (<b>{if $gmat_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b>)</td>
                         </tr>
                         {/if}
                          <tr>
@@ -192,7 +192,7 @@
                         <tr>
                             <td>Ticket Document </td>
                              <td>:</td>
-                            <td><b>{if $ticket_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                            <td><b>{if $ticket_doc_id gt 0}Attached{else}<font color="RED">No Attachment</font>{/if}</b></td>
                         </tr>
                         <tr style="height: 80px;">
                             <td></td>
@@ -214,18 +214,48 @@
                                     <li style="margin-left: 20px;">Once you submit the application you can not modify it.</li>
                                 </ul>
                             </td>
+                              
                         </tr>
+                        <tr>
+                            <td colspan="3">
+                                
+                                
+                                
+                                {if !$guardian_name} 
+                                    <font color="RED">***** Personal Information is Missing</font> </br>
+                                     <script> var submitApp= false;</script> 
+                                {/if}
+                                
+                                {if !$academic_qualifications} 
+                                    <font color="RED">***** Education Information is Missing</font> </br>
+                                     <script> var submitApp= false;</script> 
+                                {/if}
+                                {if !$university_name}
+                                     <font color="RED">***** University Information is Missing</font> </br>
+                                     <script> var submitApp= false;</script> 
+                                {/if}
+                                
+                                {if !$guardian_name OR !$academic_qualifications OR !$university_name}
+                                   <font color="RED">***** Please provide all the necessary information. otherwise you will not able to submit the application</font> </br>
+                                {/if}
+                            </td>  
+                        </tr>    
                     </table>
                     <div id="buttons-div" class="button-div W871" >
                         <input type="button" value="P R I N T" name="Print" id="save" class="inputbox-blue margin-right50 W75" onClick="javascript:window.print();">  
-                        <input type="button" value="S U B M I T" name="save" id="save" class="inputbox-blue W75"  onClick="doApplicationSubmit();" />
+                        <input type="submit" value="S U B M I T" name="save" id="submit" class="inputbox-red W75" />
                         <input type="button" value="B A C K" name="back" id="back" class="inputbox-blue W75" onclick="location.href='/app/application_manager/application_manager.php?cmd=edit'" >
                         <input type="hidden" name="submitted" value="0">
                         <input type="hidden" name="preview"   value="0">
                     </div>
                 </div>
                     
-                <input type="hidden" id="cmd" name="cmd" value="">
+                <input type="hidden" id="cmd" name="cmd" value="submit_app">
+                <script> 
+                    
+                    if(submitApp==false) $('#submit').attr('disabled','disabled');
+                    
+                </script> 
                 </form>
             </div>
             

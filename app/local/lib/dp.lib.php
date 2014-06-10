@@ -142,6 +142,20 @@
 
    }
    
+   
+   function createPDF($screen,$uid)
+   {
+        ob_start();
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($screen);
+        $dompdf->render();
+        //$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));    
+        
+        $output = $dompdf->output();
+        $file_to_save = $_SERVER['DOCUMENT_ROOT'].'/documents/'.$uid.'/BSTF-'.$uid.'.pdf';
+        file_put_contents($file_to_save, $output);
+   }
+   
    function insertInToNoticeBoard($data)
    {
    	  $info['table'] = NOTICE_BOARD_TBL;
@@ -206,20 +220,22 @@
     
     function getIntCallingCodeList()
     {
-        $info['table']   = INT_CALLING_CODE_LOOKUP_TBL;
+        $info['table']   = COUNTRY_CODE_TBL;
         $info['debug']   = false;
-        $info['where']   = '1 ORDER BY country ASC';
+        $info['where']   = '1 ORDER BY nicename ASC';
 
         $result = select($info);       
-        
+        //dumpVar($result);
         if ($result)
         {
             foreach($result as $key => $value)
             {
-                $retData[$value->prefix_code] = $value->country . ' ('. $value->prefix_code . ')';
+                $retData[$value->nicename . ' (+'. $value->phonecode . ')'] = $value->nicename . ' (+'. $value->phonecode . ')';
             }
         }
         
+        //dumpVar($retData);
+        asort($retData);
         return $retData;
     }
     

@@ -1,0 +1,644 @@
+<!-- Add fancyBox main JS and CSS files -->
+<script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
+<link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
+
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+</script>
+
+<body onLoad="toggleGrantOptions();showTabs('{$current_tab}-tab','{$current_tab}-content'); ">
+    <!--<form name="userManagerForm" action="{$SCRIPT_NAME}" method="POST" onsubmit="return doFormSubmit();" enctype="multipart/form-data">-->
+    <form name="userManagerForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
+        
+        <input type="hidden" name="id" value="{$uid}">
+        <input type="hidden" id="next_tab" name="next_tab" value="">
+        
+        <div id="body-full">     <!-- body-full starts here-->
+            <div class="wrap">   <!-- wrap class starts here-->
+                <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
+                    <div class="left-full">    <!-- left class starts here-->
+                        {if $application_status eq 'Not Submitted' || $application_status eq ''}
+                        
+                        {if $cmd eq 'new' || $cmd eq 'edit'}
+                        <input type="hidden" id="cmd" name="cmd" value="personal-info">
+                        <div class="left-full">   <!-- left class starts here-->
+                            {$message}
+                            <table width="850" cellpadding="0" cellspacing="0" border="1">
+                                <tr>
+                                    <td width="470" class="prepand2" colspan="2">
+                                        <!--<h3><span>Application Details</span></h3><br>-->
+                                        <div id="tabs">
+                                            <ul class="ui-tabs">
+                                                <li><a href="#" id="personal-info-tab" onclick="showTabs(this.id,'personal-info-content')">Personal Details</a></li>
+                                                <li><a href="#" id="academic-info-tab" onclick="showTabs(this.id,'academic-info-content')">Education Info</a></li>
+                                                <li><a href="#" id="university-info-tab" onclick="showTabs(this.id,'university-info-content')">University Info</a></li>
+                                                <li><a href="#" id="ticket-info-tab" onclick="showTabs(this.id,'ticket-info-content')">Ticket Info</a></li>
+                                            </ul>
+                                        </div> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="100%">
+                                        <!-- Personal Information Content Start here -->
+                                        <div id="personal-info-content" style="display:none;">
+                                        <!-- Personal Information starts here -->
+                                        <div class="main-content" id="personal-info" >
+                                            <h4 class="header">Personal Information</h4>
+                                            <div class="table-content">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td width="33%">
+                                                            <span class="span-text" id="first_name_lbl">First Name</span><br class="br"/>
+                                                            <input type="text" name="first_name" id="first_name" value="{$first_name|stripslashes}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td width="33%">
+                                                            <span class="span-text"  id="last_name_lbl">Last Name</span><br class="br"/>
+                                                            <input type="text" name="last_name" id="last_name" value="{$last_name|stripslashes}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td width="33%">
+                                                            <span class="span-text"  id="gender_lbl">Gender</span><br class="br"/>
+                                                            <select id="gender" name="gender" class="combo1 W150">
+                                                                <option value="">-- Select Gender --</option>
+                                                                {html_options values=$gender_list output=$gender_list selected=$gender}
+                                                            </select>
+                                                        </td>
+                                                        
+                                                        <td rowspan="5" valign="top" align="center">
+                                        
+                                                            <table border="0">
+                                                                <tr>
+                                                                    <td align="left">
+                                                                        <span class="span-text" id="photo_lbl">Applicant's Picture</span><br class="br"/><br class="br"/>
+                                                                    {if $photo_id neq 0}
+                                                                        <img src="{$file}?{$smarty.now}" width="150" height="150" id="photo_file">
+                                                                    {else}
+                                                                        <img style="border:1px solid #CCC" src="/app_contents/common/images/default.png" id="photoImage" width="150" height="150">
+                                                                    {/if}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><input type="file" name="photo" id="photo" class="W125"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr><td><div style=" height: 5px;"></div></td></tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="span-text" id="present_address_lbl">Current Address (Overseas)</span><br class="br"/>
+                                                            <textarea id="present_address" name="present_address" class="textarea W185 H70">{$present_address|stripslashes}</textarea>
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="country_code_lbl">Country Code</span><br class="br"/>
+                                                            <select name="country_code" id="country_code" class="combo1 W165">
+                                                                <option value="">-- Select Country Code --</option>
+                                                                {html_options options=$calling_code_list selected=$country_code}
+                                                            </select>
+                                                            <div style="height: 10px;"></div>
+                                                            <span class="span-text" id="present_phone_lbl">Present Phone</span><br class="br"/>
+                                                            <input type="text" name="present_phone" id="present_phone" value="{$present_phone|stripslashes}" 
+                                                                   class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="email_lbl">Email</span><br class="br"/>
+                                                            <input type="text" name="email" id="email" value="{$email|stripslashes}" class="inputbox3 W185 DISABLE" onChange="isUserEmailExists();" readonly>
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td><div style=" height: 5px;"></div></td></tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="span-text" id="permanent_address_lbl">Address in Bangladesh</span><br class="br"/>
+                                                            <textarea id="permanent_address" name="permanent_address" class="textarea W185 H70">{$permanent_address|stripslashes}</textarea>
+<!--                                                            <div id="copy-address">
+                                                                <img src="/app_contents/common/images/copy26.png" width="20" onClick="copyAddress('present_address', 'permanent_address');">
+                                                            </div>-->
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="cell_phone_lbl">Cell Phone</span><br class="br"/>
+                                                            <input type="text" name="cell_phone" id="cell_phone" value="{$cell_phone|stripslashes}" 
+                                                                   class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="passport_lbl">Passport No.</span><br class="br"/>
+                                                            <input type="text" name="passport" id="passport" value="{$passport|stripslashes}" class="inputbox3 W150" onchange="isPassportExists()"><br class="br"/>
+                                                            <div style="height: 10px;"></div>
+                                                            <span class="span-text prepand" id="passport_expire_date_lbl">Passport Expire Date</span><br class="br"/>
+                                                            {if $passport_expire_date eq '0000-00-00'}
+                                                            <input type="text" name="passport_expire_date" id="passport_expire_date" value="" class="inputbox3 W123 DISABLE" readonly>
+                                                            {else}
+                                                            <input type="text" name="passport_expire_date" id="passport_expire_date" value="{$passport_expire_date|date_format:'%Y-%m-%d'}" class="inputbox3 W123 DISABLE" readonly>
+                                                            {/if}
+                                                            <img name="anchor1" id="anchor1" align=top width=22 height=20 
+                                                                 style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
+                                                                 onClick="thisSelect(document.userManagerForm.passport_expire_date,'anchor1','yyyy-MM-dd'); return false;">
+                                                        </td>
+                                                    </tr>
+                                                </table>  
+                                            </div> 
+                                        </div>
+                                        <!-- Personal Information table ends here-->
+                                         
+                                        <!-- Guardian Information table starts here-->
+                                        <div class="main-content" id="guardian-info">
+                                            <h4 class="header">Guardian Information</h4>
+                                            <div class="table-content">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="guardian_name_lbl">Name</span><br class="br"/>
+                                                            <input type="text" name="guardian_name" id="guardian_name" value="{$guardian_name|stripslashes}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="guardian_occupation_lbl">Occupation</span><br class="br"/>
+                                                            <input type="text" name="guardian_occupation" id="guardian_occupation" value="{$guardian_occupation|stripslashes}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="guardian_income_lbl">Annual Income</span><br class="br"/>
+                                                            <input type="text" name="guardian_income" id="guardian_income" value="{$guardian_income|stripslashes}" 
+                                                                   class="inputbox3 W110" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                        <td valign="top">
+                                                            <span class="span-text" id="tin_lbl">Tax Identification Number (TIN)</span><br class="br"/>
+                                                            <input type="text" name="tin" id="tin" value="{$tin|default:''}" maxlength="12" 
+                                                                   class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td colspan="4"><div style=" height: 10px;"></div></td></tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement </span>   
+                                                            <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
+                                                        </td>
+                                                        <td colspan="2">
+                                                            {if $guardian_doc_id}<a href="{$guardian_file}" target="_new" id="guardian_income_tax_file"><img src="/app_contents/common/images/view22.png" class="padding-left10"> <span class="attach-file-text">{$guardian_file|basename|truncate:35}</span></a>{/if}
+                                                        </td>
+                                                    </tr>
+                                                </table>  
+                                            </div>
+                                        </div>
+                                        <!-- Guardian Information table ends here-->
+                                        
+                                        <div id="buttons-div" class="button-div">
+                                            <input type="button" value="S A V E  &  N E X T"   name="save" id="save" class="inputbox-blue W150" onClick="doFormSubmit('personal-info');" />
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
+                                        </div>
+                                        </div>
+                                        <!-- Personal Information Content End here -->
+                                        
+                                        <!-- Academic Info Content starts here-->
+                                        <div id="academic-info-content" style="display:none;">
+                                        <!-- Academic Qualifications table starts here-->
+                                        <div class="main-content" id="academic-info">
+                                            <h4 class="header">Academic Qualifications</h4>
+                                            <div class="table-content">
+                                                <table width="97%"> 
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <table width="99%" id="academic_qualifications" border="0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td width="110"><span>Exam/Degree</span></td>
+                                                                        <td width="90"><span>Division/Grade</span></td>
+                                                                        <td width="170"><span>Attachment Name</span></td>
+                                                                        <td width="75" align="center"><span>View</span></td>
+                                                                        <td width="225"><span>Attachment</span></td>
+                                                                        <td width="35"><span>Action</span></td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                            <br />
+                                                            <input type="button" value="ADD ACADEMIC QUALIFICAIOTNS"   name="Add Academic Qualifications" id="Add Academic Qualifications" class="inputbox-blue W200" onClick="addNewRow();" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- Academic Qualification table ends here-->
+                                        
+                                        <div id="buttons-div" class="button-div">
+                                            <input type="button" value="P R E V I O U S"   name="previous" id="previous" class="inputbox-blue W90" onclick="showTabs('personal-info-tab', 'personal-info-content')">
+                                            <input type="button" value="S A V E  &  N E X T"   name="save" id="next" class="inputbox-blue W150" onclick="doFormSubmit('academic-info');">
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
+                                        </div>
+                                        </div>
+                                        <!-- Academic Info Content End here-->
+                                         
+                                        <!-- University Information Content starts here--> 
+                                        <div id="university-info-content" style="display:none;"> 
+                                        <!-- University Information table starts here-->
+                                        <div class="main-content" id="unitersity-info1">
+                                            <h4 class="header">University Information (where the applicant has been enrolled)</h4>
+                                            <div class="table-content">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td>
+                                                            <span class="span-text" id="country_lbl">Country</span><br class="br"/>
+                                                            <select id="country" name="country" class="combo1 W150" onChange="toggleOptions(); loadCityByCountry();">
+                                                                <option value="">-- Select Country --</option>
+                                                                {html_options options=$country_list selected=$country}
+                                                            </select>    
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <span class="span-text" id="university_name_lbl">Name of the university/education institution</span><br class="br"/>
+                                                            <input type="text" name="university_name" id="university_name" value="{$university_name}"class="inputbox3 W300">
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td><div style=" height: 10px;"></div></td></tr>
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <span class="span-text" id="university_contact_lbl">Name of the institution's contact person along with address, telephone number(s) and email</span><br class="br"/>
+                                                            <textarea name="university_contact" id="university_contact" class="textarea W583">{$university_contact}</textarea>
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td><div style=" height: 10px;"></div></td></tr>
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <span class="span-text" id="subject_desc_lbl">Field of Study including Major (Ex. MBA with major in HRM)</span><br class="br"/>
+                                                            <textarea name="subject_desc" id="subject_desc" class="textarea W583 H90">{$subject_desc}</textarea>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- University Information table ends here-->
+                                        
+                                        <!-- Acceptance Letter and Fellowship letter start here -->
+                                        <div class="main-content" id="unitersity-info2">
+                                            <h4 class="header">Acceptance Letter and Followship/Scholarship Award issue by the enrolling educational institute (to be enclosed)</h4>
+                                            <div class="table-content">
+                                                <table  width="100%">
+                                                    <tr>
+                                                        <td width="34%"><span class="span-text" id="acceptance_letter_lbl">Acceptance Letter: </span> </td>
+                                                        <td width="34%"><input type="file" name="acceptance_letter" id="acceptance_letter" class="W175"></td>
+                                                        <td>
+                                                            {if $acceptance_doc_id gt 0}
+                                                                <a href="{$acceptance_letter_file}" target="_new" id="acceptance_letter_file"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$acceptance_letter_file|basename|truncate:40}</span></a>
+                                                            {/if}
+                                                        </td>
+                                                     </tr>
+                                                     <tr>
+                                                         <td><span class="span-text" id="scholarship_letter_lbl">Followship/Scholarship Award Letter: </span></td>
+                                                         <td><input type="file" name="scholarship_letter" id="scholarship_letter" class="W175"></td>
+                                                         <td>
+                                                             {if $scholarship_doc_id gt 0}
+                                                                <a href="{$scholarship_letter_file}" target="_new" id="scholarship_letter_file"><img src="/app_contents/common/images/view22.png"><span class="attach-file-text">{$scholarship_letter_file|basename|truncate:40}</span></a>
+                                                             {/if}
+                                                         </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- Acceptance Letter and Fellowship letter END here -->
+                                        
+                                        <!-- Certification START here -->
+                                        <div class="main-content" id="unitersity-info3">
+                                            <h4 class="header H35">Certification from the enrolling educational institute to the effect that no travel expense has been not or would be reimbursed to the applicant (to be enclosed):</h4>
+                                            <div class="table-content">
+                                                <table  width="100%">
+                                                    <tr>
+                                                        <td width="60%">
+                                                            <span class="span-text" id="enroll_certification_lbl">Enrolement Certificate: </span>
+                                                            <input type="file" name="enroll_certification" id="enroll_certification" class="W200">
+                                                        </td>
+                                                        <td>
+                                                            {if $enroll_doc_id gt 0}
+                                                                <a href="{$enroll_certification_file}" target="_new" id="enroll_certification_file"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$enroll_certification_file|basename|truncate:40}</span></a>
+                                                            {/if}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- Certification END here -->
+                                        
+                                        <!-- I-20 STARTS here-->
+                                        <div class="main-content" id="i-20">
+                                            <h4 class="header">Copy of the duly signed I-20 form the enrolling educational institute: </h4>
+                                            <div class="table-content">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td  width="45%">
+                                                            <span class="span-text" id="i20_lbl">I-20 Certificate: </span>
+                                                            <input type="file" name="i20" id="i20" class="W200">
+                                                        </td>
+                                                        <td>
+                                                            {if i20_doc_id gt 0}
+                                                            <a href="{$i20_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$i20_file|basename|truncate:40}</span></a>
+                                                            {/if}
+                                                        </td>
+                                                    </tr>
+                                                </table>  
+                                            </div>
+                                        </div>
+                                        <!-- I-20 ENDS here-->
+                                        
+                                        <!-- Others Qualifications STARTS here-->
+                                        <div class="main-content" id="others-qualifications">
+                                            <h4 class="header">Others (optional): </h4>
+                                            <div class="table-content">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td width="20%">
+                                                            <span class="span-text">TOFEL</span><br class="br"/>
+                                                            <input type="text" name="tofel" id="tofel" value="{$tofel}" class="inputbox3 W60" 
+                                                                   onkeypress="return isNumberKey(event);" onChange="showAttachment('tofel');">
+                                                        </td>
+                                                        <td width="20%">
+                                                            <span class="span-text">IELTS</span><br class="br"/>
+                                                            <input type="text" name="ielts" id="ielts" value="{$ielts}" class="inputbox3 W60" 
+                                                                   onkeypress="return isNumberKey(event);" onChange="showAttachment('ielts');">
+                                                        </td>
+                                                        <td width="20%">
+                                                            <span class="span-text">SAT</span><br class="br"/>
+                                                            <input type="text" name="sat" id="sat" value="{$sat}" class="inputbox3 W60" 
+                                                                   onkeypress="return isNumberKey(event);"  onChange="showAttachment('sat');">
+                                                        </td>
+                                                        <td width="20%">
+                                                            <span class="span-text">GRE</span><br class="br"/>
+                                                            <input type="text" name="gre" id="gre" value="{$gre}" class="inputbox3 W60" 
+                                                                   onkeypress="return isNumberKey(event);" onChange="showAttachment('gre');">
+                                                        </td>
+                                                        <td width="20%">
+                                                            <span class="span-text">GMAT</span><br class="br"/>
+                                                            <input type="text" name="gmat" id="gmat" value="{$gmat}" class="inputbox3 W60" 
+                                                                   onkeypress="return isNumberKey(event);" onChange="showAttachment('gmat');">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <table width="100%" border="0" id="tofel_tr" style="display: {if $tofel gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="tofel_td" width="30%"><span class="span-text" id="tofel_lbl">TOFEL Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="tofel_doc" id="tofel_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $tofel_doc_id gt 0}
+                                                            <a href="{$tofel_file}" target="_new" id="tofel_file">
+                                                                <img src="/app_contents/common/images/view22.png" />
+                                                                <span class="attach-file-text">{$tofel_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="ielts_tr" style="display: {if $ielts gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="ielts_td" width="30%"><span class="span-text" id="ielts_lbl">IELTS Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="ielts_doc" id="ielts_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $ielts_doc_id gt 0}
+                                                            <a href="{$ielts_file}" target="_new" id="ielts_file">
+                                                                <img src="/app_contents/common/images/view22.png" />
+                                                                <span class="attach-file-text">{$ielts_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="sat_tr" style="display: {if $sat gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="sat_td" width="30%"><span class="span-text" id="sat_lbl">SAT Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="sat_doc" id="sat_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $sat_doc_id gt 0}
+                                                            <a href="{$sat_file}" target="_new" id="sat_file">
+                                                                <img src="/app_contents/common/images/view22.png">
+                                                                <span class="attach-file-text">{$sat_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="gre_tr" style="display: {if $gre gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="gre_td" width="30%"><span class="span-text" id="gre_lbl">GRE Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="gre_doc" id="gre_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $gre_doc_id gt 0}
+                                                            <a href="{$gre_file}" target="_new" id="gre_file">
+                                                                <img src="/app_contents/common/images/view22.png">
+                                                                <span class="attach-file-text">{$gre_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table width="100%" border="0" id="gmat_tr" style="display: {if $gmat gt 0} inline {else} none {/if};">
+                                                <tr>
+                                                    <td id="gmat_td" width="30%"><span class="span-text" id="gmat_lbl">GMAT Attachement: </span></td>
+                                                    <td width="30%"><input type="file" name="gmat_doc" id="gmat_doc" class="W200"></td>
+                                                    <td width="40%">&nbsp;
+                                                        {if $gmat_doc_id gt 0}
+                                                            <a href="{$gmat_file}" target="_new" id="gmat_file">
+                                                                <img src="/app_contents/common/images/view22.png">
+                                                                <span class="attach-file-text">{$gmat_file|basename|truncate:40}</span>
+                                                            </a>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            </table>  
+                                        </div>
+                                        <!-- Others Qualifications ENDS here-->
+                                        
+                                        <div id="buttons-div" class="button-div">
+                                            <input type="button" value="P R E V I O U S"   name="previous" id="previous" class="inputbox-blue W90" onclick="showTabs('academic-info-tab', 'academic-info-content');" />
+                                            <input type="button" value="S A V E  &  N E X T"   name="save" id="next" class="inputbox-blue W150" onClick="doFormSubmit('university-info');" />
+                                            <!--<input type="button" value="N E X T"   name="save" id="next" class="inputbox-blue W57" onclick="showTabs('ticket-info-tab', 'ticket-info-content');" />-->
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
+                                        </div>
+                                        </div>
+                                        <!-- University Information Content starts here--> 
+                                        
+                                        <!-- Ticket Info Content starts here-->
+                                        <div id="ticket-info-content" style="display:none;"> 
+                                        <!-- Air Fare Information table starts here-->
+                                        <div class="main-content" id="ticket-info1">
+                                            <h4 class="header">Air Fare Details (Cost of one way ticket in BDT and USD)</h4>
+                                            <div class="table-content">
+                                                <table width="100%">  
+                                                    <tr>
+                                                        <td width="33%">
+                                                            <span class="span-text" id="ticket_number_lbl">Ticket Number</span><br class="br"/>
+                                                            <input type="text" name="ticket_number" id="ticket_number" value="{$ticket_number}" class="inputbox3 W150">
+                                                        </td>
+                                                        <td>
+                                                            <span class="span-text" id="date_ticket_lbl">Date of Ticket</span><br class="br"/>
+                                                            <input type="text" name="date_ticket" id="date_ticket" value="{$date_ticket|date_format:'%Y-%m-%d'}" class="inputbox3 W123 DISABLE" readonly>
+                                                            <img name="anchor1" id="anchor1" align=top width=22 height=20 
+                                                                 style="cursor:pointer;cursor:hand;margin-top: 2px;" src="/app_contents/common/images/calendar.gif" 
+                                                                 onClick="thisSelect(document.userManagerForm.date_ticket,'anchor1','yyyy-MM-dd'); return false;">
+                                                        </td>
+                                                        <td width="33%">
+                                                            <span class="span-text" id="destination_airport_lbl">Destination Airport</span><br class="br"/>
+                                                            <input type="text" name="destination_airport" id="destination_airport_tb" value="{$destination_airport}" class="inputbox3 W150" style="display: none;">
+                                                            <select name="destination_airport" id="destination_airport_dd" class="combo1 W150">
+                                                            </select>
+                                                            <input type="checkbox" id="list" name="city_in_list" onchange="toggleDestinationAirport();" {if $city_in_list eq 'yes'}checked {/if}><label class="font2"> Not in the list</label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
+                                                    <tr>
+                                                        <td width="33%">
+                                                            <span class="span-text" id="ticket_fare_lbl">Ticket Fare (BDT)</span><br class="br"/>
+                                                            <input type="text" name="ticket_fare" id="ticket_fare" onkeyup="calculateFareBDT()" 
+                                                                   value="{$ticket_fare}" class="inputbox3 W150" onkeypress="return isNumberKey(event);">
+                                                        </td>
+                                                        <td width="33%">
+                                                            <span class="span-text" id="tax_lbl">Tax (BDT)</span><br class="br"/>
+                                                            <input type="text" name="tax" id="tax" value="{$tax}" onkeyup="calculateFareBDT()" 
+                                                                   class="inputbox3 W150" onkeypress="return isNumberKey(event);">
+                                                        </td>
+                                                        <td width="33%">
+                                                            <span class="span-text">Total (BDT)</span><br class="br"/>
+                                                            <input type="text" name="total" id="total" value="{$total}" class="inputbox3 W150 DISABLE" readonly>
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
+                                                    <tr>
+                                                        <td width="33%">
+                                                            <span class="span-text" id="ticket_fare_usd_lbl">Ticket Fare (USD)</span><br class="br"/>
+                                                            <input type="text" name="ticket_fare_usd" id="ticket_fare_usd" onkeyup="calculateFareUSD()" 
+                                                                   value="{$ticket_fare_usd}" class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                        <td width="33%">
+                                                            <span class="span-text" id="tax_usd_lbl">Tax (USD)</span><br class="br"/>
+                                                            <input type="text" name="tax_usd" id="tax_usd" onkeyup="calculateFareUSD()" value="{$tax_usd}" 
+                                                                   class="inputbox3 W150" onkeypress="return isNumberKey(event)">
+                                                        </td>
+                                                        <td width="33%">
+                                                            <span class="span-text">Total (USD)</span><br class="br"/>
+                                                            <input type="text" name="total_usd" id="total_usd" value="{$total_usd}" class="inputbox3 W150 DISABLE" readonly>
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td colspan="3"><div style=" height: 5px;"></div></td></tr>
+                                                    <tr>
+                                                        <td width="33%"><span class="span-text" id="ticket_doc_lbl">Attachment of Ticket</span></td>
+                                                        <td width="33%"><input type="file" name="ticket_doc" id="ticket_doc" class="W185"></td>
+                                                        <td>
+                                                            {if $ticket_doc_id}
+                                                                <a href="{$ticket_file}" target="_new" id="ticket"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$ticket_file|basename|truncate:40}</span></a>
+                                                            {/if}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- air fare table starts here-->
+                                        
+                                        
+                                        <!-- Other Attachment table starts here-->
+                                        <div class="main-content" id="ticket-info2">
+                                            <h4 class="header">Others Attachment (Optional)</h4>
+                                            <div class="table-content">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td width="20%">
+                                                            <span class="span-text" id="other_attachment_lbl">Attachment</span>   
+                                                            <input type="file" name="other_attachment" id="other_attachment" class="W200">
+                                                        </td>
+                                                        <td>
+                                                            {if $others_doc_id}<a href="{$others_file}" target="_new"><img src="/app_contents/common/images/view22.png" class="padding-left10"><span class="attach-file-text">{$others_file|basename|truncate:40}</span></a>{/if}
+                                                        </td>
+                                                    </tr>
+                                                </table>  
+                                            </div>
+                                        </div>
+                                        <!-- Other Attachment table ends here-->
+                                        <div id="buttons-div" class="button-div">
+                                            <label>Note: Click on Preview to view the application then you can send the application.</label>
+                                            <input type="button" value="P R E V I E W" name="save" id="save" class="inputbox-blue margin-right50 W90" onClick="doApplicationPreview();doFormSubmit('ticket-info');">  
+                                            <input type="button" value="S A V E"   name="save" id="save" class="inputbox-blue W75"  onClick="doFormSubmit('ticket-info');" />
+                                            <!--<input type="button" value="C A N C E L" name="cancel" id="cancel" class="inputbox-blue W75" onClick="doClearForm();">-->
+                                            <input type="hidden" name="submitted" value="0">
+                                            <input type="hidden" name="preview"   value="0">
+                                        </div>
+                                        </div>
+                                        <!-- Ticket Info Content END here-->
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        {/if}
+                        
+                        {else}
+                            {if $application_status eq 'Accepted'}
+                                <div class="success">Congratulations!!! Your application has accepted.</div>
+                            {elseif $application_status eq 'Rejected'}
+                                <div class="error">Sorry. Your application has been rejected.</div>
+                            {else}
+                                <p>
+                                    You have successfully submitted your application. Please wait for the scholarship result. You will be notified the result via email. 
+                                </p>
+                                <br><br>
+                                <p>
+                                    Click Here to download your application: <a target="_blank" href="/documents/{$uid}/BSTF-{$uid}.pdf">Your Application </a>
+                                </p>   
+                                
+                                <p>
+                                  Please print the application and sign it then send the hardcopy to ERD.    
+                                </p>    
+                            {/if}
+                        {/if}
+                    </div>  <!-- left class ends here-->
+                    
+                </div>           <!-- body-block ends here-->
+            </div>               <!-- wrap class ends here-->
+        </div>                   <!-- body-full ends here-->
+        
+    </form>
+    <script language="JavaScript">
+    var hasAttachmentsIDs    = [];
+    var hasAttachmentsValues = [];
+    {foreach from=$hasAttachmentArray key=key item=item}
+        hasAttachmentsIDs.push("{$key}");    
+        hasAttachmentsValues.push({$item});    
+    {/foreach}
+    {foreach from=$academic_qualifications item=item}
+        addNewRow(0);
+        populateAcademicDetails("{$item->id}", "{$item->uid}", "{$item->degree}", "{$item->attachmentname_c}","{$item->certificate_file}", 
+                                "{$item->doc_id_c}", "{$item->result}", "{$item->attachmentname_t}","{$item->transcript_file}", "{$item->doc_id_t}");
+    {/foreach}
+    //getMonthList();
+    //getYearList();
+    calculateFareBDT();
+    calculateFareUSD();
+    
+    toggleOptions();
+    
+    
+    var tt = '{$city_in_list}';
+   
+     
+    if(tt=='yes')
+    {ldelim}
+      
+       $('#destination_airport_dd').hide();
+       $('#destination_airport_tb').show();
+       
+    {rdelim}   
+    else 
+    {ldelim}
+       
+       $('#destination_airport_dd').show();
+       $('#destination_airport_tb').hide();
+       loadCityByCountry("{$destination_airport}");
+    {rdelim}   
+    
+    $('#countrycode').val({$countrycode});
+</script>   
+
+<script>
+    $(document).ready( function() 
+    {ldelim}
+        $('#message_content').delay(1500).fadeOut(1000);
+    {rdelim});
+</script>
+</body>

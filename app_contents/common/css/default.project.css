@@ -15,6 +15,18 @@ body{
     font-weight:normal; 
 }
 
+p{
+    font-size: 13px;
+    font-family: 'Arial';
+    line-height: 22px;
+    padding: 5px;
+}
+
+label {
+    font-size: 12px;
+    font-family: 'Arial';
+}
+
 #top-full{ height: 69px; width:100%; float:left; position:relative; background:#2A93FC left bottom repeat-x; }
 #body-full{ width:100%; float:left; position:relative; background-color:#FFF; }
 #footer-full{ width:100%; float:left; position:relative; background-color:#2A93FC; }
@@ -274,15 +286,15 @@ table, table th, table td, cellpadding, cellspacing, border{
     float: left;
     height: 55px;
     margin-top: -9px;
-    padding: 8px 0px 0 0;
+    padding: 10px;
     position: relative;
-    width: 90px;
+    text-align: center;
 }
 
 .home img
 {
-    left: 5px;
-    margin-left: 30px;
+    
+    
 }
 
 .home h5
@@ -310,7 +322,7 @@ table, table th, table td, cellpadding, cellspacing, border{
     margin:9px 0px 0px 32px;
 }
 			
-.logout { width:250px; padding:3px 9px 0px 0px; float:left; position:relative; }
+.logout { width:250px; padding:3px 9px 0px 0px; float:right; position:relative; }
 		
 .logout p{ font-family: 'Arial'; font-size:14px; font-weight:normal; color:#FFF; line-height:18px; text-align:right; }
 .logout p a{ color:#6f6f6f; }

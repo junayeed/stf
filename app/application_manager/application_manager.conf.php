@@ -22,8 +22,9 @@
    */
    define('APPLICATION_EDITOR_TEMPLATE',          TEMPLATE_DIR . '/application_manager.html');
    define('APPLICATION_PREVIEW_TEMPLATE',         TEMPLATE_DIR . '/application_preview.html');
+   define('APPLICATION_PDF_TEMPLATE',             TEMPLATE_DIR . '/application_pdf.html');
    define('APPLICATION_LIST_TEMPLATE',            TEMPLATE_DIR . '/application_list.html');
-
+   define('EMAIL_TEMPLATE',                       TEMPLATE_DIR . '/email.html');
    /**#@+
    * Application Constant
    */

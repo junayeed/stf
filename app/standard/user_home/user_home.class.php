@@ -78,6 +78,7 @@
             //$data['country_count']   = count($data['country_list']);
             $data['active_session']  = getActiveSessionYear();
             $data['total_accepted']  = $this->getTotalAcceptedApplicant();
+            $data['total_registered'] = $this->getTotalRegisterd();
             
             return createPage(DASHBOARD_TEMPLATE, $data);
         }
@@ -106,6 +107,18 @@
             return $result[0]->total_applicant;
         }
         
+        function getTotalRegisterd()
+        {
+            $info['table']  = USER_TBL;
+            $info['debug']  = false;
+            $info['fields'] = array('COUNT(uid) AS total_registered');
+            //$info['where']  = 'application_status != ' . q('Not Submitted') . ' AND sid = ' . getActiveSessionID();
+            
+            $result = select($info);
+            
+            return $result[0]->total_registered;
+        }
+        
         function getTotalGender()
         {
             $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid = UT.uid)';
@@ -127,6 +140,7 @@
             
             $result = select($info);
             
+            if($result)
             foreach($result as $key => $value)
             {
                 $retData[$value->country] = $value->total;
@@ -144,6 +158,7 @@
             
             $result = select($info);
             
+            if($result)
             foreach($result as $key => $value)
             {
                 $retData[$value->country] = $value->total;

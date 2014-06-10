@@ -72,6 +72,7 @@
     function updateDestinationAirport($uid)
     {
         $data['destination_airport'] = getUserField('destination_airport');
+        $data['city_in_list']        = getUserField('city_in_list') == 'on' ?  'yes': 'no'; 
         
         $info['table']  = APPLICATIONS_TBL;
         $info['debug']  = false;
@@ -79,5 +80,6 @@
         $info['data']   = $data;
         
         update($info);
+        //die;
     }
 ?>

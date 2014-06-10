@@ -1,0 +1,226 @@
+<style>
+    body{ldelim}
+        font-family:arial;
+        font-size: 13.5px;
+        text-align:left;
+    {rdelim}
+</style>    
+
+<body>
+                    <table  border="0" width="100%" cellspacing="6">
+                        <tr>
+                            <td>
+                                <label id="">Application ID:</label> <b>{$app_id}</b><br><br>
+                            </td>
+                            <td colspan="2" align="right"><img src="{$doc_root}/{$file}?{$smarty.now}" width="150" height="150"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center">
+                                <p style="font-size:18px;"><b>Application Form</b></p>
+                                <b>Reimbursement of Expenses against one way air travel from the Bangladesh Sweden Trust Fund.</b><br>(Academic Session: {$session_year})
+                            </td>    
+                        </tr>
+                        <tr>
+                            <td width="29%"></td>
+                            <td width="1%">&nbsp;</td>
+                            <td width="70%"></td>
+                        </tr>
+                        <tr>
+                            <td width="29%">Name</td>
+                            <td width="1%">:</td>
+                            <td width="70%">{$first_name} {$last_name}</td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                             <td>:</td>
+                            <td>{$gender}</td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Name</td>
+                             <td>:</td>
+                            <td>{$guardian_name}</td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Occupation</td>
+                             <td>:</td>
+                            <td>{$guardian_occupation}</td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Income</td>
+                             <td>:</td>
+                            <td>{$guardian_income}</td>
+                        </tr>
+                        <tr>
+                            <td width="29%"></td>
+                            <td width="1%">&nbsp;</td>
+                            <td width="70%"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#CCCCFF;" colspan="3">Address of the Applicant in Bangladesh</td>
+                        </tr>
+                        <tr>
+                            <td>Present Address </td>
+                             <td>:</td>
+                            <td>{$present_address}</td>
+                        </tr>
+                        <tr>
+                            <td>Present Phone</td>
+                             <td>:</td>
+                            <td>{$present_phone}</td>
+                        </tr>
+                        <tr>
+                            <td>Permanent Address</td>
+                             <td>:</td>
+                            <td>{$permanent_address}</td>
+                        </tr>
+                        <tr>
+                            <td>Cell Phone</td>
+                             <td>:</td>
+                            <td>{$cell_phone}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                             <td>:</td>
+                            <td>{$email}</td>
+                        </tr>
+                        <tr>
+                            <td>Education Qualification</td>
+                             <td>:</td>
+                            <td><b>Attached</b></td>
+                        </tr>
+                        <tr>
+                            <td width="29%"></td>
+                            <td width="1%">&nbsp;</td>
+                            <td width="70%"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#CCCCFF;" colspan="3">University Information (where the applicant has been enrolled)</td>
+                        </tr>
+                        <tr>
+                            <td>Country</td>
+                             <td>:</td>
+                            <td>{$country_name}</td>
+                        </tr>
+                        <tr>
+                            <td>University Name</td>
+                             <td>:</td>
+                            <td>{$university_name}</td>
+                        </tr>
+                        <tr>
+                            <td>Institution's contact person's details</td>
+                             <td>:</td>
+                            <td>{$university_contact}</td>
+                        </tr>
+                        <tr>
+                            <td>Field of Study including Major</td>
+                             <td>:</td>
+                            <td>{$subject_desc}</td>
+                        </tr>
+                        <tr>
+                            <td>Acceptance Letter</td>
+                             <td>:</td>
+                            <td><b>{if $acceptance_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Followship/Scholarship Award Letter</td>
+                             <td>:</td>
+                            <td><b>{if $scholarship_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                        </tr>
+                        <tr>
+                            <td >Certification from the enrolling educational institute to the effect that no travel expense has been not or would be reimbursed to the applicant (to be enclosed): </td>
+                             <td>:</td>
+                            <td><b>{if $enroll_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                        </tr>
+                        {if $country eq 'US'}
+                        <tr>
+                            <td>I-20</td>
+                             <td>:</td>
+                            <td><b>{if $i20_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                        </tr>
+                        {/if}
+                        {if $tofel}
+                        <tr>
+                            <td>TOFEL</td>
+                             <td>:</td>
+                            <td>{$tofel} (<b>{if $tofel_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                        </tr>
+                        {/if}
+                        {if $ielts}
+                        <tr>
+                            <td>IELTS</td>
+                             <td>:</td>
+                            <td>{$ielts} (<b>{if $ielts_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                        </tr>
+                        {/if}
+                        {if $sat}
+                        <tr>
+                            <td>SAT</td>
+                             <td>:</td>
+                            <td>{$sat} (<b>{if $sat_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                        </tr>
+                        {/if}
+                        {if $gre}
+                        <tr>
+                            <td>GRE</td>
+                             <td>:</td>
+                            <td>{$gre} (<b>{if $gre_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                        </tr>
+                        {/if}
+                        {if $gmat}
+                        <tr>
+                            <td>GMAT</td>
+                             <td>:</td>
+                            <td>{$gmat} (<b>{if $gmat_doc_id gt 0}Attached{else}No Attachment{/if}</b>)</td>
+                        </tr>
+                        {/if}
+                        <tr>
+                            <td width="29%"></td>
+                            <td width="1%">&nbsp;</td>
+                            <td width="70%"></td>
+                        </tr>
+                         <tr>
+                             <td style="background-color:#CCCCFF;" colspan="3">Cost of one-way ticket (in US and BD Taka) </td>
+                        </tr>
+                        <tr>
+                            <td>Ticket Number </td>
+                             <td>:</td>
+                            <td>{$ticket_number}</td>
+                        </tr>
+                        <tr>
+                            <td>Ticket Date </td>
+                             <td>:</td>
+                            <td>{$date_ticket}</td>
+                        </tr>
+                        <tr>
+                            <td>Destination Airport</td>
+                             <td>:</td>
+                            <td>{$destination_airport}</td>
+                        </tr>
+                        <tr>
+                            <td> Total (Ticket Fare + TAX)</td>
+                             <td>:</td>
+                            <td>$ {$ticket_fare_usd|number_format:'2'}+$ {$tax_usd|number_format:'2'} = $ {$total_usd|number_format:'2'}</td>    
+                        </tr>
+                        <tr>
+                            <td> Total (Ticket Fare + TAX)</td>
+                             <td>:</td>
+                            <td> BDT {$ticket_fare|number_format:'2'}+BDT {$tax|number_format:'2'} = BDT {$total|number_format:'2'}</td>    
+                        </tr>
+                        <tr>
+                            <td>Ticket Document </td>
+                             <td>:</td>
+                            <td><b>{if $ticket_doc_id gt 0}Attached{else}No Attachment{/if}</b></td>
+                        </tr>
+                        <tr style="height: 80px;">
+                            <td></td>
+                            <td> </td>
+                             <td><br/><br/><br/><br/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td align="center" style="border-top: 1px solid black;">Applicant's Signature with Date</td>
+                        </tr>
+                       
+                    </table>
+</body>          

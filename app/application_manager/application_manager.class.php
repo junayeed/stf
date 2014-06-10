@@ -33,6 +33,7 @@ class applicationManagerApp extends DefaultApplication
            case 'delete'           : $screen = $this->deleteRecord();                      break;
            case 'list'             : $screen = $this->showList();                          break;
            case 'checkuser'        : $screen = $this->checkDuplicateUser();                break;
+           case 'checkPassportNo'  : $screen = $this->checkPassportNo();                break;
            case 'checkemail'       : $screen = $this->checkDuplicateEmail();               break;
            case 'deletedoc'        : $screen = $this->deleteAcademicDoc();                 break;
            case 'city'             : $screen = $this->loadCityByCountry();                 break;
@@ -106,6 +107,28 @@ class applicationManagerApp extends DefaultApplication
    }
 
 
+   
+   function checkPassportNo()
+   {
+       $passport = getUserField('passport');
+       
+       $info['table'] = USER_TBL;
+       $info['debug'] = false;
+       $info['where'] = 'passport = ' . q($passport). ' AND uid !='.  getFromSession('uid');
+       
+       $result = select($info);
+       
+       if ( !empty($result) )
+       {
+           echo json_encode('1');
+       }
+       else
+       {
+           echo json_encode('');
+       }
+       die();
+   }
+   
    function checkDuplicateUser()
    {
        $username = getUserField('username');
@@ -203,14 +226,17 @@ class applicationManagerApp extends DefaultApplication
         $data['calling_code_list']           = getIntCallingCodeList();
         $data['current_tab']                 = getUserField('next_tab') == '' ? 'personal-info' : getUserField('next_tab');
         $data['session_year']                = getActiveSessionYear();
+        $data['doc_root']                    = $_SERVER['DOCUMENT_ROOT'];
         
         setUserField('id',  $uid);
         setUserField('cmd', 'edit');
 
         if(getUserField('preview'))
         {
+            $screen = createPage(APPLICATION_PDF_TEMPLATE, $data);
             
-            return createPage(APPLICATION_PREVIEW_TEMPLATE, $data);
+            createPDF($screen,$uid);
+            return createPage(APPLICATION_PREVIEW_TEMPLATE, $data);;
         }   
         else 
         {
@@ -230,7 +256,45 @@ class applicationManagerApp extends DefaultApplication
         
         update($info);
         
+        $this->sendMail(getFromSession('uid'));
+        
         return $this->showEditor($msg);
+    }
+    
+    
+    function sendMail($uid)
+    {
+        $data['uid']   = $uid;
+        $thisUser = new User($data);
+        
+        $data['firstname']   = $thisUser->first_name;
+        $data['lastname']    = $thisUser->last_name;
+        $data['email']       = $thisUser->email;
+        
+        //Instantiate the phpMailer class
+        $mail                 = new phpmailer();
+        $mail->Host           = '123.49.44.3';
+        $mail->Mailer         = "sendmail";
+        $mail->SMTPAuth       = false;
+        $mail->FromName       = 'BSTF Team';
+        $mail->From           = 'sa@erd.gov.bd';
+        $mail->Subject        = 'BSTF Application Submission';
+     
+        $body = createPage(EMAIL_TEMPLATE, $data);
+
+        $mail->Body           = nl2br(html_entity_decode($body));
+        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'].'/documents/'.$uid.'/BSTF-'.$uid.'.pdf','BSTF-Application.pdf');
+        $mail->IsHTML(true);
+
+        $mail->AddAddress($data['email']);
+        
+        //dumpVar($mail);
+        $mailSent = $mail->Send();
+        
+        //dumpVar($mailSent);
+        //die;
+        
+        return $mailSent;
     }
     
     function saveApplicationDetails()
@@ -238,7 +302,7 @@ class applicationManagerApp extends DefaultApplication
         $data                           = getUserDataSet(APPLICATIONS_TBL);
         $data['uid']                    = getFromSession('uid');
         $data['sid']                    = getActiveSessionID(); 
-        $data['app_id']                 = 'STF-' . getActiveSessionYear() . str_pad($data['uid'], 5, "0", STR_PAD_LEFT); 
+        $data['app_id']                 = 'BSTF-' . getActiveSessionYear() . str_pad($data['uid'], 5, "0", STR_PAD_LEFT); 
         $data['acceptance_doc_id']      = saveAttachment($_FILES['acceptance_letter']);
         $data['scholarship_doc_id']     = saveAttachment($_FILES['scholarship_letter']);
         $data['enroll_doc_id']          = saveAttachment($_FILES['enroll_certification']);
@@ -345,6 +409,10 @@ class applicationManagerApp extends DefaultApplication
         $data['ticket_doc_id']   = saveAttachment($_FILES['ticket_doc']);
         $data['others_doc_id']   = saveAttachment($_FILES['other_attachment']);
         $data['create_date']     = date('Y-m-d');
+        
+        
+        //dumpVar($_REQUEST);
+        //die;
         
         $info['table']  = TICKETS_TBL;
         $info['debug']  = false;

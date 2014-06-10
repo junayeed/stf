@@ -28,6 +28,7 @@ var ERROR_PHONE        = "Please enter a valid phone number.";
 var ERROR_ZIP          = "Please enter a valid zip code.";
 var ERROR_PASS_MATCH   = "Password confirmation does not mathch.";
 var DUPLICATE_USERNAME = "This username already exist.";
+var DUPLICATE_PASSPORT = "This Passport No already exist.";
 var DUPLICATE_EMAIL    = "This e-mail address already exist.";
 var ERROR_UK_ZIPCODE   = "Please enter a valid postcode.";
 

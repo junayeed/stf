@@ -122,6 +122,11 @@
    define('HTML2PDF_DIR',              EXT_DIR.'/html2fpdf/');
    require_once(HTML2PDF_DIR .         'class.html2fpdf.php');
    //require_once(HTML2PDF_DIR .         'html2fpdf.php');
+   
+   
+    define('DOMPDF_DIR',              EXT_DIR.'/dompdf/');
+   require_once(DOMPDF_DIR .         'dompdf_config.inc.php');
+   
 
    define('HTMLTOOLKIT_DIR',           EXT_DIR.'/htmltoolkit/');
    require_once(HTMLTOOLKIT_DIR .      'class.htmltoolkit.php');
