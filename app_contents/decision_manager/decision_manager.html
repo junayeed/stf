@@ -53,7 +53,7 @@
                                         <td width="40">Gender</td>
                                         <td width="40">Status</td>
                                         <td width="70">Destination Airport</td>
-                                        <td width="70">Total Fare</td>
+                                        <td width="70">Ticket Fare</td>
                                         <td width="70">Collected Fare (Local Sources)</td>
                                         <td width="70">Base Fare</td>
                                         <td width="100">Grant Amount</td>
@@ -73,12 +73,42 @@
                                                 <td width="40" class="border">{$item->gender}</td>
                                                 <td width="40" class="border"> <label class="accept-label">{$item->application_status} </label></td>
                                                 <td width="70" class="border">{$item->destination_airport}</td>
-                                                <td width="70" class="border">{$item->total|number_format:'2'}</td>
-                                                <td width="70" class="border">{$item->local_fare|number_format:'2'}</td>
-                                                <td width="70" class="border">{$item->base_fare|number_format:'2'}</td>
+                                                <td width="70" class="border">
+                                                    {if $item->total eq $item->base_fare}
+                                                        <label class="green-label">{$item->total|number_format:'2'}</lable>
+                                                        <!--<label class="green-label">{$item->ticket_fare|number_format:'2'}</lable>-->
+                                                    {else}
+                                                        {$item->total|number_format:'2'}
+                                                        <!--{$item->ticket_fare|number_format:'2'}-->
+                                                    {/if}
+                                                </td>
+                                                <td width="70" class="border">
+                                                    {if $item->local_fare eq 0}
+                                                        <label class="pending-label">Not found</label>
+                                                    {else}
+                                                        {if $item->local_fare eq $item->base_fare}
+                                                            <label class="yellow-label">{$item->local_fare|number_format:'2'}</label>
+                                                        {else}
+                                                            {$item->local_fare|number_format:'2'}
+                                                        {/if}
+                                                    {/if}
+                                                </td>
+                                                <td width="70" class="border">
+                                                    {if $item->total eq $item->base_fare}
+                                                        <label class="green-label">{$item->base_fare|number_format:'2'}</lable>
+                                                    {else}
+                                                        {if $item->local_fare eq $item->base_fare}
+                                                            <label class="yellow-label">{$item->base_fare|number_format:'2'}</lable>
+                                                        {else}
+                                                            <label class="green-label">{$item->base_fare|number_format:'2'}</lable>
+                                                        {/if}
+                                                        
+                                                    {/if}
+                                                </td>
                                                 <td width="70" class="border">
                                                     <input type="text" name="grant_amount_{$item->id}" id="grant_amount_{$item->id}" value="{$item->grant_amount|number_format:'2'}" 
                                                            onkeypress="return isNumberKey(event)" class="inputbox3 W70 noborder">
+                                                    <input type="hidden" name="base_fare_{$item->id}" id="base_fare_{$item->id}" value="{$item->base_fare|number_format:'2'}">
                                                 </td>
                                             </tr>
                                             {assign var=country_total value=$country_total+$item->grant_amount}

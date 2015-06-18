@@ -35,6 +35,12 @@
             $schelarship_percentage = $scholarship_bulk_amount / $total_ticket_fare;
         }
         
+//        echo_br('scholarship_bulk_amount = ' . $scholarship_bulk_amount);
+//        echo_br('total_ticket_fare = ' . $total_ticket_fare);
+//        echo_br('MAX THRESHOLD = ' . MAX_THRESHOLD);
+//        echo_br('MAX schelarship_percentage = ' . $schelarship_percentage);
+        
+        
         return $schelarship_percentage;
     }
 ?>

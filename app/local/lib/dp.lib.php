@@ -298,4 +298,27 @@
         
         return $retData;
     }
+    
+    function sendMail($data)
+    {
+        //Instantiate the phpMailer class
+        $mail                 = new phpmailer();
+        $mail->Host           = '123.49.44.3';
+        $mail->Mailer         = "sendmail";
+        $mail->SMTPAuth       = false;
+        $mail->SMTPDebug      = false;
+        $mail->FromName       = 'BSTF Team';
+        $mail->From           = 'sa@erd.gov.bd';
+        $mail->Subject        = 'BSTF Grant Accpeted';//$data['subject'];
+        $body                 = $data['body'];
+        $mail->Body           = nl2br(html_entity_decode($body));
+     
+        $mail->IsHTML(true);
+
+        $mail->AddAddress($data['email']);
+        
+        $mailSent = $mail->Send();
+
+        return $mailSent;
+    }
 ?>

@@ -28,9 +28,9 @@
                              'F' => '', 
                              'G' => '', 
                              'H' => "Name of the University/Educational Institution abroad where the applicant has been enrolled\nField of Study\nE-mail, Address of caotact person", 
-                             'I' => "i) Acceptance letter\nFollowship/Scholarship Award Letter\nEnrolement Certificate\nii) Copy of the duly signed I-20 form if the enrolling education institute is located in USA or \nTOFEL/IELTS/SAT/GRE/GMAT", 
+                             'I' => "i) Acceptance letter\nFellowship/Scholarship Award Letter\nEnrolement Certificate\nii) Copy of the duly signed I-20 form if the enrolling education institute is located in USA or \nTOFEL/IELTS/SAT/GRE/GMAT", 
                              'J' => "Cost of one way Ticket (in US$ and BD Taka)\nPhotocopy of air Ticket attached.\n\nFare-\nTax-\nTotal-", 
-                             'K' => "Air fare received from local sources", 
+                             'K' => "Base Fare", 
                              'L' => "75% of one way Air fare",
                              'M' => "Remarks"
                             );
@@ -136,7 +136,7 @@
         $objSheet->mergeCells('A'.$row.':M'.$row);
         $objSheet->getStyle('A'.$row.':M'.$row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objSheet->getStyle('A'.$row.':M'.$row)->getFont()->setBold(true)->setSize(14);
-        $objSheet->getCell('A'.$row)->setValue('for Academic Session ########');
+        $objSheet->getCell('A'.$row)->setValue('for Academic Session 2013');
         $row++;
         // print Report Hearder and Sub Headers --  END
         
@@ -201,8 +201,20 @@
                 $objSheet->getCell('H'.$row)->setValue($value->university_name . "\n" . $value->subject_desc . "\n" . $value->university_contact);
                 $objSheet->getCell('I'.$row)->setValue("i)" . $value->acceptance_doc . "\n" . $value->scholarship_doc . "\nii)".$value->other_degree);
                 $objSheet->getCell('J'.$row)->setValue($value->ticket_doc . "\nFare-" . $value->ticket_fare . "\nTax-" . $value->tax . "\nTotal-" . $value->total . "\n" . $value->destination_airport);
-                $objSheet->getCell('K'.$row)->setValue($value->local_fare);
+//                $objSheet->getCell('K'.$row)->setValue($value->local_fare);  // Comment out by Junayeed on 23/11/2014 upon request on Sobhan, ERD to change the local fare to base fare. 
+                $objSheet->getCell('K'.$row)->setValue($value->base_fare);
                 $objSheet->getCell('L'.$row)->setValue($value->grant_amount);
+                
+                if($value->application_status=='Accepted')
+                {
+                    $objSheet->getCell('M'.$row)->setValue('OK');
+                    
+                }    
+                else
+                {
+                    $objSheet->getCell('M'.$row)->setValue( $value->remarks);
+                }
+                    
                 $objSheet->getStyle('A'.$row.':M'.$row)->getAlignment()->setWrapText(true);
                 $objSheet->getStyle('A'.$row.':M'.$row)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
                 $objSheet->getStyle('A'.$row.':M'.$row)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);

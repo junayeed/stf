@@ -17,6 +17,30 @@ var duplicate_email  = false;
 
 var row_id           = 1;
 
+function sendMail()
+{
+    //location.href = 'http://'+document.domain+'/app/applicant_manager/applicant_manager.php?cmd=sendmail';
+    if ( doConfirm("Are you sure to send mail to accepted applicants?" ) )
+    {
+        $.ajax
+        (
+            {
+                url: 'applicant_manager.php?cmd=sendmail',
+                dataType: 'json',
+                success: function(response)
+                {
+                     if (response == 1)
+                     {
+                         alert('Mail sent successfully');        
+                     }
+                }    
+            }
+        );
+    }
+    else
+    {}
+}
+
 function setupForm(frm)
 { 
     with (frm)
@@ -358,6 +382,26 @@ function CheckAll(thisField)
     }    
 }
 
+function saveRemarks()
+{
+    var app_id  = $('#app_id').val();
+    var remarks = $('#remarks').val();
+    
+    //alert(remarks)
+    
+    $.ajax
+        (
+           {
+              url: 'applicant_manager.php?cmd=saveRemarks',                //the script to call to get data          
+              data: "app_id="+app_id+'&remarks='+escape(remarks),
+              dataType: 'json',                                        //data format      
+              success: function(response)                          //on recieve of reply
+              {
+                       
+              }    
+           }
+        );
+}
 function acceptApp(appID)
 {
     
@@ -374,6 +418,7 @@ function acceptApp(appID)
                        $('#application_status_'+appID).removeClass('pending-label');
                        $('#application_status_'+appID).addClass('accept-label');
                        
+                       jQuery.fancybox.close();
                        $('#message-body').html('<div id="message" class="success">Application Status has been change successfully</div>');
                        setTimeout(function(){
                             $('#message').fadeOut("slow", function () {
@@ -400,7 +445,7 @@ function rejectApp(appID)
                    $('#application_status_'+appID).removeClass('accept-label');
                    $('#application_status_'+appID).removeClass('pending-label');
                    $('#application_status_'+appID).addClass('reject-label');
-                   
+                   jQuery.fancybox.close();
                    $('#message-body').html('<div id="message" class="error">Application Status has been change successfully</div>');
                        setTimeout(function(){
                             $('#message').fadeOut("slow", function () {
@@ -514,6 +559,7 @@ function doApplicantSearch()
 {
     var source                = document.getElementById('applicantFrame').src;
     var applicant_name        = $('#applicant_name').val();
+    var app_id                = $('#app_id').val();
     var email                 = $('#email').val();
     var country               = $('#country').val();
     var application_status    = $('#application_status').val();
@@ -537,7 +583,7 @@ function doApplicantSearch()
                         '&guardian_income_max='+guardian_income_max+'&session_year='+session_year;
     
     $('#export_to').attr('href', export_to_url);
-    $('#applicantFrame').attr('src', source+'&applicant_name='+applicant_name+'&email='+email+'&country='+country+
+    $('#applicantFrame').attr('src', source+'&app_id='+app_id+'&applicant_name='+applicant_name+'&email='+email+'&country='+country+
                                             '&application_status='+application_status+'&gender='+gender+'&guardian_income_max='+guardian_income_max+
                                             '&guardian_income_min='+guardian_income_min+'&degree='+degree_list+'&session_year='+session_year);//'&received_grant='+received_grant);
 }
@@ -569,9 +615,9 @@ function showApplicantInfo(elemID)
                             'autoDimensions'  : false,
                             'autoSize'        : false,
                             'allowfullscreen' : 'true',
-                            'topRatio'        : 0.1,
+                            'topRatio'        : 0,
                             'width'           : 620,
-                            'height'          : 650,
+                            'height'          : 750,
                             'padding'         : 0
                         },
                         {
@@ -608,3 +654,4 @@ function showTabs(tabID,appID)
     $('#tab'+tabID+'_'+appID).css('background-color','#484789');
     
 }
+

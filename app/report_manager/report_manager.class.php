@@ -1,135 +1,162 @@
 <?php
 
 /**
- * File: report_manager.class.php
+ * File: application_manager.class.php
  *
+ * @copyright {@link www.softbizsoltion.com }
+ * @author  junayeed@gmail.com
  */
 
 /**
- * The reportManagerApp application class
+ * The applicationManager application class
  */
 
 class reportManagerApp extends DefaultApplication
 {
-    function run()
+   /**
+   * Constructor
+   * @return true
+   */
+
+   function run()
+   {
+      $cmd = getUserField('cmd');  
+      
+      switch ($cmd)
+      {
+           case 'edit'       : $screen = $this->showEditor($msg);      break;
+           case 'new'        : $screen = $this->showNewEditor($msg);   break;
+           case 'add'        : $screen = $this->saveRecord();          break;
+           case 'delete'     : $screen = $this->deleteRecord();        break;
+           case 'list'       : $screen = $this->showList();            break;
+          
+           
+           default           : $screen = $this->showEditor($msg);
+      }
+
+      // Set the current navigation item
+      $this->setNavigation('user');
+      
+      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp')
+      {
+          return;
+      }
+
+      if ($cmd == 'list')
+      {
+         echo $screen;
+      }
+      else
+      {
+         echo $this->displayScreen($screen);
+      }
+
+      return true;
+   }
+   
+    /**
+     * Shows User Editor
+     * @param message
+     * @return user editor template
+     */
+    function showEditor($msg)
     {
+        $uid = getFromSession('uid'); //getUserField('id');
         $cmd = getUserField('cmd');
-
-        switch ($cmd)
+      
+        if (!empty($uid))
         {
-            case 'list'         : $screen = $this->showList();           break;
-            case 'pdf'          : $screen = $this->showEditor();         break;
-            case 'excel'        : $screen = $this->showEditor();         break;
-            default             : $screen = $this->showEditor($msg);     break;
+            $thisUser = new User(array('uid' => $uid));
+         
+            if( empty($thisUser))
+            {
+                $thisUser = array();
+            }
+         
+            foreach($thisUser as $key => $value)
+            {
+                $userData[$key] = $value;	
+            }
+         
+            $data = array_merge(array(), $userData);
         }
-
-        // Set the current navigation item
-        $this->setNavigation('user');
-
-        if ($cmd == 'list' || $cmd == 'pdf')
+      
+        $data['message']                     = $msg;
+        $data['country_list']                = getCountryList();
+        $data['application_status_list']     = getEnumFieldValues(APPLICATIONS_TBL, 'application_status');
+        $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
+        $data['degree_list']                 = getEnumFieldValues(ACADEMIC_QUALIFICATIONS_TBL, 'degree');
+        $data                                = $this->showList();
+      
+        if ($cmd == 'pdf')
         {
-            echo $screen;
+            $screen = createPage(REPORT_PDF_TEMPLATE, $data);
+            makePDF($screen);
         }
-        else
-        {
-            echo $this->displayScreen($screen);
-        }
-
-        return true;
+      
+        return createPage(REPORT_EDITOR_TEMPLATE, $data);
     }
+    
+    
 
     /**
-    * Shows User Editor
-    * @param message
-    * @return user editor template
-    */
-    function showEditor($msg = '')
+     * Shows user list
+     * @return user list template
+     */
+    function showList()
     {
-        $start_month             = getUserField('start_month');
-        $end_month               = getUserField('end_month');
-        $issue_month             = getUserField('issue_month');
-        $data['magazine']        = getUserField('magazine');
-        $data['status']          = getUserField('status');
-        $data['customer_name']   = getUserField('customer_name');
-        $data['product_id']      = getUserField('product_id');
-        $data['magazine_list']   = getMagazineList();
-        $data['cmd']             = getUserField('cmd');
-
-        $startMonthClaus   = ' AND 1';
-        $endMonthClause    = ' AND 1';
-        $statusClause      = ' AND 1';
-        $magazineClause    = ' AND 1';
-        $customerClause    = ' AND 1';
-        $productClause     = ' AND 1';
-
-        if ( $data['customer_name']) $customerClause = " AND CT.company_name  LIKE '%" . $data['customer_name'] . "%'";
-        if ( $start_month ) $startMonthClaus = ' AND CAST(start_month AS UNSIGNED) = '. $start_month;
-        if ( $end_month && $end_month != 'Ongoing' ) $endMonthClause = ' AND CAST(end_month AS UNSIGNED) = ' . $end_month . ' AND end_month != ' . q('Ongoing');
-        if ( $end_month && $end_month == 'Ongoing' ) $endMonthClause = ' AND end_month = ' . q('Ongoing');
-        if ( $data['status'] ) $statusClause = ' AND ODT.status = ' . q($data['status']);
-        if ( $data['product_id'] ) $productClause = ' AND PT.product_code = ' . q($data['product_id']);
+        $sid = getActiveSessionID();
         
-        if ($data['magazine'])
-        {    
-            if ($data['magazine'] == 'All')
-            {
-                $magazineClause .= ' AND ODT.magazine_code != 0';
-            }
-            else if ($data['magazine'] == 'No')
-            {
-                $magazineClause .= ' AND ODT.magazine_code = 0';
-            }
-            else
-            {
-                $magazineClause .= ' AND ODT.magazine_code = ' . $data['magazine'];
-            }
-        }
-        
-        $info['table']   = ORDER_DETAILS_TBL . ' AS ODT LEFT JOIN ' . PRODUCT_TBL . ' AS PT ON (ODT.product_id=PT.id) LEFT JOIN ' . MAGAZINES_TBL . ' AS MT ON (ODT.magazine_code=MT.id) LEFT JOIN ' . CUSTOMERS_TBL . ' AS CT ON (ODT.customer_id = CT.id)';
-        $info['debug']   = false;
-        $info['where']   = '1' . $startMonthClaus . $endMonthClause . $statusClause . $magazineClause . $customerClause . 
-                                 $productClause . ' ORDER BY ODT.id DESC';
-        $info['fields']  = array('ODT.id', 'PT.product_code', 'PT.description', 'PT.product_status', 'MT.magazine_abvr', 'ODT.start_month', 
-                                'ODT.end_month', 'ODT.customer_id', 'ODT.alternative', 'ODT.page', 'ODT.qty', 'ODT.unit_price', 
-                                'ODT.discount', 'ODT.total', 'ODT.status', 'CT.company_name', 'PT.qty_per_unit');
+        $info['table']  = APPLICATIONS_TBL.' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid=UT.uid) LEFT JOIN ' . 
+                          GUARDIAN_TBL . ' AS GT ON (AT.uid = GT.uid) LEFT JOIN ' .
+                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
+                          AIRFARES_TBL . ' AS AFT ON (AT.destination_airport = AFT.destination_airport)';
+        $info['debug']  = false;
+        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date',  
+                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 'AT.destination_airport',
+                                'AT.application_status', 'AFT.local_fare', 'GT.guardian_name', 'GT.guardian_occupation', 'GT.guardian_income',
+                                'AT.grant_amount');
+        $info['where']  = 'AT.application_status = ' . q('Accepted') . ' ORDER BY AT.country';
 
-        $data['orders'] = select($info);
+        $result = select($info); 
+        //dumpVar($result);
         
-        if ($data['orders'])
+        if ($result)
         {
-            foreach($data['orders'] as $key => $value)
+            foreach($result as $key=>$value)
             {
-                if ( $issue_month && !isOrderShowable($value, $issue_month))
-                {
-                    continue;
-                }
-            
-                $value->start_month = convertNumber2Month($value->start_month);
-
-                if ( $value->end_month != 'Ongoing')
-                {
-                    $value->end_month = convertNumber2Month($value->end_month);
-                }
-                $data['order_list'][] = $value;
+                $retData[$value->country_name][$value->destination_airport][] = $value; 
             }
         }
         
-        $data['start_month'] = $start_month;
-        $data['end_month']   = $end_month;
-        $data['issue_month'] = $issue_month;
-        //dumpVar($data);
+        $data['list']            = $retData; //dumpVar($data);
         
-        //exportToPDF($screen, $subHeader1, $subHeader2, $magazineClause, $oreintation)
-
-        if ($data['cmd'] == 'excel' || $data['cmd'] == 'pdf')
-        {    
-            //header('Content-Type: text/plain; charset=utf-8');
-            //$screen = createPage(PDF_TEMPLATE, $data);
-            MakeExcelorPDF($data);
-            return;
+        return $data;
+    }
+    
+    function getMinValue($list)
+    {
+        $min = 9999999;
+        
+        foreach($list as $value)
+        {
+            //if ( $value->ticket_fare < $min)
+            if ( $value->total < $min)
+            {
+                $min = $value->total;
+                //$min = $value->ticket_fare;
+            }
         }
-
-        return createPage(REPORT_EDITOR_TEMPLATE, $data);
+        
+        return $min;
+    }
+    
+    function roundAmount($value)
+    {
+        if ( $value % 5 == 0)
+            return (int) $value;
+        
+        return (int) $value+(5-$value % 5);
     }
 }
 ?>

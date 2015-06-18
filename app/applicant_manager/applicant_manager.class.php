@@ -24,20 +24,22 @@ class applicantManagerApp extends DefaultApplication
       
       switch ($cmd)
       {
-           case 'edit'               : $screen = $this->showEditor($msg);      break;
-           case 'new'                : $screen = $this->showNewEditor($msg);   break;
-           case 'add'                : $screen = $this->saveRecord();          break;
-           case 'delete'             : $screen = $this->deleteRecord();        break;
-           case 'list'               : $screen = $this->showList();            break;
-           case 'excel'              : $screen = $this->showList();            break;
-           case 'checkuser'          : $screen = $this->checkDuplicateUser();  break;
-           case 'checkemail'         : $screen = $this->checkDuplicateEmail(); break;
-           case 'deletedoc'          : $screen = $this->deleteAcademicDoc();   break;
-           case 'viewapp'            : $screen = $this->viewApplication();     break;
-           case 'acceptall'          : $screen = $this->acceptAll();           break;
-           case 'rejectall'          : $screen = $this->rejectAll();           break;
-           case 'acceptApplication'  : $screen = $this->acceptApplication();           break;
-           case 'rejectApplication'  : $screen = $this->rejectApplication();           break;
+           case 'edit'               : $screen = $this->showEditor($msg);                 break;
+           case 'new'                : $screen = $this->showNewEditor($msg);              break;
+           case 'add'                : $screen = $this->saveRecord();                     break;
+           case 'delete'             : $screen = $this->deleteRecord();                   break;
+           case 'list'               : $screen = $this->showList();                       break;
+           case 'excel'              : $screen = $this->showList();                       break;
+           case 'checkuser'          : $screen = $this->checkDuplicateUser();             break;
+           case 'checkemail'         : $screen = $this->checkDuplicateEmail();            break;
+           case 'deletedoc'          : $screen = $this->deleteAcademicDoc();              break;
+           case 'viewapp'            : $screen = $this->viewApplication();                break;
+           case 'acceptall'          : $screen = $this->acceptAll();                      break;
+           case 'rejectall'          : $screen = $this->rejectAll();                      break;
+           case 'acceptApplication'  : $screen = $this->acceptApplication();              break;
+           case 'saveRemarks'        : $screen = $this->saveRemarks();                    break;
+           case 'rejectApplication'  : $screen = $this->rejectApplication();              break;
+           case 'sendmail'           : $screen = $this->sendMailToAcceptedApplicants();   break;
            
            default           : $screen = $this->showEditor($msg);
       }
@@ -45,8 +47,8 @@ class applicantManagerApp extends DefaultApplication
       // Set the current navigation item
       $this->setNavigation('user');
       
-      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp' || $cmd=='acceptall' || 
-          $cmd == 'rejectall' || $cmd=='acceptApplication' || $cmd=='rejectApplication')
+      if ($cmd == 'checkuser' || $cmd == 'checkemail' || $cmd=='viewapp' || $cmd=='acceptall' || $cmd == 'sendmail' ||
+          $cmd == 'rejectall' || $cmd=='acceptApplication' || $cmd=='rejectApplication' || $cmd=='saveRemarks')
       {
           return;
       }
@@ -62,6 +64,48 @@ class applicantManagerApp extends DefaultApplication
 
       return true;
    }
+   
+    function sendMailToAcceptedApplicants()
+    {
+        $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . USER_TBL . ' AS UT ON (AT.uid = UT.uid)';
+        $info['debug']  = false;
+        $info['where']  = 'AT.application_status = ' . q('Accepted') . ' AND AT.sid = ' . getActiveSessionID();
+        $info['fields'] = array('UT.email');
+        
+        $data['session_year'] = getActiveSessionYear();
+        
+        $result = select($info);
+        
+        $data['body'] = createPage(ACCEPTED_EMAIL_TEMPLATE, $data);
+        
+        //dumpVar($result);
+        
+        foreach($result as $key => $value)
+        {
+            $data['email'] = $value->email;
+            $ok = sendMail($data);
+            
+            if ($ok)
+            {
+                $fp = fopen(DOCUMENT_ROOT . "/documents/accepted_mail_sent_".date('Y-m-d'), "a");
+            
+                fwrite($fp, $data['email'] . "; Mail Sent: " . $ok . "; Time: " . date('Y-m-d H:i:s') . "\n");
+            }
+        }
+        
+        if ($ok)
+        {
+            $data['accept_mail_sent'] = date('Y-m-d');
+            $infop['table']  = SESSIONS_TBL;
+            $infop['debug']  = false;
+            $infop['where']  = 'id = ' . getActiveSessionID();
+            $infop['data']   = $data;
+            
+            update($infop);
+        }
+        
+        echo $ok;
+    }
    
    function acceptApplication()
    {
@@ -85,6 +129,30 @@ class applicantManagerApp extends DefaultApplication
        }
    }
    
+   function saveRemarks()
+   {
+       $id         = getUserField('app_id');
+       $remarks    = getUserField('remarks');
+       //dumpVar($ids);
+       //die;    
+       $info['table'] = APPLICATIONS_TBL;
+       $info['data']  = array('remarks' => $remarks);
+       $info['debug'] = false;
+       $info['where'] = 'id='. $id;
+
+       $result = update($info);
+       
+       if($result)
+       {
+           echo "1";
+       }
+       else
+       {
+           echo '0';
+       }
+       die;
+   }
+   
    function rejectApplication()
    {
        $id    = getUserField('id');
@@ -105,6 +173,7 @@ class applicantManagerApp extends DefaultApplication
        {
            echo '0';
        }
+       die;
    }
    
    function acceptAll()
@@ -127,6 +196,7 @@ class applicantManagerApp extends DefaultApplication
        {
            echo '0';
        }
+       die;
    }
    
    function rejectAll()
@@ -149,6 +219,7 @@ class applicantManagerApp extends DefaultApplication
        {
            echo '0';
        }
+       die;
    }
    
    function viewApplication()
@@ -176,6 +247,7 @@ class applicantManagerApp extends DefaultApplication
        $std_details = createPage(APPLICANT_DETAILS_TEMPLATE, $data[0]);
        
        echo $std_details;
+       die;
    }
    
    
@@ -263,10 +335,10 @@ class applicantManagerApp extends DefaultApplication
    */
    function showEditor($msg)
    {
-      $uid = getFromSession('uid'); //getUserField('id');
+       $uid = getFromSession('uid'); //getUserField('id'); 
       
-      if (!empty($uid))
-      {
+       if (!empty($uid))
+       {
          $thisUser = new User(array('uid' => $uid));
          
          if( empty($thisUser))
@@ -288,7 +360,7 @@ class applicantManagerApp extends DefaultApplication
       $data['gender_list']                 = getEnumFieldValues(USER_TBL, 'gender');
       $data['degree_list']                 = getEnumFieldValues(ACADEMIC_QUALIFICATIONS_TBL, 'degree');
       $data['session_year_list']           = getSessionYearList();
-      $data['session_year']                = getActiveSessionYear();
+      $data['session_year']                = getActiveSessionID();
       $data['received_grant_list']         = getEnumFieldValues(APPLICATIONS_TBL, 'received_grant');
       
       return createPage(APPLICANT_EDITOR_TEMPLATE, $data);
@@ -390,6 +462,7 @@ class applicantManagerApp extends DefaultApplication
     function showList()
     {
         $data['name']                  = getUserField('applicant_name');
+        $data['app_id']                = getUserField('app_id');
         $data['email']                 = getUserField('email');
         $data['country']               = getUserField('country');
         $data['gender']                = getUserField('gender');
@@ -397,7 +470,7 @@ class applicantManagerApp extends DefaultApplication
         $data['application_status']    = getUserField('application_status');
         $data['guardian_income_max']   = getUserField('guardian_income_max');
         $data['guardian_income_min']   = getUserField('guardian_income_min');
-        $data['session_year']          = getUserField('session_year') ? getUserField('session_year') : getActiveSessionYear();
+        $data['session_year']          = getUserField('session_year') ? getUserField('session_year') : getActiveSessionID();
         $data['cmd']                   = getUserField('cmd');
         
         $filterClause = '1';
@@ -406,6 +479,12 @@ class applicantManagerApp extends DefaultApplication
         {
             $filterClause .= ' AND UT.first_name LIKE ' .  q( '%'.$data['name'].'%') .  ' OR UT.last_name LIKE '.q( '%'.$data['name'].'%');
         }
+        
+        if ($data['app_id'])
+        {
+            $filterClause .= ' AND AT.app_id LIKE '.q($data['app_id']);
+        }
+        
         if ($data['email'])
         {
             $filterClause .= ' AND UT.email LIKE ' .  q( '%'.$data['email'].'%');
@@ -444,25 +523,30 @@ class applicantManagerApp extends DefaultApplication
         }
         if($data['session_year'])
         {
-            //$filterClause .= ' AND ST.session_year = ' . q($data['session_year']);
+            $filterClause .= ' AND AT.sid = ' . $data['session_year'];
         }
         
+      
 
-        $info['table']  = USER_TBL.' AS UT LEFT JOIN ' . APPLICATIONS_TBL . ' AS AT ON (AT.uid=UT.uid) LEFT JOIN ' . 
-                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
-                          ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
-                          SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id) LEFT JOIN ' . USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id) LEFT JOIN ' . 
+        $info['table']  = USER_TBL.' AS UT LEFT JOIN ' . 
+                          APPLICATIONS_TBL . ' AS AT ON (AT.uid=UT.uid) LEFT JOIN ' . 
+                          COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' . 
+                          GUARDIAN_TBL . ' AS GT ON (AT.uid=GT.uid) LEFT JOIN ' . 
+                          ACADEMIC_QUALIFICATIONS_TBL . ' AS AQT ON (AT.uid = AQT.uid) LEFT JOIN '. 
+                          TICKETS_TBL . ' AS TT ON (AT.uid=TT.uid) LEFT JOIN ' . 
+                          SESSIONS_TBL . ' AS ST ON (AT.sid = ST.id) LEFT JOIN ' . 
+                          USER_ADDRESS_TBL . ' AS UAT ON (AT.uid = UAT.user_id) LEFT JOIN ' . 
                           AIRFARES_TBL . ' AS AFT ON (AT.country = AFT.country AND AT.destination_airport = AFT.destination_airport)';
         $info['debug']  = false;
-        $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.email', 'UT.gender', 'AT.submit_date', 'UT.uid AS user_id', 
-                                'AT.application_status', 'CLT.name AS country_name', 'UT.uid','TT.ticket_fare', 'GT.guardian_name', 'GT.guardian_occupation',
+        $info['fields'] = array('DISTINCT AT.id', 'AT.app_id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.email', 'UT.gender', 'AT.submit_date', 'UT.uid AS user_id', 
+                                'AT.application_status','AT.remarks', 'CLT.name AS country_name', 'UT.uid','TT.ticket_fare', 'GT.guardian_name', 'GT.guardian_occupation',
                                 'IF(GT.guardian_doc_id = 0, \'(Income Certificate not attached)\', \'(Income Certificate attached)\') AS guardian_doc',
                                 'GT.guardian_income', 'UAT.present_address', 'UAT.present_phone', 'AT.university_name', 'AT.university_contact', 'AT.subject_desc',
                                 'IF(AT.acceptance_doc_id = 0, \'Acceptance Letter not attached\', \'Acceptance Letter attached\') AS acceptance_doc',
                                 'IF(AT.scholarship_doc_id = 0, \'Scholarship Letter not attached\', \'Scholarship Letter attached\') AS scholarship_doc', 
                                 'IF(TT.ticket_doc_id = 0, \'Air Ticket not attached\', \'Air Ticket attached\') AS ticket_doc',
                                 'IF(AT.enroll_doc_id = 0, \'Certificate not Submitted\', \'Certificate Submitted\') AS enroll_doc', 'TT.ticket_fare', 'TT.tax',
-                                'TT.total', 'AT.destination_airport', 'AT.grant_amount', 'AFT.local_fare',
+                                'TT.total', 'AT.destination_airport', 'AT.grant_amount', 'AFT.local_fare', 'AT.base_fare',
                                 'CONCAT("", IF(AT.tofel = 0, "", CONCAT("TOFEL-", AT.tofel, "\n")), 
                                             IF(AT.ielts = 0, "", CONCAT("IELTS-", AT.ielts, "\n")),
                                             IF(AT.sat = 0,   "", CONCAT("SAT-", AT.sat, "\n")),
@@ -474,7 +558,7 @@ class applicantManagerApp extends DefaultApplication
 
         $result = select($info);
         $count = 0;
-        //dumpvar($result);
+        
         if ($result)
         {
             foreach($result as $key=>$value)
@@ -515,7 +599,7 @@ class applicantManagerApp extends DefaultApplication
                     $retData['a'] = $value->result;
                 }
 
-                if ($value->degree == 'H.S.C' || $value->degree == 'A Levels' || $value->degree == 'Alim' || $value->degree == 'IB')
+                if ($value->degree == 'H.S.C.' || $value->degree == 'A Levels' || $value->degree == 'Alim' || $value->degree == 'IB')
                 {
                     $retData['b'] = $value->result;
                 }

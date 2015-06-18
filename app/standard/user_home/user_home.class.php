@@ -112,7 +112,7 @@
             $info['table']  = USER_TBL;
             $info['debug']  = false;
             $info['fields'] = array('COUNT(uid) AS total_registered');
-            //$info['where']  = 'application_status != ' . q('Not Submitted') . ' AND sid = ' . getActiveSessionID();
+            $info['where']  = "date_format(create_date, '%Y') = " . (getActiveSessionYear()+1);
             
             $result = select($info);
             
@@ -136,7 +136,7 @@
             $info['table']  = APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country = CLT.id)';
             $info['debug']  = false;
             $info['fields'] = array('CLT.id as country , COUNT(AT.country) as total', 'CLT.name AS country_name');
-            $info['where']  = 'application_status != ' . q('Not Submitted') . '  GROUP BY country ORDER BY total DESC';
+            $info['where']  = 'application_status != ' . q('Not Submitted') . ' AND AT.sid = ' . getActiveSessionID() . '  GROUP BY country ORDER BY total DESC';
             
             $result = select($info);
             

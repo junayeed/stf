@@ -42,12 +42,18 @@
    *  facility instead
    */
    define('E_NONE', 0);
-
+   
    if (PRODUCTION_MODE)
       error_reporting(E_NONE);
    else
       error_reporting(E_ALL ^ E_NOTICE);
+   error_reporting(E_NONE);
    
+   error_reporting(-1);
+   ini_set( "display_errors", 0);
+   
+   ini_set('memory_limit', '256M');
+   ini_set('max_execution_time', 150);
    /**
    * Setup server information constants
    */

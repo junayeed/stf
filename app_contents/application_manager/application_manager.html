@@ -24,7 +24,9 @@
             <div class="wrap">   <!-- wrap class starts here-->
                 <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
                     <div class="left-full">    <!-- left class starts here-->
-                        {if $application_status eq 'Not Submitted' || $application_status eq ''}
+                        {if $date_over eq 1}
+                        <div class="success">Application dead line is over. Please wait for the scholarship result.</div>
+                        {elseif $application_status eq 'Not Submitted' || $application_status eq ''}
                         
                         {if $cmd eq 'new' || $cmd eq 'edit'}
                         <input type="hidden" id="cmd" name="cmd" value="personal-info">
@@ -173,11 +175,17 @@
                                                     </tr>
                                                     <tr><td colspan="4"><div style=" height: 10px;"></div></td></tr>
                                                     <tr>
-                                                        <td colspan="2">
-                                                            <span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement </span>   
+                                                        <td>
+                                                            <!--<span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement </span>-->   
+                                                            <span class="span-text" id="guardian_income_source_lbl">Income Source </span>  <br class="br"/> 
+                                                            <input type="text" name="guardian_income_source" id="guardian_income_source" class="inputbox3 W150" value="{$guardian_income_source|stripslashes}">
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <!--<span class="span-text" id="guardian_income_tax_lbl">Income Tax Return/Income Statement </span>-->   
+                                                            <span class="span-text" id="guardian_income_tax_lbl">Income/Tax Certificate </span>   
                                                             <input type="file" name="guardian_income_tax" id="guardian_income_tax" class="W200">
                                                         </td>
-                                                        <td colspan="2">
+                                                        <td >
                                                             {if $guardian_doc_id}<a href="/download.php?download={$guardian_file|base64_encode}" target="_new" id="guardian_income_tax_file"><img src="/app_contents/common/images/view22.png" class="padding-left10"> <span class="attach-file-text">{$guardian_file|basename|truncate:35}</span></a>{/if}
                                                         </td>
                                                     </tr>

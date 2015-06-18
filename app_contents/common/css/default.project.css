@@ -246,6 +246,7 @@ table, table th, table td, cellpadding, cellspacing, border{
 .padding2{ padding-bottom:20px; }
 
 .margin{ margin-top:25px; }
+.margin-top-10{ margin-top: 10px; }
 
 .color{ color:#ff0000 !important; }
 .border{ border-bottom:1px solid #e5e5e5; }
@@ -1220,6 +1221,38 @@ input[type=checkbox].css-checkbox:checked + label.css-label
     padding: 5px;
     display: inline-block;
     text-align: center;
+}
+.not-submitted-label{
+    background-color: #ffffd5;
+    color: #A80000;
+    font-family: 'Arial';
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+.green-label{
+    font-family: 'Arial';
+    font-size: 12px;
+    font-weight: bold;
+    color: #18BC18;
+    font-style: italic;
+    display: inline-block;
+}
+.yellow-label{
+    font-family: 'Arial';
+    font-size: 12px;
+    font-weight: bold;
+    color: #2A93FC; 
+    font-style: italic;
+    display: inline-block;
+}
+
+.font13
+{
+    font-size: 13px !important;
 }
 
 .student_details

@@ -1,0 +1,79 @@
+<!-- Add fancyBox main JS and CSS files -->
+<script type="text/javascript" src="/ext/jquery-ui/js/jquery.fancybox.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="/ext/jquery-ui/css/ui-lightness/jquery.ui.all.css"  media="screen" />
+<link rel="stylesheet" href="/ext/jquery-ui/css/jquery-ui.css" />
+
+<script language="JavaScript">
+    function thisSelect(inputobj, linkname, format) 
+    {ldelim}
+        var thisDate = new CalendarPopup();
+        thisDate.showNavigationDropdowns();
+        thisDate.select(inputobj,linkname, format);
+    {rdelim}
+</script>
+
+<script> var AppIDs     = []; </script>
+
+<body onLoad="showSliders();">
+    <form name="applicantManagerForm" action="{$SCRIPT_NAME}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{$uid}">
+        <input type="hidden" id="cmd" name="cmd" value="add">
+        
+        <div id="body-full">     <!-- body-full starts here-->
+            <div class="wrap">   <!-- wrap class starts here-->
+                <div class="body-block" style="padding-bottom:40px;">    <!-- body-block starts here-->
+                    <div class="left-full">    <!-- left class starts here-->
+                        <h3 style="clear: both;" class="prepand3"><span>Accepted Applicant(s)</span></h3>
+                        <div class="customer-left-body"><h6>All Amounts are in BDT</h6>
+                            <table width="740" cellpadding="0" cellspacing="0" border="1">
+                                <thead>
+                                    <tr style='background-color: #f2f2f2; color: #375f98; font-family: "Arial"; font-size: 12px; font-weight: bold; line-height: 28px; padding: 5px;'>
+                                        <td>Applicant Name</td>
+                                        <td>Guardian Name</td>
+                                        <td>Guardian Occupation</td>
+                                        <td>Guardian Income</td>
+                                        <td>Approved Amount</td>
+<!--                                        <td width="70">Collected Fare (Local Sources)</td>
+                                        <td width="70">Base Fare</td>
+                                        <td width="100">Grant Amount</td>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {assign var=grand_total value="0"}
+                                    {foreach from=$list key=okey item=country_list}
+                                        <tr class="">
+                                            <td colspan="5"><div class="font">{$okey}</div></td>
+                                        </tr>
+                                        {assign var=country_total value="0"}
+                                        {foreach from=$country_list key=city_key item=city_list}
+                                            {foreach from=$city_list key=key item=item}
+                                            <tr>
+                                                <td>{$item->name}</td>
+                                                <td>{$item->guardian_name}</td>
+                                                <td>{$item->guardian_occupation}</td>
+                                                <td align="right">{$item->guardian_income|number_format:'2'}</td>
+                                                <td align="right">{$item->grant_amount|number_format:'2'}</td>
+                                            </tr>
+                                            {assign var=country_total value=$country_total+$item->grant_amount}
+                                            {assign var=grand_total value=$grand_total+$item->grant_amount}
+                                            {/foreach}
+                                        {/foreach}
+                                        <tr>
+                                            <td colspan="4" class="border" align="right" style='color: #375f98; font-size: 12px; font-weight: bold; line-height: 28px; padding: 5px;'>Total ({$okey}): </td>
+                                            <td align="right" style='color: #375f98; font-size: 12px; font-weight: bold; line-height: 28px; padding: 5px;'>{$country_total|number_format:'2'}</td>
+                                        </tr>
+                                    {/foreach}
+                                        <tr>
+                                            <td colspan="4" align="right"  style='color: #375f98; font-size: 12px; font-weight: bold; line-height: 28px; padding: 5px;'><span class="span-text FONT16">Grand Total: </span></td>
+                                            <td align="right" style='color: #375f98; font-size: 12px; font-weight: bold; line-height: 28px; padding: 5px;'>{$grand_total|number_format:'2'}</td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  <!-- left class ends here-->
+                </div>           <!-- body-block ends here-->
+            </div>               <!-- wrap class ends here-->
+        </div>                   <!-- body-full ends here-->
+    </form>
+</body>

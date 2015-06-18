@@ -1,188 +1,127 @@
 /*
- *   File: report_manager.js
+ *   File: session_manager.js
  *
  */
 
-var itemStatusArray  = new Array('B', 'C', 'P');
-var months           = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+RE_NAME     = new RegExp(/[^A-Z^a-z^ ^\.\^]$/);
+RE_EMAIL    = new RegExp(/^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/);
+RE_USERNAME = new RegExp(/^[a-z0-9\_]+$/);
+RE_DECIMAL  = new RegExp(/^[0-9]{1,8}([\.]{1}[0-9]{1,2})?$/);
+RE_NUMBER   = new RegExp(/^[0-9]+$/);
+RE_PHONE    = new RegExp(/^((\d\d\d)|(\(\d\d\d\)))?\s*[\.-]?\s*(\d\d\d)\s*[\.-]?\s*(\d\d\d\d)$/);
+RE_ZIP      = new RegExp(/^[0-9]{5}(([\-\ ])?[0-9]{4})?$/);
 
-function monthReturn(y,m) 
+var ACTIVE_SESSION_EXISTS_MSG = 'Sorry!!! you can not open this session. One session is still Active.';
+
+var active_session = false;
+
+function setupForm(frm)
 {
-    var val = months[m-1]+" "+y.toString().substring(2);
-    
-    $('#'+targetID).val(val);
+   with (frm)
+   {
+      setRequiredField(session_year,            'textbox',   'session_year');
+      setRequiredField(session_status,          'dropdown',  'session_status');
+      setRequiredField(application_start_date,  'textbox',   'application_start_date');
+      setRequiredField(application_end_date,    'textbox',   'application_end_date');
+      setRequiredField(scholarship_bulk_amount, 'textbox',   'scholarship_bulk_amount');
+   }
 }
 
 function validateFields(frm)
 {
-   with(frm)
-   {
-   }
+    with(frm)
+    {
+        if (!RE_NUMBER.exec(delivery_date.value))
+        {
+            highlightTableColumn('delivery_date');
+            alert('Please enter a number');
+            return false;
+        }
 
-    return true;
+        return true;
+    }
 }
 
 function doFormSubmit()
 {
-   var frm = document.reportForm;
-   
-   with(frm)
-   {
-       submit();
-   }
-}
+    requiredFields.length = 0;
 
-/**
- * Generate the status dropdown list 
- * @returns {String}
- */
-function getStatusList(elemVal)
-{
-    $('#status').append($('<option>') );
-    for (var i = 0; i < itemStatusArray.length; i++)
+    var errCnt = 0;
+    var frm = document.airfareForm;
+
+    // Setup required fields
+    setupForm(frm);
+
+    // Validate form for required fields
+    errCnt = validateForm(frm);
+
+    if (errCnt)
     {
-        $('#status').append($('<option>', { value: itemStatusArray[i], text: itemStatusArray[i] } ) );
+        alert(MISSING_REQUIRED_FIELDS);
+        return false;
     }
-    
-    $('#status').val(elemVal);
-}
 
-/**
- * pad a number with leading 0
- * @param {int} number
- * @param {int} pad
- * @returns {Array}
- */
-
-function padNumber(number, pad) 
-{
-    return Array(Math.max(pad - String(number).length + 1, 0)).join(0) + number;
-}
-
-/**
- * Generate the month list for start month and end month dropdown
- * @param {type} elemName
- * @returns {String}
- */
-
-function getMonthList(elemVal, elemName)
-{
-    var dt          = new Date();
-    var start_year  = 2013;
-    var end_year    = start_year+2;
-    
-    $('#'+elemName).append($('<option>') );
-    
-    if (elemName == 'end_month')
+    else
     {
-        $('#'+elemName).append($('<option>', { value: "Ongoing", text : "Ongoing" } ) );
-    }
-    
-    for(j=start_year; j<=end_year; j++)
-    {    
-        for (var i = 0; i < months.length ; i++)
+        if (active_session)
         {
-            yr2 = j.toString().substring(2);
-            $('#'+elemName).append($('<option>', { value: yr2+padNumber(i%12+1, 2), text: months[i%12]+' '+yr2 } ) );
+            highlightTableColumn('session_status');
+            alert(ACTIVE_SESSION_EXISTS_MSG);
+            active_session = true;                        
+            return false;
         }
-    }
-    
-    $('#'+elemName).val(elemVal);
-}
-
-function doClearForm()
-{
-    $('#magazine').val('');
-    $('#start_month').val('');
-    $('#end_month').val('');
-    $('#status').val('');
-    
-    location.href = 'http://'+document.domain+'/app/report_manager/report_manager.php';
-}
-
-function openProductBox(elemID, targetID)
-{
-    target_elemID = targetID;
-
-    if (elemID == 'calander' && targetID.indexOf('end_') > -1)
-    {
-        $('#td_ongoing').show();
-        $('#td_month').hide();
-        $('#td_year').hide();
-        $('#ongoing').attr("checked", true);
-    }
-    
-    if (elemID == 'calander' && targetID.indexOf('start_') > -1)
-    {
-        $('#td_month').show();
-        $('#td_year').show();
-        $('#td_ongoing').hide();
-    }
-    
-    $.fancybox.open
-    (
-        [
-            {
-                'href'   : '#'+elemID,
-            }
-        ], 
-            {
-                openEffect : 'elastic',
-                openSpeed  : 150,
-                closeEffect : 'elastic',
-                closeSpeed  : 150
-            },
-            {
-                helpers : 
-                {
-                    thumbs : 
-                    {
-                        width: 45,
-                        height: 50
-                    },
-                    overlay : 
-                    {
-                        css : 
-                        {
-                            'background' : 'rgba(238,238,238,0.85)'
-                        }
-                    }
-                 }
-            }
-    );
-}
-
-function toggle()
-{
-    if($('#ongoing').attr("checked") != 'checked')
-    {
-        $('#td_month').show();
-        $('#td_year').show();
         
-        return ;
+        return true;
     }
-    
-    $('#td_month').hide();
-    $('#td_year').hide();
 }
 
-function populateMonth()
+function doClearForm(frm)
 {
-    var m_txt = $('#month option:selected').text();
-    var m_val = $('#month').val();
-    var y_txt = $('#year').val();
-    //var hidden_field = target_elemID.replace('show_', '');
+    $("#sessionForm")[0].reset();
+}
+
+function checkSessionStatus()
+{
+    var session_status = $('#session_status').val();
     
-    if($('#ongoing').attr("checked") != 'checked')
+    if (session_status === 'Active')
     {
-        $('#'+target_elemID).val(m_txt + ' ' + y_txt );
-        //$('#'+hidden_field).val(y_txt + m_val );
+        $.ajax
+        (
+            {                                      
+                url: 'session_manager.php?cmd=checksession',                    //the script to call to get data          
+                data: "session_status="+session_status,                               //you can insert url argumnets here to pass to api.php   //for example "id=5&parent=6"
+                dataType: 'json',                                         //data format      
+                success: function(responseText)                           //on recieve of reply
+                {
+                    if ( responseText != '')
+                    {
+                        highlightTableColumn('session_status');
+                        alert(ACTIVE_SESSION_EXISTS_MSG);
+                        active_session = true;
+                        return false;
+                    }
+                    else
+                    {
+                        resetTableColumn('session_status');
+                        active_session = false;
+                    }
+                }
+            } 
+        );  
     }
     else
     {
-        $('#'+target_elemID).val('Ongoing');
-        //$('#'+hidden_field).val('Ongoing');
+        resetTableColumn('session_status');
+        active_session = false;
     }
+}
+
+function searchAirFare()
+{
+    var frm = document.airfareForm;
     
-    $.fancybox.close(); // ajaj
+    frm.cmd.value = 'search';
+    
+    frm.submit();
 }

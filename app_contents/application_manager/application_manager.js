@@ -75,6 +75,13 @@ function setupForm(frm, elemID)
             setRequiredField(guardian_name,         'textbox',   'guardian_name');
             setRequiredField(guardian_occupation,   'textbox',   'guardian_occupation');
             setRequiredField(guardian_income,       'textbox',   'guardian_income');
+            setRequiredField(guardian_income_source,'textbox',   'guardian_income_source');
+            
+            if($('#guardian_income').val()<=0)
+            {
+                $('#guardian_income').val('');
+                setRequiredField(guardian_income,       'textbox',   'guardian_income');
+            }    
             //setRequiredField(guardian_income_tax,   'file',      'guardian_income_tax');
             //setRequiredField(tin,                   'textbox',   'tin');
             /*** guardian Information end here ***/

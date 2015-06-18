@@ -23,22 +23,25 @@
                             <table width="760" cellpadding="0" cellspacing="0" border="0">
                                 <thead>
                                     <tr>
-                                        <td width="50">Airport</td>
-                                        <td width="50">Country</td>
+                                        <td width="250">Airport</td>
+                                        <td width="100">Country</td>
                                         <td width="50">Air Fare</td>
                                         <td width="90">Source</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {foreach from=$country_list item=item}
-                                    {foreach from=$item item=iItem}
+                                {foreach from=$country_list key=key item=item}
+                                <tr>
+                                        <td class="border font" colspan="4"  style="margin-top: 5px;">{$key}</td>
+                                    </tr>
+                                    {foreach from=$item key=airport item=iItem}
                                     <tr>
                                         <td class="border">{$iItem->destination_airport}</td>
                                         <td class="border">{$iItem->country_name}</td>
-                                        <td class="border"><input type="text" name="local_fare_{$iItem->destination_airport}" id="local_fare_{$iItem->destination_airport}" value="{$iItem->local_fare}" class="inputbox3 W127" onkeypress="return isNumberKey(event);"></td>
-                                        <td class="border"><input type="text" name="source_{$iItem->destination_airport}" id="source_{$iItem->destination_airport}" value="{$iItem->source}" class="inputbox3 W200"></td> 
-                                        <input type="hidden" name="destination_airport_{$iItem->destination_airport}" id="destination_airport_{$iItem->destination_airport}" value="{$iItem->destination_airport}">
-                                        <input type="hidden" name="country_{$iItem->destination_airport}" id="country_{$iItem->destination_airport}" value="{$iItem->country}">
+                                        <td class="border"><input type="text" name="local_fare_{$iItem->airport}" id="local_fare_{$iItem->airport}" value="{if $iItem->local_fare}{$iItem->local_fare}{else}0{/if}" class="inputbox3 W127" onkeypress="return isNumberKey(event);" onfocus="this.select();"></td>
+                                        <td class="border"><input type="text" name="source_{$iItem->airport}" id="source_{$iItem->airport}" value="{$iItem->source}" class="inputbox3 W200"></td> 
+                                        <input type="hidden" name="destination_airport_{$iItem->airport}" id="destination_airport_{$iItem->airport}" value="{$iItem->destination_airport}">
+                                        <input type="hidden" name="country_{$iItem->airport}" id="country_{$iItem->airport}" value="{$iItem->country}">
                                     </tr>
                                     {/foreach}
                                 {/foreach}

@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>{$USER_FIRST}:</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        
+        <!-- INCLUDE CSS FILES-->
+        <link rel="stylesheet" type="text/css" href="/app_contents/common/css/default.project.css" />
+        <link rel="stylesheet" type="text/css" href="/app_contents/common/css/Segoe-UI-Light-Bold/stylesheet.css"  />
+        
+        <!-- INCLUDE JAVASCRIPT FILES-->
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/jquery.js"></script>
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/common.js"></script>
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/messages.js"></script>
+        <script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/sorttable.js"></script>
+	<script language="JavaScript" src="{$SYSTEM_COMMON_JAVASCRIPT_DIR}/CalendarPopup.js"></script>
+	<script language="JavaScript" src="{$REL_TEMPLATE_DIR}/{$SYSTEM_APP_PREFIX}.js"></script>
+    </head>
+
+
+    {include file=$USER_NAVIGATION}
+    <div id="content">
+        {$contents}
+     </div>
+         
+    <div id="footer-full">
+        <div class="wrap">
+            <div class="footer">Copyright © All Rights Reserved.</div>
+        </div>
+    </div>
+    <!-- end footert -->
+</body>

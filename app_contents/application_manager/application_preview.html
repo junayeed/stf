@@ -46,7 +46,12 @@
                         <tr>
                             <td>Guardian Income</td>
                              <td>:</td>
-                            <td>{$guardian_income}</td>
+                            <td>{$guardian_income|number_format:2:'.':','}</td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Income Source</td>
+                             <td>:</td>
+                            <td>{$guardian_income_source}</td>
                         </tr>
                         <tr>
                             <td colspan="3">Address of the Applicant in Bangladesh</td>

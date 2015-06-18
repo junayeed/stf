@@ -19,6 +19,7 @@
 <body class="whiteBody">
     <form method="post" action="{$SCRIPT_NAME}?cmd=list" name="userListForm" id="userListForm">
         <div id="universal-button-div" class="universal-button-div">
+            <input type="button" value="SEND MAIL TO ACCEPTED APPLICANTS" name="accept" id="accept" onclick="sendMail()" class="inputbox-green W200">
             <input type="button" value="ACCEPT" name="accept" id="accept" onclick="acceptAll()" class="inputbox-green">
             <input type="button" value="REJECT" name="reject" id="reject" onclick="rejectAll()" class="inputbox-red">
             <input type="hidden" name="submitted" value="0">
@@ -30,9 +31,9 @@
                     <tr>
                         <td width="8"><input type="checkbox" onclick="CheckAll(this);"></td>
                         <td width="144">Name</td>
+                        <td width="144">ID</td>
                         <td width="50">Gender</td>
                         <td width="72">Status</td>
-                        <td width="108">Submission Date</td>
                         <td width="108">Ticket Fare(BDT)</td>
                         <td width="70">Action</td>
                     </tr>
@@ -49,7 +50,10 @@
                         <tr>
                             <td width="8" class="border"><input type="checkbox" id="app_id_{$item->id}" value="{$item->id}"></td>
                             <td width="144" class="border">
-                                <a href="#" onClick="showApplicantInfo({$item->id});">{$item->name}</a>
+                                <a href="#"  onClick="showApplicantInfo({$item->id});">{$item->name}</a>
+                            </td>
+                            <td width="144" class="border">
+                                {$item->app_id}
                             </td>
                             <td width="50" class="border">{$item->gender}</td>
                             <td width="72" class="border">
@@ -58,7 +62,6 @@
                                                                            {else} class="reject-label W55" 
                                                                            {/if}>{$item->application_status|upper} </label>
                             </td>
-                            <td width="108" class="border">{$item->submit_date|date_format:'%d-%m-%Y'}</td>
                             <td width="108" class="border">{$item->ticket_fare|number_format:'2'}</td>
                             <td width="70" class="border">
                                 <img id="img_{$item->id}" class="fancybox" src="/app_contents/common/images/view16.png" alt="View" onClick="showApplicantInfo({$item->id});" />

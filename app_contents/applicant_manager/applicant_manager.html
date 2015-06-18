@@ -42,7 +42,7 @@
                                 </tr>
                             </table>
                     </div>    <!-- order-left class ends here-->    
-                    <iframe id="applicantFrame"  src="{$SCRIPT_NAME}?cmd=list" scrolling="no" height="750px" width="760px" frameborder="0" onload='resizeIframe(this);'></iframe>
+                    <iframe id="applicantFrame"  src="{$SCRIPT_NAME}?cmd=list" scrolling="no"  width="760px" frameborder="0" onload='resizeIframe(this);'></iframe>
                     </div>  <!-- left class ends here-->
                     <div class="right">  <!-- right class starts here-->
                         <div class="right-body">  <!-- right-body class starts here-->
@@ -54,16 +54,22 @@
                             <div class="prepand">
                                 <select id="session_year" name="session_year" class="combo1 W127">
                                     <option value="">-- Select --</option>
-                                    {html_options values=$session_year_list output=$session_year_list selected=$session_year}
+                                    {html_options options=$session_year_list selected=$session_year}
                                 </select>
                             </div>
+                            
+                            <div class="font2 prepand"><label id="app_id_lbl">ID</label></div>
+                            <div class="prepand">
+                                <input type="text" name="app_id" id="app_id" value="BSTF-{$app_id|stripslashes}" class="inputbox3 W127" />
+                            </div>
+                            
                             <div class="font2 prepand"><label id="applicant_name_lbl">Name</label></div>
                             <div class="prepand">
                                 <input type="text" name="applicant_name" id="applicant_name" value="{$name|stripslashes}" class="inputbox3 W127" />
                             </div>
                             <div class="font2 prepand"><label id="email_lbl">Email</label></div>
                             <div class="prepand">
-                                <input type="text" name="email" id="email" value="{$email|stripslashes}"  class="inputbox3 W127" />
+                                <input type="text" name="email" id="email" value="{if $email neq '#####'}{$email|stripslashes}{/if}"  class="inputbox3 W127" />
                             </div>
                             <div class="font2 prepand"><label id="county_lbl">Country</label></div>
                             <div class="prepand">
@@ -101,6 +107,7 @@
                                     {html_options values=$gender_list output=$gender_list selected=$gender}
                                 </select>
                             </div>
+                            <!--
                             <div class="font2 prepand"><label id="gender_lbl">Academic Qualification</label></div>
                             <div class="prepand">
                                 {foreach from=$degree_list key=key item=item}
@@ -110,6 +117,7 @@
                                     <p>
                                 {/foreach}
                             </div>
+                            -->
                             <table width="140" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td width="" class="prepand2">

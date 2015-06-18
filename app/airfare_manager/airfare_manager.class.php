@@ -72,14 +72,24 @@ class airfareManagerApp extends DefaultApplication
         $data['message']              = $msg;
         $data['session_year']         = $session_year;
         
+        //dumpVar($data);
         return createPage(AIRFARE_EDITOR_TEMPLATE, $data);
     }
     
     function getCountryListBySession($session_year)
     {
-        $info['table']  =  APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . AIRFARES_TBL . ' AS AFT ON (AT.country=AFT.country AND AT.destination_airport = AFT.destination_airport) LEFT JOIN ' . COUNTRY_LOOKUP_TBL . ' AS CLT ON (AFT.country=CLT.id)';
+//        $info['table']  =  APPLICATIONS_TBL . ' AS AT LEFT JOIN ' . 
+//                           COUNTRY_LOOKUP_TBL . ' AS CLT ON (AT.country=CLT.id) LEFT JOIN ' .
+//                           CITY_LOOKUP_TBL . ' AS CILT ON (AT.destination_airport = CILT.city) LEFT JOIN ' . 
+//                           AIRFARES_TBL . ' AS AFT ON (AT.country=AFT.country AND AT.destination_airport = AFT.destination_airport)' ;
+        $info['table']  =  COUNTRY_LOOKUP_TBL . ' AS CLT LEFT JOIN ' .
+                APPLICATIONS_TBL . ' AS AT  ON (AT.country=CLT.id)  LEFT JOIN ' . 
+                           CITY_LOOKUP_TBL . ' AS CILT ON (AT.destination_airport = CILT.city) LEFT JOIN ' . 
+                           
+                           AIRFARES_TBL . ' AS AFT ON (AT.country=AFT.country AND AT.destination_airport = AFT.destination_airport)' ;
         $info['debug']  = false;
-        $info['where']  = 'AT.sid = ' . $session_year .' AND AT.application_status = ' . q('Accepted') . ' ORDER BY CLT.name';
+        $info['where']  = 'AT.sid = ' . $session_year .' AND AT.application_status = ' . q('Accepted') . ' ORDER BY LOWER(CLT.name) ASC, CILT.city ASC';
+
         $info['fields'] = array('CLT.name AS country_name', 'CLT.id AS country', 'AFT.source', 'AFT.local_fare', 'AT.destination_airport');
         
         $result = select($info);
@@ -88,9 +98,9 @@ class airfareManagerApp extends DefaultApplication
         {
             foreach($result as $value)
             {
+                $value->airport = base64_encode($value->destination_airport);
                 $retData[$value->country_name][$value->destination_airport] = $value;
             }
-            //dumpVar($retData);
             return $retData;
         }
         else
@@ -115,19 +125,21 @@ class airfareManagerApp extends DefaultApplication
         
         foreach( $_REQUEST as $key => $value)
 	{
-            if( preg_match('/local_fare_([A-Za-z\s-_]+)/i', $key, $matches))
+            //if( preg_match('/local_fare_([A-Za-z\s-_]+)/i', $key, $matches))
+            if( preg_match('/local_fare_([A-Za-z0-9=]+)/i', $key, $matches))
             {
                 //dumpVar($matches);
                 $id = $matches[1];
-                $data['destination_airport']  = str_replace("_", " ", $id);
+                //$data['destination_airport']  = str_replace("_", " ", $id);
+                $data['destination_airport']  = base64_decode($id);
                 $data['local_fare']           = $_REQUEST['local_fare_' . $id];
                 $data['country']              = $_REQUEST['country_' . $id];
                 $data['source']               = $_REQUEST['source_' . $id];
                 $data['sid']                  = $sid;
                 $data['create_date']          = date('Y-m-d');
                 
-                $info['data']        = $data;
-                insert($info);
+                $info['data'] = $data;
+                $result       = insert($info);
             }
         }
         

@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.6, created on 2014-06-08 13:03:22
+<?php /* Smarty version 2.6.6, created on 2015-05-10 07:53:35
          compiled from E:/xampp/htdocs/stf/app_contents/application_manager/application_pdf.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_pdf.html', 202, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'E:/xampp/htdocs/stf/app_contents/application_manager/application_pdf.html', 51, false),)), $this); ?>
 <style>
     body{
         font-family:arial;
@@ -62,7 +62,13 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_form
                         <tr>
                             <td>Guardian Income</td>
                              <td>:</td>
-                            <td><?php echo $this->_tpl_vars['guardian_income']; ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['guardian_income'])) ? $this->_run_mod_handler('number_format', true, $_tmp, 2, '.', ',') : number_format($_tmp, 2, '.', ',')); ?>
+</td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Income Source</td>
+                             <td>:</td>
+                            <td><?php echo $this->_tpl_vars['guardian_income_source']; ?>
 </td>
                         </tr>
                         <tr>

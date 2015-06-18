@@ -97,7 +97,7 @@ class applicantManagerApp extends DefaultApplication
     function saveRecord()
     {
         $info['table']  = APPLICATIONS_TBL;
-        $info['debug']  = true;
+        $info['debug']  = false;
        
         foreach( $_REQUEST as $key => $value)
 	{
@@ -106,6 +106,7 @@ class applicantManagerApp extends DefaultApplication
                 $application_id = $matches[1];
                 
 	        $data['grant_amount']      = str_replace(',', '', $_REQUEST['grant_amount_' . $application_id]);
+	        $data['base_fare']         = str_replace(',', '', $_REQUEST['base_fare_' . $application_id]);
                 
                 $info['data']  = $data;
                 $info['where'] = 'id = ' . $application_id;
@@ -151,7 +152,7 @@ class applicantManagerApp extends DefaultApplication
     {
         $sid = getActiveSessionID();
         $data['scholarship_bulk_amount']        = currentSessionAmount($sid);
-        $data['totalTicketFare']                = getTotalTicketFare($sid);
+        //$data['totalTicketFare']                = getTotalTicketFare($sid);
         //$data['scholarship_percentage']         = ($data['scholarship_bulk_amount'] / $data['totalTicketFare']);
         $data['scholarship_percentage']         = getScheloarshipPercentage($data['scholarship_bulk_amount'], $data['totalTicketFare']);
         $data['awarded_amount']                 = 0;
@@ -161,9 +162,9 @@ class applicantManagerApp extends DefaultApplication
                           AIRFARES_TBL . ' AS AFT ON (AT.destination_airport = AFT.destination_airport)';
         $info['debug']  = false;
         $info['fields'] = array('DISTINCT AT.id', 'CONCAT(UT.first_name, \' \', UT.last_name) AS name', 'UT.gender','AT.id', 'AT.submit_date',  
-                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 'AT.destination_airport','AT.application_status',
-                                'AFT.local_fare');
-        $info['where']  = 'AT.application_status = ' . q('Accepted') . ' ORDER BY AT.country';
+                                'CLT.name AS country_name', 'UT.uid', 'TT.ticket_fare', 'TT.tax', 'TT.total', 'AT.destination_airport',
+                                'AT.application_status', 'AFT.local_fare');
+        $info['where']  = 'AT.application_status = ' . q('Accepted') . ' AND AT.sid=' . getActiveSessionID() . ' ORDER BY AT.country';
 
         $result = select($info); 
         //dumpVar($result);
@@ -183,17 +184,41 @@ class applicantManagerApp extends DefaultApplication
             foreach($country as $city_key => $city_list)
             {
                 $min  = $this->getMinValue($city_list);
-               //echo_br("Country = " . $country_key . " City = " . $city_key . " Min = " . $min);
+                //echo_br("Country = " . $country_key . " City = " . $city_key . " Min = " . $min);
                 foreach($city_list as $key => $value)
                 {
-                    $retData[$country_key][$city_key][$key]->base_fare = $value->local_fare < $min ? $value->local_fare : $min;
-                    $retData[$country_key][$city_key][$key]->grant_amount = $this->roundAmount ($retData[$country_key][$city_key][$key]->base_fare * $data['scholarship_percentage'] );
-                    $data['awarded_amount'] += $retData[$country_key][$city_key][$key]->grant_amount;
+                    // if the local_fare is not found then select minimun fare from the applicant's fare
+                    if ($value->local_fare)
+                    {
+                        $retData[$country_key][$city_key][$key]->base_fare    = $value->local_fare < $min ? $value->local_fare : $min;
+                        $retData[$country_key][$city_key][$key]->min_fare     = $value->local_fare < $min ? $value->local_fare : $min;
+                    }
+                    else
+                    {
+                        $retData[$country_key][$city_key][$key]->base_fare = $min;
+                        $retData[$country_key][$city_key][$key]->min_fare  = $min;
+                    }
+                    
+                    $data['totalTicketFare'] += $retData[$country_key][$city_key][$key]->base_fare;
                 }
             }
         }
-        //dumpVar($retData);
-        $data['list']            = $retData;
+        
+        $data['scholarship_percentage'] = getScheloarshipPercentage($data['scholarship_bulk_amount'], $data['totalTicketFare']);
+        
+        foreach( $retData as $country_key => $country)
+        {
+            foreach($country as $city_key => $city_list)
+            {
+                foreach($city_list as $key => $value)
+                {
+                    $retData[$country_key][$city_key][$key]->grant_amount = $this->roundAmount ($retData[$country_key][$city_key][$key]->base_fare * $data['scholarship_percentage'] );
+                    $data['awarded_amount']                              += $retData[$country_key][$city_key][$key]->grant_amount;
+                }
+            }
+        }
+        
+        $data['list']            = $retData; //dumpVar($data);
         $data['total_applicant'] = count($result);
         
         return $data;
@@ -207,9 +232,11 @@ class applicantManagerApp extends DefaultApplication
         
         foreach($list as $value)
         {
-            if ( $value->ticket_fare < $min)
+            //if ( $value->ticket_fare < $min)
+            if ( $value->total < $min)
             {
                 $min = $value->total;
+                //$min = $value->ticket_fare;
             }
         }
         

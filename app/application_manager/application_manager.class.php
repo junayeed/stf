@@ -227,6 +227,7 @@ class applicationManagerApp extends DefaultApplication
         $data['current_tab']                 = getUserField('next_tab') == '' ? 'personal-info' : getUserField('next_tab');
         $data['session_year']                = getActiveSessionYear();
         $data['doc_root']                    = $_SERVER['DOCUMENT_ROOT'];
+        $data['date_over']                   = 0;
         
         setUserField('id',  $uid);
         setUserField('cmd', 'edit');

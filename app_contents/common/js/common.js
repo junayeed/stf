@@ -134,6 +134,7 @@ function resetTableColumn(id, resetColor)
    //if (!resetColor)
        //resetColor = DEFAULT_RESET_COLOR;
 
+
    // get the label/text
    thisElement                    = document.getElementById(id+'_lbl');
    // get the object
